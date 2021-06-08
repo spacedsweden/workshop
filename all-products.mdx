@@ -1,0 +1,109 @@
+---
+title: Sinch Developer Documentation
+---
+
+import { LandingLayout } from '@redocly/ui';
+import { Flex, H2 } from '@redocly/ui';
+import ProductList from './components/ProductList.tsx';
+import sms from './images/icons/product/sms.svg';
+import conversation from './images/icons/product/conversation-api.svg';
+import verification from './images/icons/product/verification.svg';
+import numbers from './images/icons/product/numbers.svg';
+import voice from './images/icons/product/voice.svg';
+import video from './images/icons/product/video.svg';
+import whatsapp from './images/icons/product/whatsapp.svg';
+import rcs from './images/icons/product/rcs.svg';
+import mms from './images/icons/product/mms.svg';
+import styled from 'styled-components';
+
+export const H2Custom = styled.h2`
+  text-align: left;
+  line-height: 38px;
+  margin: 0;
+  width: 100%;
+  color: ${({ theme: a }) => a.colors.text.primary};
+  padding: 64px 32px 0;
+  word-wrap: anywhere;
+  font-family: ${({ theme }) => theme.typography.headings.fontFamily};
+  font-size: 2.5em;
+  font-weight: 300;
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.breakpoints.medium}) {
+    padding: 64px 16px 0;
+  }
+`;
+
+export const cards = [
+  {
+    icon: sms,
+    header: 'SMS',
+    description: 'API for text messaging',
+    to: 'docs/sms/index.md',
+  },
+  {
+    icon: conversation,
+    header: 'Conversation API',
+    description: 'Omnichannel API messaging.',
+    to: 'docs/conversation/index.md',
+  },
+  {
+    icon: verification,
+    header: 'Verification',
+    description: 'Secure your login & sign-ups.',
+    to: 'docs/verification/index.md',
+  },
+  {
+    icon: voice,
+    header: 'Voice Rest API',
+    description: 'Make, Receive and control voice calls your Sinch number',
+    to: 'docs/voice/index.md',
+  },
+  {
+    icon: numbers,
+    header: 'Numbers',
+    description: 'Local and toll free number API',
+    to: 'docs/numbers/index.md',
+  },
+  {
+    icon: video,
+    header: 'Voice and Video Clients SDK',
+    description: 'Add VoIP features to your applications',
+    to: 'docs/voice-video-client/index.md',
+  },
+  {
+    icon: whatsapp,
+    header: 'Whatsapp',
+    description: 'WhatsApp for Business messaging API',
+    to: 'docs/whatsapp/index.md',
+  },
+  {
+    icon: rcs,
+    header: 'RCS',
+    description: 'Rich Communication Services API',
+    to: 'docs/rcs/index.md',
+  },
+  {
+    icon: mms,
+    header: 'MMS',
+    description: 'API for sending SMS with rich media',
+    to: 'docs/mms/index.md',
+  },
+  {
+    icon: numbers,
+    header: 'Number lookup',
+    description: 'Number information API',
+    to: 'docs/number-lookup/index.md',
+  },
+];
+
+export default LandingLayout;
+
+<Flex flexDirection='column' width='100%'  alignItems='center' backgroundColor='#FFFFFF' padding='0' alignItems='flex-start'>
+
+<section>
+  <H2Custom>All Products</H2Custom>
+</section>
+
+<ProductList data={{ cards }}></ProductList>
+
+</Flex>

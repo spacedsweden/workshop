@@ -1,0 +1,3 @@
+rules:
+  operation-summary: off
+  oas3-schema/external-docs: off

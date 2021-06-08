@@ -1,0 +1,5916 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SAP Contact Center Restful Configuration Interface (RCI)",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/RI/rci"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n    \"id\": \"E936C474B22311D38FBE0090279A922E\",\n    \"firstName\": \"John\",\n    \"surname\": \"Fox\"\n    // + all fields used in query parameter\n  },\n  {\n    \"id\": \"40ECCFBFAEA24FEDA90A3347E9BC26E7\",\n    \"firstName\": \"David\",\n    \"surname\": \"Duck\"\n    // + all fields used in query parameter\n  },\n  {\n    \"id\": \"DC76CDDC340B43C291932428B6039AA6\",\n    \"firstName\": \"Peter\",\n    \"surname\": \"Frog\"\n    // + all fields used in query parameter\n  }\n]\n\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/users"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of users.",
+        "operationId": "GET_users",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields:  firstName, surname, externalId, chatName, chat, email, phone\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>firstName, surname, externalId, chatName, chat, email, phone</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new user.",
+        "operationId": "POST_users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "firstName": "John",
+                "surname": "Fox",
+                "login": "John.Fox",
+                "externalId": "JohnFox11223344",
+                "phone": "123456",
+                "chat": "John.Fox@customer.com",
+                "chatName": "John",
+                "email": "John.Fox@customer.com",
+                "uiLanguage": "EN",
+                "promptLanguage": "EN",
+                "timeZone": "Europe/Helsinki",
+                "synchronised": true
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/user_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "E936C474B22311D38FBE0090279A922E",
+                  "firstName": "John",
+                  "surname": "Fox",
+                  "login": "John.Fox",
+                  "externalId": "JohnFox11223344",
+                  "phone": "123456",
+                  "chat": "John.Fox@customer.com",
+                  "chatName": "John",
+                  "email": "John.Fox@customer.com",
+                  "uiLanguage": "EN",
+                  "promptLanguage": "EN",
+                  "timeZone": "Europe/Helsinki",
+                  "synchronised": true
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the user\nwith userId =\n{userId}\n",
+        "operationId": "GET_users-userId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the user\nwith userId =\n{userId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_users-userId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/user_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the user\n",
+        "operationId": "DELETE_users-userId"
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/userGroups": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "7B9ED6753BCD460C98501E9FD1C02002",
+                      "name": "HelpDesk"
+                    },
+                    {
+                      "id": "7211703C1CF047D9AA1B6FD5B2B35640",
+                      "name": "IT"
+                    },
+                    {
+                      "id": "FDA4CD5052144FFBB3794EC7ADF7EFD5",
+                      "name": "Partner Support"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userGroups"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of userGroups for user.\n",
+        "operationId": "GET_users-userId-userGroups"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add user group for user.\n",
+        "operationId": "POST_users-userId-userGroups",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "A9934415A02845B69389008CF1F27EAB"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/userGroup_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/userGroups/{userGroupId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "7B9ED6753BCD460C98501E9FD1C02002",
+                  "name": "HelpDesk",
+                  "synchronised": true
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/userGroup"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the userGroup\nwith userGroupId =\n{userGroupId}\n",
+        "operationId": "GET_users-userId-userGroups-userGroupId"
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "The user has been removed properly from user group."
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Remove user from user group.\n",
+        "operationId": "DELETE_users-userId-userGroups-userGroupId"
+      },
+      "parameters": [
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User group id"
+        },
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/roles": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "2CADB6A137124F13BC68938E2B5FEFC1",
+                      "name": "CC Agent"
+                    },
+                    {
+                      "id": "F4E0E3C6AEC64BEA9200DCC05F5980F1",
+                      "name": "CC Supervisor"
+                    },
+                    {
+                      "id": "C2ED670838344EC4B6F0E620D3206B8D",
+                      "name": "Office User"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/roles"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of roles for user.\n",
+        "operationId": "GET_users-userId-roles"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add role for user.\n",
+        "operationId": "POST_users-userId-roles",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "2CADB6A137124F13BC68938E2B5FEFC1"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/role_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/roles/{roleId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "2CADB6A137124F13BC68938E2B5FEFC1",
+                  "name": "CC Agent",
+                  "description": "CC Agent Role"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/role"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the role\nwith roleId =\n{roleId}\n",
+        "operationId": "GET_users-userId-roles-roleId"
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Remove user from role.\n",
+        "operationId": "DELETE_users-userId-roles-roleId"
+      },
+      "parameters": [
+        {
+          "name": "roleId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "role id"
+        },
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/certificates": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "5D3A260F9F1D4BBFA5A3ADACFFE6C97B",
+                      "issuer": "SSO_CA",
+                      "subject": "john.fox"
+                    },
+                    {
+                      "id": "6BEDFB8244494A698164CE0C2594C6FF",
+                      "issuer": "SSO_CA",
+                      "subject": "i123456"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/certificates"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of certificates for user.\n",
+        "operationId": "GET_users-userId-certificates"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add certificate for user.\n",
+        "operationId": "POST_users-userId-certificates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "subject": "john.fox",
+                "issuer": "SSO_CA"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/certificate_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/certificates/{certificateId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "5D3A260F9F1D4BBFA5A3ADACFFE6C97B",
+                  "issuer": "SSO_CA",
+                  "subject": "john.fox"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/certificate"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the certificate\nwith certificateId =\n{certificateId}\n",
+        "operationId": "GET_users-userId-certificates-certificateId"
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete user certificate.\n",
+        "operationId": "DELETE_users-userId-certificates-certificateId"
+      },
+      "parameters": [
+        {
+          "name": "certificateId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Certificate id"
+        },
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/skills": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "175A098FEDDB41EB8839AACBAB26A0B6",
+                      "value": 5
+                    },
+                    {
+                      "id": "9B87EDA47F394762A510811F368A0ABA",
+                      "value": 4
+                    },
+                    {
+                      "id": "ABFF5E5BC1E44E90877C55570D06E8A7",
+                      "value": 3
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/skills"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of skills for user.\n",
+        "operationId": "GET_users-userId-skills"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add skill for user.\n",
+        "operationId": "POST_users-userId-skills",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "ABFF5E5BC1E44E90877C55570D06E8A7",
+                "value": 2
+              },
+              "schema": {
+                "$ref": "#/components/schemas/UserSkill"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/users/{userId}/skills/{skillId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "175A098FEDDB41EB8839AACBAB26A0B6",
+                  "name": "English",
+                  "description": "English language skill"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/skill"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the skill\nwith skillId =\n{skillId}\n",
+        "operationId": "GET_users-userId-skills-skillId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the skill\nwith skillId =\n{skillId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_users-userId-skills-skillId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/skill_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete user skill.\n",
+        "operationId": "DELETE_users-userId-skills-skillId"
+      },
+      "parameters": [
+        {
+          "name": "skillId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User skill id"
+        },
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        }
+      ]
+    },
+    "/userGroups": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "7B9ED6753BCD460C98501E9FD1C02002",
+                      "name": "HelpDesk"
+                    },
+                    {
+                      "id": "7211703C1CF047D9AA1B6FD5B2B35640",
+                      "name": "IT"
+                    },
+                    {
+                      "id": "FDA4CD5052144FFBB3794EC7ADF7EFD5",
+                      "name": "Partner Support"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/userGroups"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of userGroups.",
+        "operationId": "GET_userGroups",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: id, name\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>id, name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new userGroup.",
+        "operationId": "POST_userGroups",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "HelpDesk",
+                "synchronised": true
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/userGroup_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/userGroups/{userGroupId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "7B9ED6753BCD460C98501E9FD1C02002",
+                  "name": "HelpDesk",
+                  "synchronised": true
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/userGroup"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the userGroup\nwith userGroupId =\n{userGroupId}\n",
+        "operationId": "GET_userGroups-userGroupId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the userGroup\nwith userGroupId =\n{userGroupId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_userGroups-userGroupId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/userGroup_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the userGroup\n",
+        "operationId": "DELETE_userGroups-userGroupId"
+      },
+      "parameters": [
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User group id"
+        }
+      ]
+    },
+    "/userGroups/{userGroupId}/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n    \"id\": \"E936C474B22311D38FBE0090279A922E\",\n    \"firstName\": \"John\",\n    \"surname\": \"Fox\"\n    // + all fields used in query parameter\n  },\n  {\n    \"id\": \"40ECCFBFAEA24FEDA90A3347E9BC26E7\",\n    \"firstName\": \"David\",\n    \"surname\": \"Duck\"\n    // + all fields used in query parameter\n  },\n  {\n    \"id\": \"DC76CDDC340B43C291932428B6039AA6\",\n    \"firstName\": \"Peter\",\n    \"surname\": \"Frog\"\n    // + all fields used in query parameter\n  }\n]\n\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/users"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of users in user groups.\n",
+        "operationId": "GET_userGroups-userGroupId-users"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add user into user group.\n",
+        "operationId": "POST_userGroups-userGroupId-users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "E936C474B22311D38FBE0090279A922E"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/user_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User group id"
+        }
+      ]
+    },
+    "/userGroups/{userGroupId}/users/{userId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "E936C474B22311D38FBE0090279A922E",
+                  "firstName": "John",
+                  "surname": "Fox"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the user\nwith userId =\n{userId}\n",
+        "operationId": "GET_userGroups-userGroupId-users-userId"
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Remove user from user group.\n",
+        "operationId": "DELETE_userGroups-userGroupId-users-userId"
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        },
+        {
+          "name": "userGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User group id"
+        }
+      ]
+    },
+    "/queues": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "B8F0CA9CFC0411D3A2230050DA29E0F4",
+                      "type": "Phone",
+                      "name": "Sales",
+                      "description": "Sales phone",
+                      "loginType": "AutoAllocation",
+                      "addresses": {
+                        "address": [
+                          "100"
+                        ]
+                      },
+                      "synchronised": true
+                    },
+                    {
+                      "id": "409FBE1B217643089F291B8796174643",
+                      "type": "Phone",
+                      "name": "Helpdesk",
+                      "description": "Helpdesk phone",
+                      "loginType": "HuntGroup",
+                      "addresses": {
+                        "address": [
+                          "101",
+                          "102"
+                        ]
+                      },
+                      "synchronised": true
+                    },
+                    {
+                      "id": "AA60293EB8AD49959C5B67A2B0A1DC84",
+                      "type": "Chat",
+                      "name": "Sales chat",
+                      "description": "Sales chat",
+                      "loginType": "AutoAllocation",
+                      "addresses": {
+                        "address": [
+                          "rci.chat@company.com"
+                        ]
+                      },
+                      "synchronised": true
+                    },
+                    {
+                      "id": "7B2EB5F5DF62439690CF6D180A2009C8",
+                      "type": "Email",
+                      "name": "Sales Email",
+                      "description": "Sales Email",
+                      "loginType": "AutoAllocation",
+                      "addresses": {
+                        "address": [
+                          "rci.email@company.com"
+                        ]
+                      },
+                      "synchronised": true
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/queues"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of queues.",
+        "operationId": "GET_queues",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields:  name, description, address\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>name, description</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new queue.",
+        "operationId": "POST_queues",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "type": "Phone",
+                "name": "Sales",
+                "description": "Sales phone",
+                "loginType": "AutoAllocation",
+                "synchronised": true
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/queue_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/queues/{queueId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "B8F0CA9CFC0411D3A2230050DA29E0F4",
+                  "type": "Phone",
+                  "name": "Sales",
+                  "description": "Sales phone",
+                  "loginType": "AutoAllocation",
+                  "addresses": {
+                    "address": [
+                      "100"
+                    ]
+                  },
+                  "synchronised": true
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/queue"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the queue\nwith queueId =\n{queueId}\n",
+        "operationId": "GET_queues-queueId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the queue\nwith queueId =\n{queueId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_queues-queueId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/queue_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the queue\n",
+        "operationId": "DELETE_queues-queueId"
+      },
+      "parameters": [
+        {
+          "name": "queueId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue id"
+        }
+      ]
+    },
+    "/queues/{queueId}/extensions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n    \"id\": \"A8F2AC742E914654B9AB5F420406B828\",\n    \"address\": \"101\"\n  },\n  {\n    \"id\": \"CB5AF61A7E2C4E728C62069A85EB73BA\",\n    \"address\": \"102\n  }\n]\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/extensions"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of extensions for queue.\n",
+        "operationId": "GET_queues-queueId-extensions"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new extension.",
+        "operationId": "POST_queues-queueId-extensions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "address": "103"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/extension_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "queueId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue id"
+        }
+      ]
+    },
+    "/queues/{queueId}/extensions/{extensionId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "A8F2AC742E914654B9AB5F420406B828",
+                  "address": "101"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/extension"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the extension\nwith extensionId =\n{extensionId}\n",
+        "operationId": "GET_queues-queueId-extensions-extensionId"
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the extension\n",
+        "operationId": "DELETE_queues-queueId-extensions-extensionId"
+      },
+      "parameters": [
+        {
+          "name": "extensionId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Extension id"
+        },
+        {
+          "name": "queueId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue id"
+        }
+      ]
+    },
+    "/queues/{queueId}/queueGroups": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "2CADB6A1-3712-4F13-BC68-938E2B5FEFC1",
+                      "name": "CC Agent"
+                    },
+                    {
+                      "id": "E8E5E74E1CB540458639310940C07BA5",
+                      "name": "CC Helpdesk"
+                    },
+                    {
+                      "id": "BE5F74207C51437CB1B749E608DEB30F",
+                      "name": "CC Support"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/queueGroups"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of queue groups for queue.\n",
+        "operationId": "GET_queues-queueId-queueGroups"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add queue group for queue.\n",
+        "operationId": "POST_queues-queueId-queueGroups",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "2CADB6A1-3712-4F13-BC68-938E2B5FEFC1"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/queueGroup_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "queueId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue id"
+        }
+      ]
+    },
+    "/queues/{queueId}/queueGroups/{queueGroupId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "2CADB6A137124F13BC68938E2B5FEFC1",
+                  "name": "CC Agent"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/queueGroup"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the queueGroup\nwith queueGroupId =\n{queueGroupId}\n",
+        "operationId": "GET_queues-queueId-queueGroups-queueGroupId"
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Remove queue from queue group.\n",
+        "operationId": "DELETE_queues-queueId-queueGroups-queueGroupId"
+      },
+      "parameters": [
+        {
+          "name": "queueGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue group id"
+        },
+        {
+          "name": "queueId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue id"
+        }
+      ]
+    },
+    "/queues/{queueId}/attributes": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n      name: \"Name\",\n      language: \"EN\",\n      value: \"Sales\"\n  },\n  {\n      name: \"Name\",\n      language: \"FI\",\n      value: \"Myynti\"\n  }\n]\n\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/attributes"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of attributes.",
+        "operationId": "GET_queues-queueId-attributes",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: name, language\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new attribute.",
+        "operationId": "POST_queues-queueId-attributes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": "{\n    name: \"Name\",\n    language: \"EN\",\n    value: \"Advanced\"\n}\n\n",
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/attribute_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "queueId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue id"
+        }
+      ]
+    },
+    "/queueGroups": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "2CADB6A1-3712-4F13-BC68-938E2B5FEFC1",
+                      "description": "CC Agent queue group",
+                      "name": "CC Agent"
+                    },
+                    {
+                      "id": "E8E5E74E1CB540458639310940C07BA5",
+                      "description": "CC Helpdesk queue group",
+                      "name": "CC Helpdesk"
+                    },
+                    {
+                      "id": "BE5F74207C51437CB1B749E608DEB30F",
+                      "description": "CC Support queue group",
+                      "name": "CC Support"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/queueGroups"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of queueGroups.",
+        "operationId": "GET_queueGroups",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: name, description\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new queueGroup.",
+        "operationId": "POST_queueGroups",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": "[\n  {\n    \"name\": \"CC Agent\"\n    \"description\": \"CC Agent queue group\"\n  }\n]\n",
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/queueGroup_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/queueGroups/{queueGroupId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "2CADB6A137124F13BC68938E2B5FEFC1",
+                  "description": "CC Agent queue group",
+                  "name": "CC Agent"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/queueGroup"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the queueGroup\nwith queueGroupId =\n{queueGroupId}\n",
+        "operationId": "GET_queueGroups-queueGroupId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the queueGroup\nwith queueGroupId =\n{queueGroupId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_queueGroups-queueGroupId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/queueGroup_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the queueGroup\n",
+        "operationId": "DELETE_queueGroups-queueGroupId"
+      },
+      "parameters": [
+        {
+          "name": "queueGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue group id"
+        }
+      ]
+    },
+    "/queueGroups/{queueGroupId}/queues": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n    \"id\": \"B8F0CA9CFC0411D3A2230050DA29E0F4\",\n    \"name\": \"Sales\"\n  },\n  {\n    \"id\": \"409FBE1B217643089F291B8796174643\",\n    \"name\": \"Helpdesk\"\n  }\n  },\n  {\n    \"id\": \"AA60293EB8AD49959C5B67A2B0A1DC84\",\n    \"name\": \"Sales chat\"\n  },\n  {\n    \"id\": \"7B2EB5F5DF62439690CF6D180A2009C8\",\n    \"name\": \"Sales Email\"\n  }\n]\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/queues"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of queues for queue group.\n",
+        "operationId": "GET_queueGroups-queueGroupId-queues",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields:  name\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add queue into queue group.\n",
+        "operationId": "POST_queueGroups-queueGroupId-queues",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "B8F0CA9CFC0411D3A2230050DA29E0F4"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/queue_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "queueGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue group id"
+        }
+      ]
+    },
+    "/queueGroups/{queueGroupId}/queues/{queueId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "B8F0CA9CFC0411D3A2230050DA29E0F4",
+                  "name": "Sales"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/queue"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the queue\nwith queueId =\n{queueId}\n",
+        "operationId": "GET_queueGroups-queueGroupId-queues-queueId"
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the queue\n",
+        "operationId": "DELETE_queueGroups-queueGroupId-queues-queueId"
+      },
+      "parameters": [
+        {
+          "name": "queueId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue id"
+        },
+        {
+          "name": "queueGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue group id"
+        }
+      ]
+    },
+    "/queueGroups/{queueGroupId}/attributes": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n      name: \"Name\",\n      language: \"EN\",\n      value: \"Sales\"\n  },\n  {\n      name: \"Name\",\n      language: \"FI\",\n      value: \"Myynti\"\n  }\n]\n\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/attributes"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of attributes.",
+        "operationId": "GET_queueGroups-queueGroupId-attributes",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: name, language\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new attribute.",
+        "operationId": "POST_queueGroups-queueGroupId-attributes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": "{\n    name: \"Name\",\n    language: \"EN\",\n    value: \"Advanced\"\n}\n\n",
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/attribute_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "queueGroupId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Queue group id"
+        }
+      ]
+    },
+    "/roles": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "2CADB6A137124F13BC68938E2B5FEFC1",
+                      "name": "CC Agent"
+                    },
+                    {
+                      "id": "F4E0E3C6AEC64BEA9200DCC05F5980F1",
+                      "name": "CC Supervisor"
+                    },
+                    {
+                      "id": "C2ED670838344EC4B6F0E620D3206B8D",
+                      "name": "Office User"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/roles"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of roles.",
+        "operationId": "GET_roles",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: id, name\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>id, name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new role.",
+        "operationId": "POST_roles",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "CC Agent",
+                "description": "CC Agent Role"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/role_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/roles/{roleId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "2CADB6A137124F13BC68938E2B5FEFC1",
+                  "name": "CC Agent",
+                  "description": "CC Agent Role"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/role"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the role\nwith roleId =\n{roleId}\n",
+        "operationId": "GET_roles-roleId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the role\nwith roleId =\n{roleId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_roles-roleId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/role_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the role\n",
+        "operationId": "DELETE_roles-roleId"
+      },
+      "parameters": [
+        {
+          "name": "roleId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Role id"
+        }
+      ]
+    },
+    "/roles/{roleId}/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n    \"id\": \"E936C474B22311D38FBE0090279A922E\",\n    \"firstName\": \"John\",\n    \"surname\": \"Fox\"\n    // + all fields used in query parameter\n  },\n  {\n    \"id\": \"40ECCFBFAEA24FEDA90A3347E9BC26E7\",\n    \"firstName\": \"David\",\n    \"surname\": \"Duck\"\n    // + all fields used in query parameter\n  },\n  {\n    \"id\": \"DC76CDDC340B43C291932428B6039AA6\",\n    \"firstName\": \"Peter\",\n    \"surname\": \"Frog\"\n    // + all fields used in query parameter\n  }\n]\n\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/users"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of users having role.\n",
+        "operationId": "GET_roles-roleId-users"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add role for user.\n",
+        "operationId": "POST_roles-roleId-users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "E936C474B22311D38FBE0090279A922E"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/user_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "roleId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Role id"
+        }
+      ]
+    },
+    "/roles/{roleId}/users/{userId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "E936C474B22311D38FBE0090279A922E",
+                  "firstName": "John",
+                  "surname": "Fox"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the user\nwith userId =\n{userId}\n",
+        "operationId": "GET_roles-roleId-users-userId"
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Remove role from user.\n",
+        "operationId": "DELETE_roles-roleId-users-userId"
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User id"
+        },
+        {
+          "name": "roleId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Role id"
+        }
+      ]
+    },
+    "/skills": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "175A098FEDDB41EB8839AACBAB26A0B6",
+                      "name": "English",
+                      "description": "English language skill"
+                    },
+                    {
+                      "id": "9B87EDA47F394762A510811F368A0ABA",
+                      "name": "Deutsch",
+                      "description": "German Language skill"
+                    },
+                    {
+                      "id": "ABFF5E5BC1E44E90877C55570D06E8A7",
+                      "name": "Finnish Language",
+                      "description": "Finnish language skill"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/skills"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of skills.",
+        "operationId": "GET_skills",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: id, name\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>id, name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new skill.",
+        "operationId": "POST_skills",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Russian",
+                "description": "Russian language skill"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/skill_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/skills/{skillId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "175A098FEDDB41EB8839AACBAB26A0B6",
+                  "name": "English",
+                  "description": "English language skill"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/skill"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the skill\nwith skillId =\n{skillId}\n",
+        "operationId": "GET_skills-skillId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the skill\nwith skillId =\n{skillId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_skills-skillId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/skill_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the skill\n",
+        "operationId": "DELETE_skills-skillId"
+      },
+      "parameters": [
+        {
+          "name": "skillId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "User skill id"
+        }
+      ]
+    },
+    "/timeZones": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n    \"id\": \"America/New_York\",\n    \"name\": \"(UTC-05:00) Eastern Time (US & Canada)\"\n  },\n  {\n    \"id\": \"Asia/Singapore\",\n    \"name\": \"(UTC+08:00) Kuala Lumpur, Singapore\tSingapore\"\n  },\n  {\n    \"id\": \"Europe/Helsinki\",\n    \"name\": \"(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius\"\n  },\n  {\n    \"id\": \"Europe/London\",\n    \"name\": \"(UTC) Dublin, Edinburgh, Lisbon, London\tEurope/Belfast,GB,GB-Eire\"\n  }\n]\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/timeZones"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of timeZones.",
+        "operationId": "GET_timeZones",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: id, name\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>id, name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      }
+    },
+    "/timeZones/{timeZoneId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "Europe/Helsinki",
+                  "name": "(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/timeZone"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the timeZone\nwith timeZoneId =\n{timeZoneId}\n",
+        "operationId": "GET_timeZones-timeZoneId"
+      },
+      "parameters": [
+        {
+          "name": "timeZoneId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Time zone id"
+        }
+      ]
+    },
+    "/prsProfiles": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "02770429F80BDF1191AD001CC4D98816",
+                      "name": "Default",
+                      "reason": "NONE"
+                    },
+                    {
+                      "id": "04770429F80BDF1191AD001CC4D98816",
+                      "name": "Lunch",
+                      "reason": "NONE"
+                    },
+                    {
+                      "id": "12684EA701114105A1D73F532AB80C28",
+                      "name": "Vacation",
+                      "reason": "VACATION"
+                    },
+                    {
+                      "id": "2EA19675EA7DDF11B644463500000031",
+                      "name": "Meeting / Deny calls (Def: 1 hour)",
+                      "reason": "MEETING"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/prsProfiles"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of prsProfiles.",
+        "operationId": "GET_prsProfiles",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: id, name, reason\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>id, name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      }
+    },
+    "/prsProfiles/{prsProfileId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "02770429F80BDF1191AD001CC4D98816",
+                  "name": "Default",
+                  "reason": "NONE"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/prsProfile"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the prsProfile\nwith prsProfileId =\n{prsProfileId}\n",
+        "operationId": "GET_prsProfiles-prsProfileId"
+      },
+      "parameters": [
+        {
+          "name": "prsProfileId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Presence profile id"
+        }
+      ]
+    },
+    "/messagingServices": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "B8F0CA9CFC0411D3A2230050DA29E0F4",
+                      "type": "facebook",
+                      "name": "Facebook connection",
+                      "connection": "https://serviceaddress/"
+                    },
+                    {
+                      "id": "B8F0CA9CFC0411D3A2230050DA29E0F5",
+                      "type": "twilio",
+                      "name": "Twilio SMS",
+                      "connection": "https://serviceaddress2/"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/messagingServices"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of messagingServices.",
+        "operationId": "GET_messagingServices",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: id, type\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new messagingService.",
+        "operationId": "POST_messagingServices",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "type": "facebook",
+                "name": "Facebook connection",
+                "connection": "https://serviceaddress/"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/messagingService_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/messagingServices/{messagingServiceId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "B8F0CA9CFC0411D3A2230050DA29E0F4",
+                  "type": "facebook",
+                  "name": "Facebook connection",
+                  "connection": "https://serviceaddress/"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/messagingService"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the messagingService\nwith messagingServiceId =\n{messagingServiceId}\n",
+        "operationId": "GET_messagingServices-messagingServiceId"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the messagingService\nwith messagingServiceId =\n{messagingServiceId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_messagingServices-messagingServiceId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/messagingService_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the messagingService\n",
+        "operationId": "DELETE_messagingServices-messagingServiceId"
+      },
+      "parameters": [
+        {
+          "name": "messagingServiceId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Messaging Service Id"
+        }
+      ]
+    },
+    "/messagingServices/{messagingServiceId}/authentications": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "AF8D906F2EDE40FC889303B52D26DA25",
+                      "authenticationId": "my_login_id"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/authentications"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of messaging service authentications.\n",
+        "operationId": "GET_messagingServices-messagingServiceId-authentications"
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add Autehtication info to Messaging Service\n",
+        "operationId": "POST_messagingServices-messagingServiceId-authentications",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "authenticationId": "my_login_id",
+                "password": "zzzxxxx"
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/authentication_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "messagingServiceId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Messaging Service Id"
+        }
+      ]
+    },
+    "/messagingServices/{messagingServiceId}/authentications/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "AF8D906F2EDE40FC889303B52D26DA25",
+                  "authenticationId": "my_login_id"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/authentication"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the authentication\nwith authenticationId =\n{authenticationId}\n",
+        "operationId": "GET_messagingServices-messagingServiceId-authentications-id"
+      },
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the authentication\nwith authenticationId =\n{authenticationId}\n\nNote: Provide all attributes since all fields are updated.\n",
+        "operationId": "PUT_messagingServices-messagingServiceId-authentications-id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "includePath": "../../common/resourceTypes.raml",
+                "$ref": "#/components/schemas/authentication_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Delete the authentication\n",
+        "operationId": "DELETE_messagingServices-messagingServiceId-authentications-id"
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Messaging Service Authentication Id"
+        },
+        {
+          "name": "messagingServiceId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Messaging Service Id"
+        }
+      ]
+    },
+    "/replyTemplates": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "000BC39C7CC04554A95062CF4C6BBE06",
+                      "body": "Hello {CUSTOMERNAME}\n\nThank you for your message",
+                      "description": "this is a template",
+                      "language": "EN",
+                      "name": "template2",
+                      "contentType": "Static",
+                      "attachmentCount": 0,
+                      "keywords": {
+                        "keyword": [
+                          "issue",
+                          "problem",
+                          "washing",
+                          "machine"
+                        ]
+                      }
+                    },
+                    {
+                      "id": "611D51A367C54C2F8D30C032B48D847E",
+                      "body": "hello",
+                      "description": "jep",
+                      "language": "EN",
+                      "name": "template",
+                      "contentType": "Interactive",
+                      "attachmentCount": 3,
+                      "keywords": {
+                        "keyword": [
+                          "instructions",
+                          "info",
+                          "installation",
+                          "tv",
+                          "television"
+                        ]
+                      }
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/replyTemplates"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of replyTemplates.",
+        "operationId": "GET_replyTemplates",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: keyword, queueId, language, name\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      }
+    },
+    "/replyTemplates/{replyTemplateId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "000BC39C7CC04554A95062CF4C6BBE06",
+                  "body": "Hello {CUSTOMERNAME}\n\nThank you for your message",
+                  "description": "this is a template",
+                  "language": "EN",
+                  "name": "template2",
+                  "contentType": "Static",
+                  "attachmentCount": 1,
+                  "keywords": {
+                    "keyword": [
+                      "issue",
+                      "problem",
+                      "washing",
+                      "machine"
+                    ]
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/replyTemplate"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the replyTemplate\nwith replyTemplateId =\n{replyTemplateId}\n",
+        "operationId": "GET_replyTemplates-replyTemplateId"
+      },
+      "parameters": [
+        {
+          "name": "replyTemplateId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Template id"
+        }
+      ]
+    },
+    "/replyTemplates/{replyTemplateId}/attachments": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "size": 35917,
+                      "fileName": "picture.PNG",
+                      "mimeType": "image/png",
+                      "id": "D147D4339D1448158153B61D1F621AF9"
+                    },
+                    {
+                      "size": 56698,
+                      "fileName": "picture2.jpg",
+                      "mimeType": "image/jpeg",
+                      "id": "3D612DF2E3694A56A9253365CA8EEEFE"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/attachments"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of attachments.",
+        "operationId": "GET_replyTemplates-replyTemplateId-attachments"
+      },
+      "parameters": [
+        {
+          "name": "replyTemplateId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Template id"
+        }
+      ]
+    },
+    "/replyTemplates/{replyTemplateId}/attachments/{attachmentId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "size": 56698,
+                  "fileName": "picture2.jpg",
+                  "mimeType": "image/jpeg",
+                  "id": "3D612DF2E3694A56A9253365CA8EEEFE"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/attachment"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the attachment\nwith attachmentId =\n{attachmentId}\n",
+        "operationId": "GET_replyTemplates-replyTemplateId-attachments-attachmentId"
+      },
+      "parameters": [
+        {
+          "name": "attachmentId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Reply Template Attachment Id"
+        },
+        {
+          "name": "replyTemplateId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Template id"
+        }
+      ]
+    },
+    "/customIvrs": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "addresses": {
+                        "address": [
+                          "243",
+                          "234"
+                        ]
+                      },
+                      "name": "My Menu Ivr",
+                      "description": "Queue selection IVR",
+                      "currentSourceCodeVersionId": "BA78FF64DCEC40B885AF6D2C337D7C5D",
+                      "active": true,
+                      "id": "A5AF21AB416849BBA6FDBE92E5C15B69"
+                    },
+                    {
+                      "addresses": {
+                        "address": [
+                          "400"
+                        ]
+                      },
+                      "name": "Callback IVR",
+                      "description": "IVR to leave callbacks",
+                      "currentSourceCodeVersionId": "58DF7291C3B841C8A3B2A5D8282895D8",
+                      "active": false,
+                      "id": "CA7F01B89F9D4640945DFBDF4142729D"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/customIvrs"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of customIvrs.",
+        "operationId": "GET_customIvrs",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: name, description, address, name, active, attributeName, attributeValue\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      }
+    },
+    "/customIvrs/{customIvrId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "addresses": {
+                    "address": [
+                      "243",
+                      "234"
+                    ]
+                  },
+                  "name": "My Menu Ivr",
+                  "description": "Queue selection IVR",
+                  "currentSourceCodeVersionId": "BA78FF64DCEC40B885AF6D2C337D7C5D",
+                  "active": true,
+                  "id": "A5AF21AB416849BBA6FDBE92E5C15B69"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/customIvr"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the customIvr\nwith customIvrId =\n{customIvrId}\n",
+        "operationId": "GET_customIvrs-customIvrId"
+      },
+      "parameters": [
+        {
+          "name": "customIvrId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Custom IVR id"
+        }
+      ]
+    },
+    "/customIvrs/{customIvrId}/sourceCodes": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "modificationDate": "2020-01-21T13:10:47.493Z",
+                      "versionNumber": 1,
+                      "creationDate": "2020-01-21T13:10:33.293Z",
+                      "id": "C907169011AA48D8A6EE8F8F12423372"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/sourceCodes"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of sourceCodes.",
+        "operationId": "GET_customIvrs-customIvrId-sourceCodes"
+      },
+      "parameters": [
+        {
+          "name": "customIvrId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Custom IVR id"
+        }
+      ]
+    },
+    "/customIvrs/{customIvrId}/sourceCodes/{sourceCodeId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "description": "",
+                  "modificationDate": "2020-01-21T13:12:22Z",
+                  "sourceCode": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><vxml xmlns:bcm=\"http://bcm.sap.com\" version=\"2.1\"><form id=\"form1\"><block name=\"blco1\"><audio src=\"42079722-0892-4A96-8163-82C5E1BFD686\" xml:lang=\"IT\"/></block></form></vxml>",
+                  "versionNumber": 1,
+                  "creationDate": "2020-01-21T13:10:33.293Z",
+                  "id": "C907169011AA48D8A6EE8F8F12423372"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/sourceCode"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the sourceCode\nwith sourceCodeId =\n{sourceCodeId}\n",
+        "operationId": "GET_customIvrs-customIvrId-sourceCodes-sourceCodeId"
+      },
+      "parameters": [
+        {
+          "name": "sourceCodeId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "customIvrId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Custom IVR id"
+        }
+      ]
+    },
+    "/customIvrs/{customIvrId}/currentSourceCodeVersion": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "description": "",
+                  "modificationDate": "2020-01-21T13:12:22Z",
+                  "sourceCode": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><vxml xmlns:bcm=\"http://bcm.sap.com\" version=\"2.1\"><form id=\"form1\"><block name=\"blco1\"><audio src=\"42079722-0892-4A96-8163-82C5E1BFD686\" xml:lang=\"IT\"/></block></form></vxml>",
+                  "versionNumber": 1,
+                  "creationDate": "2020-01-21T13:10:33.293Z",
+                  "id": "C907169011AA48D8A6EE8F8F12423372"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/currentSourceCodeVersion"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the currentSourceCodeVersion\nwith currentSourceCodeVersionId =\n{currentSourceCodeVersionId}\n",
+        "operationId": "GET_customIvrs-customIvrId-currentSourceCodeVersion"
+      },
+      "parameters": [
+        {
+          "name": "customIvrId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Custom IVR id"
+        }
+      ]
+    },
+    "/customIvrs/{customIvrId}/attributes": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n      name: \"Name\",\n      language: \"EN\",\n      value: \"Sales\"\n  },\n  {\n      name: \"Name\",\n      language: \"FI\",\n      value: \"Myynti\"\n  }\n]\n\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/attributes"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of attributes.",
+        "operationId": "GET_customIvrs-customIvrId-attributes",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: name, language\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new attribute.",
+        "operationId": "POST_customIvrs-customIvrId-attributes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": "{\n    name: \"Name\",\n    language: \"EN\",\n    value: \"Advanced\"\n}\n\n",
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/attribute_post"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "parameters": [
+        {
+          "name": "customIvrId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Custom IVR id"
+        }
+      ]
+    },
+    "/audioPrompts": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "name": "Welcome (Built-In Default Prompt)",
+                      "description": "Welcome message (built-in default audio prompt)",
+                      "promptType": "Welcome",
+                      "sourceType": "QueueBuiltIn",
+                      "loopType": "ALL",
+                      "id": "F0EDAAE15EAB4167A84DD0CC69680A4F"
+                    },
+                    {
+                      "name": "InQueue (Built-In Default Prompt)",
+                      "description": "In queue message (the built-in default audio prompt)",
+                      "promptType": "InQueue",
+                      "sourceType": "QueueBuiltIn",
+                      "loopType": "RANDOM",
+                      "id": "EFF0CF25BC374F2982225C83BB21B3F3"
+                    },
+                    {
+                      "name": "OnHold (Built-In Default Prompt)",
+                      "description": "Music played when customer is on-hold (built-in default audio prompt)",
+                      "promptType": "OnHold",
+                      "sourceType": "QueueBuiltIn",
+                      "loopType": "ALL",
+                      "id": "3A1C8A257DFD4F0781F55FA1BA188F97"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/audioPrompts"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of audioPrompts.",
+        "operationId": "GET_audioPrompts",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: name, description, promptType, sourceType, loopType\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      }
+    },
+    "/audioPrompts/{audioPromptId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "name": "InQueue (Built-In Default Prompt)",
+                  "description": "In queue message (the built-in default audio prompt)",
+                  "promptType": "InQueue",
+                  "sourceType": "QueueBuiltIn",
+                  "loopType": "RANDOM",
+                  "id": "EFF0CF25BC374F2982225C83BB21B3F3"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/audioPrompt"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the audioPrompt\nwith audioPromptId =\n{audioPromptId}\n",
+        "operationId": "GET_audioPrompts-audioPromptId"
+      },
+      "parameters": [
+        {
+          "name": "audioPromptId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Audio Prompt id"
+        }
+      ]
+    },
+    "/cpExtensions": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "title": "MyExtension",
+                      "hidden": false,
+                      "url": "https://example.com/frame.html",
+                      "icon": "sap-icon://business-card",
+                      "queues": [
+                        "B8F0CA9CFC0411D3A2230050DA29E0F4"
+                      ],
+                      "id": "657160EEDE6943348257075871732C5E"
+                    },
+                    {
+                      "title": "MyExtension2",
+                      "hidden": false,
+                      "url": "https://example.com/frame2.html",
+                      "icon": "sap-icon://travel-request",
+                      "queues": [
+                        "B8F0CA9CFC0411D3A2230050DA29E0F4",
+                        "409FBE1B217643089F291B8796174643",
+                        "7B2EB5F5DF62439690CF6D180A2009C8"
+                      ],
+                      "id": "94C89D627D0340A2807B18D8B9C4CD90"
+                    },
+                    {
+                      "title": "MyExtension3",
+                      "hidden": true,
+                      "url": "https://example.com/frame3.html",
+                      "icon": "sap-icon://study-leave",
+                      "queues": [
+                        "B8F0CA9CFC0411D3A2230050DA29E0F4",
+                        "409FBE1B217643089F291B8796174643"
+                      ],
+                      "id": "CDEFCDBFDFE547EBA03DE7097BAF0672"
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cpExtensions"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of cpExtensions.",
+        "operationId": "GET_cpExtensions",
+        "parameters": [
+          {
+            "name": "any fields",
+            "in": "query",
+            "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: name, description, title, url, icon, hidden\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Can be sorted by any field. Default sort is <b>name</b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_offset"
+          },
+          {
+            "$ref": "#/components/parameters/trait_pageable_limit"
+          }
+        ]
+      }
+    },
+    "/cpExtensions/{cpExtensionId}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "title": "MyExtension",
+                  "hidden": false,
+                  "url": "https://example.com/frame.html",
+                  "icon": "sap-icon://travel-request",
+                  "queues": [
+                    "B8F0CA9CFC0411D3A2230050DA29E0F4"
+                  ],
+                  "id": "94C89D627D0340A2807B18D8B9C4CD90"
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/cpExtension"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the cpExtension\nwith cpExtensionId =\n{cpExtensionId}\n",
+        "operationId": "GET_cpExtensions-cpExtensionId"
+      },
+      "parameters": [
+        {
+          "name": "cpExtensionId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "3rd. party extension Id"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "users": {
+        "includePath": "types/type-users.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "surname"
+        ]
+      },
+      "user": {
+        "includePath": "types/type-user.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "login": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          },
+          "externalId": {
+            "minLength": 1,
+            "maxLength": 128,
+            "type": "string"
+          },
+          "phone": {
+            "minLength": 1,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "chat": {
+            "minLength": 3,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "chatName": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 6,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "uiLanguage": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "promptLanguage": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "timeZone": {
+            "minLength": 3,
+            "maxLength": 50,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "surname"
+        ]
+      },
+      "user_post": {
+        "includePath": "types/type-user.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "login": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          },
+          "externalId": {
+            "minLength": 1,
+            "maxLength": 128,
+            "type": "string"
+          },
+          "phone": {
+            "minLength": 1,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "chat": {
+            "minLength": 3,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "chatName": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 6,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "uiLanguage": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "promptLanguage": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "timeZone": {
+            "minLength": 3,
+            "maxLength": 50,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "surname"
+        ]
+      },
+      "user_put": {
+        "includePath": "types/type-user.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "login": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          },
+          "externalId": {
+            "minLength": 1,
+            "maxLength": 128,
+            "type": "string"
+          },
+          "phone": {
+            "minLength": 1,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "chat": {
+            "minLength": 3,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "chatName": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 6,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "uiLanguage": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "promptLanguage": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "timeZone": {
+            "minLength": 3,
+            "maxLength": 50,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "surname"
+        ]
+      },
+      "queue": {
+        "includePath": "types/type-queue.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "phone",
+              "chat",
+              "email"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          },
+          "loginType": {
+            "enum": [
+              "AutoAllocation",
+              "HuntGroup"
+            ],
+            "type": "string"
+          },
+          "addresses": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "array",
+                "items": {
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name",
+          "loginType"
+        ]
+      },
+      "queues": {
+        "includePath": "types/type-queue.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "phone",
+              "chat",
+              "email"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          },
+          "loginType": {
+            "enum": [
+              "AutoAllocation",
+              "HuntGroup"
+            ],
+            "type": "string"
+          },
+          "addresses": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "array",
+                "items": {
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name",
+          "loginType"
+        ]
+      },
+      "queue_put": {
+        "includePath": "types/type-queue.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "phone",
+              "chat",
+              "email"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          },
+          "loginType": {
+            "enum": [
+              "AutoAllocation",
+              "HuntGroup"
+            ],
+            "type": "string"
+          },
+          "addresses": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "array",
+                "items": {
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name",
+          "loginType"
+        ]
+      },
+      "queue_post": {
+        "includePath": "types/type-queue.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "phone",
+              "chat",
+              "email"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          },
+          "loginType": {
+            "enum": [
+              "AutoAllocation",
+              "HuntGroup"
+            ],
+            "type": "string"
+          },
+          "addresses": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "array",
+                "items": {
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name",
+          "loginType"
+        ]
+      },
+      "extension": {
+        "includePath": "types/type-extension.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "extensions": {
+        "includePath": "types/type-extension.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "extension_post": {
+        "includePath": "types/type-extension.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "userGroup": {
+        "includePath": "types/type-user-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "userGroups": {
+        "includePath": "types/type-user-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "userGroup_put": {
+        "includePath": "types/type-user-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "userGroup_post": {
+        "includePath": "types/type-user-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "synchronised": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "role": {
+        "includePath": "types/type-role.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "roles": {
+        "includePath": "types/type-role.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "role_put": {
+        "includePath": "types/type-role.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "role_post": {
+        "includePath": "types/type-role.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "certificate": {
+        "includePath": "types/type-certificate.raml",
+        "type": "object",
+        "properties": {
+          "subject": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          },
+          "issuer": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "issuer"
+        ]
+      },
+      "certificates": {
+        "includePath": "types/type-certificate.raml",
+        "type": "object",
+        "properties": {
+          "subject": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          },
+          "issuer": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "issuer"
+        ]
+      },
+      "certificate_put": {
+        "includePath": "types/type-certificate.raml",
+        "type": "object",
+        "properties": {
+          "subject": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          },
+          "issuer": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "issuer"
+        ]
+      },
+      "certificate_post": {
+        "includePath": "types/type-certificate.raml",
+        "type": "object",
+        "properties": {
+          "subject": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          },
+          "issuer": {
+            "minLength": 1,
+            "maxLength": 450,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "issuer"
+        ]
+      },
+      "queueGroup": {
+        "includePath": "types/type-queue-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "queueGroups": {
+        "includePath": "types/type-queue-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "queueGroup_put": {
+        "includePath": "types/type-queue-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "queueGroup_post": {
+        "includePath": "types/type-queue-group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "messagingService": {
+        "includePath": "types/type-messaging-service.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "facebook",
+              "twilio",
+              "sap365",
+              "yaas"
+            ],
+            "type": "string"
+          },
+          "connection": {
+            "type": "string"
+          },
+          "authenticationScope": {
+            "type": "string"
+          },
+          "authenticationUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "connection"
+        ]
+      },
+      "messagingServices": {
+        "includePath": "types/type-messaging-service.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "facebook",
+              "twilio",
+              "sap365",
+              "yaas"
+            ],
+            "type": "string"
+          },
+          "connection": {
+            "type": "string"
+          },
+          "authenticationScope": {
+            "type": "string"
+          },
+          "authenticationUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "connection"
+        ]
+      },
+      "messagingService_put": {
+        "includePath": "types/type-messaging-service.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "facebook",
+              "twilio",
+              "sap365",
+              "yaas"
+            ],
+            "type": "string"
+          },
+          "connection": {
+            "type": "string"
+          },
+          "authenticationScope": {
+            "type": "string"
+          },
+          "authenticationUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "connection"
+        ]
+      },
+      "messagingService_post": {
+        "includePath": "types/type-messaging-service.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "facebook",
+              "twilio",
+              "sap365",
+              "yaas"
+            ],
+            "type": "string"
+          },
+          "connection": {
+            "type": "string"
+          },
+          "authenticationScope": {
+            "type": "string"
+          },
+          "authenticationUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "connection"
+        ]
+      },
+      "authentication": {
+        "includePath": "types/type-messaging-service-authentication.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "authenticationId": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "authentications": {
+        "includePath": "types/type-messaging-service-authentication.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "authenticationId": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "authentication_put": {
+        "includePath": "types/type-messaging-service-authentication.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "authenticationId": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "authentication_post": {
+        "includePath": "types/type-messaging-service-authentication.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "authenticationId": {
+            "maxLength": 512,
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "replyTemplate": {
+        "includePath": "types/type-reply-template.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "language": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "subject": {
+            "minLength": 0,
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "contentType": {
+            "enum": [
+              "Static",
+              "Interactive"
+            ],
+            "type": "string"
+          },
+          "attachmentCount": {
+            "type": "integer"
+          },
+          "body": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "object",
+            "properties": {
+              "keyword": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "language",
+          "contentType",
+          "attachmentCount",
+          "body"
+        ]
+      },
+      "replyTemplates": {
+        "includePath": "types/type-reply-template.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "language": {
+            "minLength": 2,
+            "maxLength": 4,
+            "type": "string"
+          },
+          "subject": {
+            "minLength": 0,
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "contentType": {
+            "enum": [
+              "Static",
+              "Interactive"
+            ],
+            "type": "string"
+          },
+          "attachmentCount": {
+            "type": "integer"
+          },
+          "body": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "object",
+            "properties": {
+              "keyword": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "language",
+          "contentType",
+          "attachmentCount",
+          "body"
+        ]
+      },
+      "attachment": {
+        "includePath": "types/type-reply-template-attachment.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "size",
+          "fileName",
+          "mimeType"
+        ]
+      },
+      "attachments": {
+        "includePath": "types/type-reply-template-attachment.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "size",
+          "fileName",
+          "mimeType"
+        ]
+      },
+      "skill": {
+        "includePath": "types/type-skill.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "skills": {
+        "includePath": "types/type-skill.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "skill_put": {
+        "includePath": "types/type-skill.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "skill_post": {
+        "includePath": "types/type-skill.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "maxLength": 400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description"
+        ]
+      },
+      "UserSkill": {
+        "includePath": "types/UserSkill.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Skill ID.",
+            "type": "string"
+          },
+          "value": {
+            "description": "Skill value 1-5.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "value"
+        ]
+      },
+      "timeZone": {
+        "includePath": "types/type-timezone.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "timeZones": {
+        "includePath": "types/type-timezone.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "prsProfile": {
+        "includePath": "types/type-prs-profile.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "reason"
+        ]
+      },
+      "prsProfiles": {
+        "includePath": "types/type-prs-profile.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "reason"
+        ]
+      },
+      "customIvr": {
+        "includePath": "types/type-custom-ivr.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "addresses": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "array",
+                "items": {
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "currentSourceCodeVersionId": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "active"
+        ]
+      },
+      "customIvrs": {
+        "includePath": "types/type-custom-ivr.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "addresses": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "array",
+                "items": {
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "currentSourceCodeVersionId": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "active"
+        ]
+      },
+      "currentSourceCodeVersion": {
+        "includePath": "types/type-source-code.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "versionNumber": {
+            "type": "number"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modificationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sourceCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "versionNumber",
+          "creationDate"
+        ]
+      },
+      "sourceCode": {
+        "includePath": "types/type-source-code.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "versionNumber": {
+            "type": "number"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modificationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sourceCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "versionNumber",
+          "creationDate"
+        ]
+      },
+      "sourceCodes": {
+        "includePath": "types/type-source-codes.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "versionNumber": {
+            "type": "number"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modificationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "versionNumber",
+          "creationDate"
+        ]
+      },
+      "attribute": {
+        "includePath": "types/type-attribute.raml",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "langauge": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "langauge",
+          "value"
+        ]
+      },
+      "attributes": {
+        "includePath": "types/type-attribute.raml",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "langauge": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "langauge",
+          "value"
+        ]
+      },
+      "attribute_post": {
+        "includePath": "types/type-attribute.raml",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "langauge": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "langauge",
+          "value"
+        ]
+      },
+      "audioPrompt": {
+        "includePath": "types/type-audio-prompt.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "promptType": {
+            "enum": [
+              "BlindTransferFailed",
+              "ExtAgentAcceptQuestion",
+              "ExternalTransfer",
+              "ExternalTransferFailed",
+              "InQueue",
+              "InQueueBusy",
+              "InternalTransfer",
+              "IVRPrompt",
+              "OfferingPrompt",
+              "OnHold",
+              "PreWelcome",
+              "QueueFull",
+              "ServiceClosed",
+              "Welcome",
+              "WelcomeBusy"
+            ],
+            "type": "string"
+          },
+          "loopType": {
+            "enum": [
+              "ALL",
+              "LAST",
+              "RANDOM"
+            ],
+            "type": "string"
+          },
+          "sourceType": {
+            "enum": [
+              "Custom",
+              "QueueBuiltIn",
+              "UserBuiltIn",
+              "OptionalBuiltIn"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "promptType",
+          "loopType",
+          "sourceType"
+        ]
+      },
+      "audioPrompts": {
+        "includePath": "types/type-audio-prompt.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "promptType": {
+            "enum": [
+              "BlindTransferFailed",
+              "ExtAgentAcceptQuestion",
+              "ExternalTransfer",
+              "ExternalTransferFailed",
+              "InQueue",
+              "InQueueBusy",
+              "InternalTransfer",
+              "IVRPrompt",
+              "OfferingPrompt",
+              "OnHold",
+              "PreWelcome",
+              "QueueFull",
+              "ServiceClosed",
+              "Welcome",
+              "WelcomeBusy"
+            ],
+            "type": "string"
+          },
+          "loopType": {
+            "enum": [
+              "ALL",
+              "LAST",
+              "RANDOM"
+            ],
+            "type": "string"
+          },
+          "sourceType": {
+            "enum": [
+              "Custom",
+              "QueueBuiltIn",
+              "UserBuiltIn",
+              "OptionalBuiltIn"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "promptType",
+          "loopType",
+          "sourceType"
+        ]
+      },
+      "cpExtension": {
+        "includePath": "types/type-cp-extension.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "description": {
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "title": {
+            "description": "Translated title of the extension",
+            "type": "string"
+          },
+          "url": {
+            "description": "URI location of the 3rd. party extension",
+            "type": "string"
+          },
+          "icon": {
+            "description": "SAP Icon library reference",
+            "type": "string"
+          },
+          "queues": {
+            "description": "The queues this extension should be enabled for",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hidden": {
+            "description": "Should the extension be visible or run in hidden mode",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "url",
+          "icon",
+          "queues",
+          "hidden"
+        ]
+      },
+      "cpExtensions": {
+        "includePath": "types/type-cp-extension.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "name": {
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "description": {
+            "description": "Added by the system",
+            "type": "string"
+          },
+          "title": {
+            "description": "Translated title of the extension",
+            "type": "string"
+          },
+          "url": {
+            "description": "URI location of the 3rd. party extension",
+            "type": "string"
+          },
+          "icon": {
+            "description": "SAP Icon library reference",
+            "type": "string"
+          },
+          "queues": {
+            "description": "The queues this extension should be enabled for",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hidden": {
+            "description": "Should the extension be visible or run in hidden mode",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "url",
+          "icon",
+          "queues",
+          "hidden"
+        ]
+      }
+    },
+    "responses": {
+      "trait_hasNotFound_404": {
+        "description": "Not Found",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "example": "HTTP 404 Not Found\n"
+            }
+          }
+        }
+      },
+      "trait_hasNoContent_204": {
+        "description": "No content - The server has successfully fulfilled the request\nand there is no additional content to send in the response payload body.\n"
+      },
+      "trait_hasCreated_201": {
+        "description": "Returns the created _id_.",
+        "content": {
+          "text/html": {
+            "schema": {
+              "example": "F5168FBDD6914C8DB1C6D0BD64563A39\n"
+            }
+          }
+        }
+      },
+      "trait_hasBadRequest_400": {
+        "description": "Bad Request",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "example": "Invalid GUID: '2B8ED95B0EC911E79675005056A75D9'\n"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "trait_haslanguage_language": {
+        "name": "language",
+        "in": "query",
+        "description": "Define with a two-character code (ISO 639) the language to which the translatable values are translated. By default, logged-on user’s language is used.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchable_any fields": {
+        "name": "any fields",
+        "in": "query",
+        "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: <<validSearchField>>\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_fullTextSearchable_search": {
+        "name": "search",
+        "in": "query",
+        "description": "Full text search from directory. Sentence can be searched using \"\".\nMultiple search words and/or sentences can be used for request.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCaseId_case_id": {
+        "name": "case_id",
+        "in": "query",
+        "description": "Search emails filtered by \"case id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCId_cid": {
+        "name": "cid",
+        "in": "query",
+        "description": "Search emails filtered by \"cid\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByContactId_contact_id": {
+        "name": "contact_id",
+        "in": "query",
+        "description": "Search filtered by \"contact id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByOriginalContactId_originalcontact_id": {
+        "name": "originalcontact_id",
+        "in": "query",
+        "description": "Search filtered by \"original contact id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByOriginator_originator": {
+        "name": "originator",
+        "in": "query",
+        "description": "Search filtered by originating address of the chat.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByDestination_destination": {
+        "name": "destination",
+        "in": "query",
+        "description": "Search filtered by destination address of the chat.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByChannelSubType_channel_sub_type": {
+        "name": "channel_sub_type",
+        "in": "query",
+        "description": "Search filtered by channel sub type text, video or sms\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCallId_call_id": {
+        "name": "call_id",
+        "in": "query",
+        "description": "Search filtered by \"call id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByStartTime_start_time": {
+        "name": "start_time",
+        "in": "query",
+        "description": "Search recordings after of given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByEndTime_end_time": {
+        "name": "end_time",
+        "in": "query",
+        "description": "Search recordings before of given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCreationTime_creationTime": {
+        "name": "creationTime",
+        "in": "query",
+        "description": "Search messages created after the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCreationTime_creationTimeEnd": {
+        "name": "creationTimeEnd",
+        "in": "query",
+        "description": "Search messages created before the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableBySendTime_sendTime": {
+        "name": "sendTime",
+        "in": "query",
+        "description": "Search for messages that have the sendTime value after the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableBySendTime_sendTimeEnd": {
+        "name": "sendTimeEnd",
+        "in": "query",
+        "description": "Search for messages that have the sendTime value before the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByDateRange_<<startqueryparam>>": {
+        "name": "<<startqueryparam>>",
+        "in": "query",
+        "description": "Search for <<items>> that have the <<startqueryparam>> value after the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByDateRange_<<endqueryparam>>": {
+        "name": "<<endqueryparam>>",
+        "in": "query",
+        "description": "Search for <<items>> that have the <<startqueryparam>> value before the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByAttribute_attributeName": {
+        "name": "attributeName",
+        "in": "query",
+        "description": "Search item by attribute name.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByAttribute_attributeValue": {
+        "name": "attributeValue",
+        "in": "query",
+        "description": "Search by value of the attribute, attributeName parameter is mandatory in case attributeValue is given.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_orderable_sort": {
+        "name": "sort",
+        "in": "query",
+        "description": "Can be sorted by any field. Default sort is <b><<fieldsList>></b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_limit_limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Limit number of elements by specifying a limit value for the query",
+        "schema": {
+          "default": "<<default>>",
+          "type": "integer"
+        }
+      },
+      "trait_pageable_offset": {
+        "name": "offset",
+        "in": "query",
+        "description": "Skip over a number of elements by specifying an offset value for the query",
+        "schema": {
+          "default": 0,
+          "type": "integer"
+        }
+      },
+      "trait_pageable_limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Limit number of elements by specifying a limit value for the query",
+        "schema": {
+          "default": 100,
+          "type": "integer"
+        }
+      }
+    },
+    "examples": {},
+    "requestBodies": {},
+    "headers": {},
+    "securitySchemes": {},
+    "links": {},
+    "callbacks": {}
+  }
+}

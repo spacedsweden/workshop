@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SINCallClient Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Protocol/SINCallClient" class="dashAnchor"></a>
+    <a title="SINCallClient Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sinch v5.2.41+a0d04648 Docs</a> (89% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sinch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        SINCallClient Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Categories.html">Categories</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Categories/UIView%28SINUIViewFullscreenAdditions%29.html">UIView(SINUIViewFullscreenAdditions)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/SINManagedPush.html">SINManagedPush</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Sinch.html">Sinch</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINCallIdKey">SINCallIdKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomain">SINErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomainNetwork">SINErrorDomainNetwork</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeKey">SINPushTypeKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeVoIP">SINPushTypeVoIP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/SINAPSEnvironment.html">SINAPSEnvironment</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallDirection.html">SINCallDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallEndCause.html">SINCallEndCause</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallState.html">SINCallState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINLogSeverity.html">SINLogSeverity</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioController.html">SINAudioController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioControllerDelegate.html">SINAudioControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCall.html">SINCall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClient.html">SINCallClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClientDelegate.html">SINCallClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDelegate.html">SINCallDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDetails.html">SINCallDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallNotificationResult.html">SINCallNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClient.html">SINClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientDelegate.html">SINClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientRegistration.html">SINClientRegistration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINManagedPushDelegate.html">SINManagedPushDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINNotificationResult.html">SINNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoController.html">SINVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoFrameCallback.html">SINVideoFrameCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:SINLogCallback.h@T@SINLogCallback">SINLogCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINToggleCaptureDevicePosition">SINToggleCaptureDevicePosition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINUIImageFromPixelBuffer">SINUIImageFromPixelBuffer</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>SINCallClient</h1>
+              <div class="declaration">
+                <div class="language">
+                  <p class="aside-title">Objective-C</p>
+                  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SINCallClient</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+                <div class="language">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SINCallClient</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>SINCallClient provides the entry point to the calling functionality of the Sinch SDK.
+ A SINCallClient can be acquired via SINClient.</p>
+
+<ul>
+<li><p>Example:</p>
+<pre class="highlight plaintext"><code>
+id&lt;SINClient&gt; sinchClient;
+[sinchClient start];
+...
+
+// Place outgoing call.
+id&lt;SINCallClient&gt; callClient = [sinchClient callClient];
+id&lt;SINCall&gt; call = [callClient callUserWithId:@"&lt;REMOTE USERID&gt;"];
+
+// Set the call delegate that handles all the call state changes
+call.delegate= ... ;
+
+// ...
+
+// Hang up the call
+[call hangup];
+</code></pre></li>
+</ul>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(py)delegate"></a>
+                    <a name="//apple_ref/objc/Property/delegate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(py)delegate">delegate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The object that acts as the delegate of the call client.</p>
+
+<p>The delegate object handles call state change events and must
+ adopt the SINCallClientDelegate protocol.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <code><a href="../Protocols/SINCallClientDelegate.html">SINCallClientDelegate</a></code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCallClientDelegate.html">SINCallClientDelegate</a></span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">weak</span> <span class="k">var</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/SINCallClientDelegate.html">SINCallClientDelegate</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callUserWithId:"></a>
+                    <a name="//apple_ref/objc/Method/-callUserWithId:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callUserWithId:">-callUserWithId:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Make a call to the user with the given id.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callUserWithId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">userId</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The application specific id of the user to call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callUserWithId:headers:"></a>
+                    <a name="//apple_ref/objc/Method/-callUserWithId:headers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callUserWithId:headers:">-callUserWithId:<wbr>headers:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Calls the user with the given id and the given headers.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callUserWithId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">userId</span>
+                      <span class="nf">headers</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">headers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The application specific id of the user to call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>headers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NSString key-value pairs to pass with the call.
+            The total size of header keys + values (when encoded with NSUTF8StringEncoding)
+            must not exceed 1024 bytes. The call will fail immediately in case of invalid
+            headers.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callUserVideoWithId:"></a>
+                    <a name="//apple_ref/objc/Method/-callUserVideoWithId:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callUserVideoWithId:">-callUserVideoWithId:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Make a video call to the user with the given id</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callUserVideoWithId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">userId</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The application specific id of the user to call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callUserVideoWithId:headers:"></a>
+                    <a name="//apple_ref/objc/Method/-callUserVideoWithId:headers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callUserVideoWithId:headers:">-callUserVideoWithId:<wbr>headers:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Make a video call to the user with the given id and the give headers</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callUserVideoWithId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">userId</span>
+                           <span class="nf">headers</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">headers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The application specific id of the user to call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>headers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NSString key-value pairs to pass with the call.
+            The total size of header keys + values (when encoded with NSUTF8StringEncoding)
+            must not exceed 1024 bytes. The call will fail immediately in case of invalid
+            headers.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callPhoneNumber:"></a>
+                    <a name="//apple_ref/objc/Method/-callPhoneNumber:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callPhoneNumber:">-callPhoneNumber:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Calls a phone number and terminates the call to the PSTN-network (Publicly Switched
+ Telephone Network).</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callPhoneNumber</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>phoneNumber</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The phone number to call.
+                The phone number should be given according to E.164 number formatting
+                (<a href="http://en.wikipedia.org/wiki/E.164">http://en.wikipedia.org/wiki/E.164</a>) and should be prefixed with a &lsquo;+&rsquo;.
+                E.g. to call the US phone number 415 555 0101, it should be specified as
+                &ldquo;+14155550101&rdquo;, where the &lsquo;+&rsquo; is the required prefix and the US country
+                code &lsquo;1&rsquo; added before the local subscriber number.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callPhoneNumber:headers:"></a>
+                    <a name="//apple_ref/objc/Method/-callPhoneNumber:headers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callPhoneNumber:headers:">-callPhoneNumber:<wbr>headers:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Calls a phone number and terminate the call to the PSTN-network (Publicly Switched
+ Telephone Network).</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callPhoneNumber</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">phoneNumber</span>
+                       <span class="nf">headers</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">headers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>phoneNumber</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The phone number to call.
+                The phone number should be given according to E.164 number formatting
+                (<a href="http://en.wikipedia.org/wiki/E.164">http://en.wikipedia.org/wiki/E.164</a>) and should be prefixed with a &lsquo;+&rsquo;.
+                E.g. to call the US phone number 415 555 0101, it should be specified as
+                &ldquo;+14155550101&rdquo;, where the &lsquo;+&rsquo; is the required prefix and the US country
+                code &lsquo;1&rsquo; added before the local subscriber number.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>headers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NSString key-value pairs to pass with the call.
+            The total size of header keys + values (when encoded with NSUTF8StringEncoding)
+            must not exceed 1024 bytes. The call will fail immediately in case of invalid
+            headers.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callSIP:"></a>
+                    <a name="//apple_ref/objc/Method/-callSIP:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callSIP:">-callSIP:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Make a SIP call to user with the given SIP Identity.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callSIP</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sipIdentity</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sipIdentity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The SIP identity string of the user to call, should be in the form of “user@domain”.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callSIP:headers:"></a>
+                    <a name="//apple_ref/objc/Method/-callSIP:headers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callSIP:headers:">-callSIP:<wbr>headers:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Make a SIP call to user with the given SIP Identity and adding the given headers.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callSIP</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sipIdentity</span> <span class="nf">headers</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">headers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sipIdentity</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The SIP identity string of the user to call, should be in the form of “user@domain”.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>headers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NSString key-value pairs to pass with the call.
+            The total size of header keys + values (when encoded with NSUTF8StringEncoding)
+            must not exceed 1024 bytes. The call will fail immediately in case of invalid
+            headers.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callConferenceWithId:"></a>
+                    <a name="//apple_ref/objc/Method/-callConferenceWithId:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callConferenceWithId:">-callConferenceWithId:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Calls the conference with the given id.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callConferenceWithId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conferenceId</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conferenceId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The application specific id of the conference to call. It must not exceed 64 characters,
+                 or the call will fail immediately.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)callConferenceWithId:headers:"></a>
+                    <a name="//apple_ref/objc/Method/-callConferenceWithId:headers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)callConferenceWithId:headers:">-callConferenceWithId:<wbr>headers:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Calls the conference with the given id and the given headers.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidStart:">-[SINClientDelegate clientDidStart:]</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCall.html">SINCall</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">callConferenceWithId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conferenceId</span>
+                            <span class="nf">headers</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">headers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conferenceId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The application specific id of the conference to call. It must not exceed 64 characters,
+                 or the call will fail immediately.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>headers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>NSString key-value pairs to pass with the call.
+            The total size of header keys + values (when encoded with NSUTF8StringEncoding)
+            must not exceed 1024 bytes. The call will fail immediately in case of invalid
+            headers.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Protocols/SINCall.html">SINCall</a></code> Outgoing call</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)provider:didActivateAudioSession:"></a>
+                    <a name="//apple_ref/objc/Method/-provider:didActivateAudioSession:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)provider:didActivateAudioSession:">-provider:<wbr>didActivateAudioSession:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This API is introduced to support CallKit integration. Invoke this method to notify the Sinch SDK that the App has
+ received the didActivateAudioSession callback from CXProviderDelegate. When CallKit is integrated in the App and an
+ incoming call is received in the background, this method has to be invoked for the Sinch SDK to start the media for
+ the call.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">provider</span><span class="p">:(</span><span class="n">CXProvider</span> <span class="o">*</span><span class="p">)</span><span class="nv">provider</span>
+    <span class="nf">didActivateAudioSession</span><span class="p">:(</span><span class="n">AVAudioSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">audioSession</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">provider</span><span class="p">(</span><span class="n">_</span> <span class="nv">provider</span><span class="p">:</span> <span class="kt">CXProvider</span><span class="o">!</span><span class="p">,</span> <span class="n">didActivate</span> <span class="nv">audioSession</span><span class="p">:</span> <span class="kt">AVAudioSession</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>audioSession</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The audioSession from the didActivateAudioSession callback of CXProviderDelegate.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallClient(im)provider:didDeactivateAudioSession:"></a>
+                    <a name="//apple_ref/objc/Method/-provider:didDeactivateAudioSession:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallClient(im)provider:didDeactivateAudioSession:">-provider:<wbr>didDeactivateAudioSession:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This API is introduced to support CallKit integration. Invoke this method to notify the Sinch SDK that the App has
+ received the didDeactivateAudioSession callback from CXProviderDelegate. When CallKit is integrated in the App, this
+ method has to be invoked to pass the didDeactivateAudioSession event from CallKit to the Sinch SDK for correct
+ audio session management.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">provider</span><span class="p">:(</span><span class="n">CXProvider</span> <span class="o">*</span><span class="p">)</span><span class="nv">provider</span>
+    <span class="nf">didDeactivateAudioSession</span><span class="p">:(</span><span class="n">AVAudioSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">audioSession</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">provider</span><span class="p">(</span><span class="n">_</span> <span class="nv">provider</span><span class="p">:</span> <span class="kt">CXProvider</span><span class="o">!</span><span class="p">,</span> <span class="n">didDeactivate</span> <span class="nv">audioSession</span><span class="p">:</span> <span class="kt">AVAudioSession</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>audioSession</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The audioSession from the didActivateAudioSession callback of CXProviderDelegate.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright © 2021 Sinch</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

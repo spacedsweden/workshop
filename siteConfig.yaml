@@ -1,0 +1,57 @@
+meta:
+  title: Sinch
+  description: The best communication apis ever.
+  siteUrl: https://bumblebee.redoc.ly/
+headerIcon: ./images/logo.svg
+enableToc: false
+
+oasDefinitions:
+  sms: ./openapi/sms.yaml
+  verification: ./openapi/verification.yaml
+  conversation: ./docs/conversation/oas/conversation.yaml
+  conversationtemplate: ./docs/conversation/oas/template.yaml
+  numbers: ./openapi/numbers.yaml
+  export: ./openapi/export-api.yaml
+  10dlc: ./openapi/10dlc.yaml
+  whatsapp: ./openapi/whatsapp.yaml
+  rcs: ./openapi/rcs-api.yaml
+  numbers3: ./openapi/imported-numbers.yaml
+  voice: ./docs/voice/rest-api/voice.yaml
+
+# add links to definitions in our API registry by using a fully qualified URL.
+stylesheets:
+  - https://sinch.github.io/newdocs/static/font.css
+  # - ./static/font.css
+
+  # - https://fonts.googleapis.com/css?family=Roboto:300,400,600,700
+  #- https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap
+#scripts:
+#  - ./static/intercom.js
+disableImagesOptimization: true
+showNextButton: false
+tocMaxDepth: 2
+REDOCLY_LICENSE_KEY: process.env.REDOCLY_LICENSE_KEY
+#  ga:
+#    you can use any options here from https://www.gatsbyjs.org/packages/gatsby-plugin-google-analytics/
+#    note that GA doesn't work in DEV
+#    trackingId: UA-45997213-1
+analytics:
+  googleTagManager:
+    id: GTM-NLKQWDS
+nav:
+  - label: SMS
+    page: docs/sms/index.md
+  - label: Conversation
+    page: docs/conversation/index.md
+  - label: Voice
+    page: docs/voice/index.md
+  - label: Verification
+    page: docs/verification/index.md
+  - label: All products
+    page: all-products.mdx
+  - search: true
+
+footer:
+  copyrightText: ""
+  columns:
+    - group: ""

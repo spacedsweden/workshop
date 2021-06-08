@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SINCallDetails Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Protocol/SINCallDetails" class="dashAnchor"></a>
+    <a title="SINCallDetails Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sinch v5.2.41+a0d04648 Docs</a> (89% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sinch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        SINCallDetails Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Categories.html">Categories</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Categories/UIView%28SINUIViewFullscreenAdditions%29.html">UIView(SINUIViewFullscreenAdditions)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/SINManagedPush.html">SINManagedPush</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Sinch.html">Sinch</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINCallIdKey">SINCallIdKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomain">SINErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomainNetwork">SINErrorDomainNetwork</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeKey">SINPushTypeKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeVoIP">SINPushTypeVoIP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/SINAPSEnvironment.html">SINAPSEnvironment</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallDirection.html">SINCallDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallEndCause.html">SINCallEndCause</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallState.html">SINCallState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINLogSeverity.html">SINLogSeverity</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioController.html">SINAudioController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioControllerDelegate.html">SINAudioControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCall.html">SINCall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClient.html">SINCallClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClientDelegate.html">SINCallClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDelegate.html">SINCallDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDetails.html">SINCallDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallNotificationResult.html">SINCallNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClient.html">SINClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientDelegate.html">SINClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientRegistration.html">SINClientRegistration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINManagedPushDelegate.html">SINManagedPushDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINNotificationResult.html">SINNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoController.html">SINVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoFrameCallback.html">SINVideoFrameCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:SINLogCallback.h@T@SINLogCallback">SINLogCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINToggleCaptureDevicePosition">SINToggleCaptureDevicePosition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINUIImageFromPixelBuffer">SINUIImageFromPixelBuffer</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>SINCallDetails</h1>
+              <div class="declaration">
+                <div class="language">
+                  <p class="aside-title">Objective-C</p>
+                  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SINCallDetails</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+                <div class="language">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SINCallDetails</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>The SINCallDetails holds metadata about a call (SINCall).</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallDetails(py)startedTime"></a>
+                    <a name="//apple_ref/objc/Property/startedTime" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallDetails(py)startedTime">startedTime</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The start time of the call.</p>
+
+<p>Before the call has started, the value of the startedTime property is <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSDate</span> <span class="o">*</span><span class="n">startedTime</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">startedTime</span><span class="p">:</span> <span class="kt">Date</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallDetails(py)establishedTime"></a>
+                    <a name="//apple_ref/objc/Property/establishedTime" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallDetails(py)establishedTime">establishedTime</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The time at which the call was established, if it reached established state.</p>
+
+<p>Before the call has reached established state, the value of the establishedTime property is <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSDate</span> <span class="o">*</span><span class="n">establishedTime</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">establishedTime</span><span class="p">:</span> <span class="kt">Date</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallDetails(py)endedTime"></a>
+                    <a name="//apple_ref/objc/Property/endedTime" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallDetails(py)endedTime">endedTime</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The end time of the call.</p>
+
+<p>Before the call has ended, the value of the endedTime property is <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSDate</span> <span class="o">*</span><span class="n">endedTime</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">endedTime</span><span class="p">:</span> <span class="kt">Date</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallDetails(py)endCause"></a>
+                    <a name="//apple_ref/objc/Property/endCause" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallDetails(py)endCause">endCause</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Holds the cause of why a call ended, after it has ended. It may be one
+ of the following:</p>
+
+<ul>
+<li><code>SINCallEndCauseNone</code></li>
+<li><code>SINCallEndCauseTimeout</code></li>
+<li><code>SINCallEndCauseDenied</code></li>
+<li><code>SINCallEndCauseNoAnswer</code></li>
+<li><code>SINCallEndCauseError</code></li>
+<li><code>SINCallEndCauseHungUp</code></li>
+<li><code>SINCallEndCauseCanceled</code></li>
+<li><code>SINCallEndCauseOtherDeviceAnswered</code></li>
+</ul>
+
+<p>If the call has not ended yet, the value is <code>SINCallEndCauseNone</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Enums/SINCallEndCause.html">SINCallEndCause</a></span> <span class="n">endCause</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">endCause</span><span class="p">:</span> <span class="kt"><a href="../Enums/SINCallEndCause.html">SINCallEndCause</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallDetails(py)error"></a>
+                    <a name="//apple_ref/objc/Property/error" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallDetails(py)error">error</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If the end cause is error, then this property contains an error object
+ that describes the error.</p>
+
+<p>If the call has not ended yet or if the end cause is not an error,
+ the value of this property is <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINCallDetails(py)videoOffered"></a>
+                    <a name="//apple_ref/objc/Property/videoOffered" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINCallDetails(py)videoOffered">videoOffered</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hint that indicates if video is offered in the call.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isVideoOffered</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">videoOffered</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isVideoOffered</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright © 2021 Sinch</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

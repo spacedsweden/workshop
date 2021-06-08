@@ -1,0 +1,26 @@
+type: reference-docs
+definitionId: export
+settings:
+  pagination: none
+  hideDownloadButton: false
+  expandResponses: "200,201"
+  jsonSampleExpandLevel: "all"
+  hideInfoSection: false
+  requiredPropsFirst: true
+  showConsole: false
+  expandSingleSchemaField: true
+  corsProxyUrl: https://cors.redoc.ly
+  layout:
+    showInfoOnEachPage: false
+    showNextButton: false
+    scope: all
+  generateCodeSamples:
+    languages:
+      - lang: curl
+      - lang: C#
+      - lang: Java
+      - lang: Node.js
+      - lang: Python
+    skipOptionalParameters: true
+  onlyRequiredInSamples: true
+  hideRequestPayloadSample: false

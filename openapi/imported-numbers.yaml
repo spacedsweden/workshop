@@ -1,0 +1,437 @@
+swagger: '2.0'
+info:
+  title: Imported Numbers
+  description: >-
+    Service for getting, listing and managing imported numbers.
+
+
+    ## Authentication
+
+
+    <h3>Basic</h3>
+
+
+    Our basic security works with any project, use the client_id and
+    client_secret that were displayed when you created your access key through
+    the dashboard.
+
+
+    Learn more about Sinch authentication and authorization
+
+     <table><thead><tr><th>Security Scheme Type</th><th>HTTP</th></tr></thead><tbody><tr><td><b>HTTP Authorization Scheme</b></td><td>basic</td></tr></tbody></table>
+
+    <h3>OAuth</h3>
+
+    This is the recommended way to access our apis.
+
+
+    Learn more about Sinch authentication and authorization
+
+     <table><thead><tr><th>Security Scheme Type</th><th>OAuth2</th></tr></thead><tbody><tr><td><b>clientCredentials OAuth Flow</b></td><td><b>Token URL:</b><br><a href="https://eu.auth.sinch.com/oauth2/token">https://eu.auth.sinch.com/oauth2/token</a><br><br><b>Revoke URL:</b><br><a href="https://eu.auth.sinch.com/oauth2/revoke">https://eu.auth.sinch.com/oauth2/revoke</a></td></tr></tbody></table>
+  version: '1.0'
+tags:
+  - name: ImportNumberService
+host: todo.api.sinch.com
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  '/v1/projects/{projectId}/importedNumbers':
+    get:
+      summary: Lists imported numbers for a project
+      description: Lists all imported numbers for a project.
+      operationId: ImportNumberService_ListImportedNumbers
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ListImportedNumbersResponse'
+        '400':
+          description: 'If the page_token, number_pattern or order_by is not valid'
+          schema: {}
+          examples:
+            application/json:
+              error:
+                code: 400
+                message: ''
+                status: INVALID_ARGUMENT
+                details:
+                  - type: BadRequest
+                    fieldViolations:
+                      - field: order_by
+                        description: Invalid order_by XXX
+      parameters:
+        - name: projectId
+          description: >-
+            Your project id can be found if you log into your account on
+            dashboard.sinch.com.
+          in: path
+          required: true
+          type: string
+        - name: regionCode
+          description: >-
+            Region code to filter by. ISO 3166-1 alpha-2 country code of the
+            phone number. Example US, GB or SE.
+          in: query
+          required: false
+          type: string
+        - name: pattern
+          description: Sequence of digits to search for.
+          in: query
+          required: false
+          type: string
+        - name: searchPattern
+          description: |-
+            Search pattern to apply.
+
+             - START: Numbers that start with the provided sequence of digits
+             - CONTAINS: Numbers that contain the sequence of digits
+             - END: Numbers that end with the sequence of digits
+          in: query
+          required: false
+          type: string
+          enum:
+            - START
+            - CONTAINS
+            - END
+          default: START
+        - name: pageSize
+          description: The maximum number of items to return.
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageToken
+          description: >-
+            The next_page_token value returned from a previous List request, if
+            any.
+          in: query
+          required: false
+          type: string
+        - name: orderBy
+          description: |-
+            Supported fields for ordering by: number or display_name.
+            https://cloud.google.com/apis/design/design_patterns#sorting_order.
+          in: query
+          required: false
+          type: string
+      tags:
+        - Imported Number
+  '/v1/projects/{projectId}/importedNumbers/{phoneNumber}':
+    patch:
+      summary: Update imported phone number.
+      description: >-
+        With update imported phone number you can move a number between
+        different SMS services and Campaign Id's.
+
+        The following fields can be updated: smsConfiguration.servicePlanId,
+        smsConfiguration.campaignId.
+      operationId: ImportNumberService_UpdateImportedNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ImportedNumber'
+        '404':
+          description: The imported number could not be found
+          schema: {}
+          examples:
+            application/json:
+              error:
+                code: 404
+                message: ''
+                status: NOT_FOUND
+                details:
+                  - type: ResourceInfo
+                    resourceType: sinch.numbers.senderid.v1alpha1.ImportedNumber
+                    resourceName: '+12025550134'
+                    owner: ''
+                    description: ''
+      parameters:
+        - name: projectId
+          description: The ID of the project resource
+          in: path
+          required: true
+          type: string
+        - name: phoneNumber
+          description: >-
+            Output only. The phone number in e.164 format with leading +.
+            Example +12025550134.
+          in: path
+          required: true
+          type: string
+        - name: body
+          description: The number body to be updated
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ImportedNumber'
+      tags:
+        - Imported Number
+    get:
+      summary: Get a imported number.
+      operationId: ImportNumberService_GetImportedNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ImportedNumber'
+        '404':
+          description: The imported number could not be found
+          schema: {}
+          examples:
+            application/json:
+              error:
+                code: 404
+                message: ''
+                status: NOT_FOUND
+                details:
+                  - type: ResourceInfo
+                    resourceType: sinch.numbers.senderid.v1alpha1.ImportedNumber
+                    resourceName: '+12025550134'
+                    owner: ''
+                    description: ''
+      parameters:
+        - name: projectId
+          description: >-
+            Your project id can be found if you log into your account on
+            dashboard.sinch.com.
+          in: path
+          required: true
+          type: string
+        - name: phoneNumber
+          description: The id of the active number to retrieve.
+          in: path
+          required: true
+          type: string
+      tags:
+        - Imported Number
+  '/v1/projects/{projectId}/importedNumbers/{phoneNumber}:import':
+    post:
+      summary: Import a new number
+      description: Import a number to use with SMS products.
+      operationId: ImportNumberService_ImportNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ImportedNumber'
+      parameters:
+        - name: projectId
+          description: >-
+            The ID of the project resource. Your project id can be found if you
+            login to your account on dashboard.sinch.com.
+          in: path
+          required: true
+          type: string
+        - name: phoneNumber
+          description: The available phone number to rent.
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1alpha1ImportNumberRequest'
+      tags:
+        - Imported Number
+  '/v1/projects/{projectId}/importedNumbers/{phoneNumber}:release':
+    post:
+      summary: Release a imported number from the project.
+      description: Remove imported number for a specific phone number.
+      operationId: ImportNumberService_ReleaseImportedNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1ImportedNumber'
+        '404':
+          description: The imported number could not be found
+          schema: {}
+          examples:
+            application/json:
+              error:
+                code: 404
+                message: ''
+                status: NOT_FOUND
+                details:
+                  - type: ResourceInfo
+                    resourceType: sinch.numbers.senderid.v1alpha1.ImportedNumber
+                    resourceName: '+12025550134'
+                    owner: ''
+                    description: ''
+      parameters:
+        - name: projectId
+          description: >-
+            The ID of the project resource. Your project id can be found if you
+            login to your account on dashboard.sinch.com.
+          in: path
+          required: true
+          type: string
+        - name: phoneNumber
+          description: The imported phone number to release.
+          in: path
+          required: true
+          type: string
+      tags:
+        - Imported Number
+definitions:
+  NumberPatternSearchPattern:
+    type: string
+    enum:
+      - START
+      - CONTAINS
+      - END
+    default: START
+    description: |2-
+       - START: Numbers that start with the provided sequence of digits
+       - CONTAINS: Numbers that contain the sequence of digits
+       - END: Numbers that end with the sequence of digits
+    title: Search Pattern
+  v1alpha1ImportNumberRequest:
+    type: object
+    properties:
+      projectId:
+        type: string
+        description: >-
+          The ID of the project resource. Your project id can be found if you
+          login to your account on dashboard.sinch.com.
+        required:
+          - project_id
+      phoneNumber:
+        type: string
+        description: The available phone number to rent.
+        required:
+          - phone_number
+      regionCode:
+        type: string
+        description: >-
+          ISO 3166-1 alpha-2 country code of the phone number. Example US, GB or
+          SE.
+        required:
+          - region_code
+      smsConfiguration:
+        $ref: '#/definitions/v1alpha1SmsConfiguration'
+        description: >-
+          Optional. Sms configuration. The service_plan_id can be found when
+          logging into dashboard.sinch.com in SMS>APIs section.
+    description: Request message for importing a phone number.
+    title: Import Number Request
+    required:
+      - projectId
+      - phoneNumber
+      - regionCode
+  v1alpha1ImportedNumber:
+    type: object
+    properties:
+      phoneNumber:
+        type: string
+        description: >-
+          Output only. The phone number in e.164 format with leading +. Example
+          +12025550134.
+        readOnly: true
+      projectId:
+        type: string
+        description: >-
+          Output only. Project id. Your project id can be found if you log into
+          your account on dashboard.sinch.com.
+        readOnly: true
+      regionCode:
+        type: string
+        description: >-
+          Output only. ISO 3166-1 alpha-2 country code of the phone number.
+          Example US, UK or SE.
+        readOnly: true
+      smsConfiguration:
+        $ref: '#/definitions/v1alpha1SmsConfiguration'
+        description: >-
+          Optional. Sms configuration. The service_plan_id can be found when
+          logging into dashboard.sinch.com in SMS>APIs section.
+    description: >-
+      The phone number that has been imported by a customer and assigned to a
+      project.
+    title: Imported Number
+  v1alpha1ListImportedNumbersResponse:
+    type: object
+    properties:
+      importedNumbers:
+        type: array
+        items:
+          $ref: '#/definitions/v1alpha1ImportedNumber'
+        description: >-
+          List of numbers associated to the client project specified in
+          `ListImportedNumbers`.
+      nextPageToken:
+        type: string
+        title: The token to be used for listing the next page
+      totalSize:
+        type: integer
+        format: int32
+        title: 'https://cloud.google.com/apis/design/design_patterns#list_pagination'
+    description: Response message to list your imported phone numbers
+    title: Imported Numbers Response
+  v1alpha1NumberPattern:
+    type: object
+    properties:
+      pattern:
+        type: string
+        description: Sequence of digits to search for.
+      searchPattern:
+        $ref: '#/definitions/NumberPatternSearchPattern'
+        description: Search pattern to apply.
+    title: Search Pattern
+  v1alpha1ProvisioningStatus:
+    type: string
+    enum:
+      - WAITING
+      - IN_PROGRESS
+      - FAILED
+    default: WAITING
+    description: |2-
+       - WAITING: The sms configuration has been scheduled
+       - IN_PROGRESS: The sms configuration change is in progress.
+       - FAILED: The sms configuration change has failed.
+    title: Provisioning Status for the SMS service
+  v1alpha1ScheduledProvisioning:
+    type: object
+    properties:
+      servicePlanId:
+        type: string
+        description: Output only. Service plan of the scheduled provisioning task.
+        readOnly: true
+      status:
+        $ref: '#/definitions/v1alpha1ProvisioningStatus'
+        description: Output only. Status of the pending change.
+        readOnly: true
+      lastUpdatedTime:
+        type: string
+        format: date-time
+        description: Output only. Timestamp when the status was last updated.
+        readOnly: true
+    title: Scheduled Provisioning
+  v1alpha1SmsConfiguration:
+    type: object
+    properties:
+      servicePlanId:
+        type: string
+        description: |-
+          The current sms configuration for this number.
+          The service_plan_id can be found when logging into dashboard.sinch.com
+          in SMS>APIs section.
+      scheduledProvisioning:
+        $ref: '#/definitions/v1alpha1ScheduledProvisioning'
+        description: Output only. Status of any pending changes to the sms routing.
+        readOnly: true
+      campaignId:
+        type: string
+    description: Sms configuration
+    title: Sms Configuration
+x-explorer-enabled: false
+x-samples-languages:
+  - curl
+  - java
+  - csharp
+  - node
+  - php

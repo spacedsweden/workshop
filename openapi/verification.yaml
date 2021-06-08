@@ -1,0 +1,413 @@
+openapi: 3.0.0
+info:
+  title: Verification
+  description: "Verification REST API for verifying phone numbers and users. Support of FlashCall verification, PIN SMS verification and Callout verification.\n\n**Note:** OTP CODE must be the full valid E.164 number that we called from.\n\n## Overview\n\nFor general information on how to use the Sinch APIs including methods, types, errors and authorization, please check the [Using REST](/docs/using-rest) page.\nUse the Sinch Verification Service to verify end-user's mobile phone numbers. The Sinch Verification APIs should be used in combination with the Verification SDKs for a complete end-to-end solution, though it is possible to only use the APIs. Currently, there are three verification methods supported:\n\n- FlashCall verification - Android only\n- PIN SMS verification - iOS, Android, Javascript\n- Callout verification (voice call) - iOS only\n\n#### FlashCall verification\n\nWith the flashCall verification method, a user's phone number is verified by triggering a \"missed call\" towards this number. The call is intercepted by the Android SDK in the mobile app and blocked automatically.\nTo initiate a flashCall verification, check the [Android SDK documentation](/docs/verification-android-the-verification-process#flash-call-verification). For additional security, it is recommended that you control which verification requests should proceed and which ones not, by listening in your backend for the [Verification Request Event](/docs/verification-rest-verification-api#verification-request) and respond accordingly. Your backend will be notified on the result of the verification with the [Verification Result Event](/docs/verification-rest-callback-api#verification-result-event).\n\n#### PIN SMS verification\n\nWith the PIN SMS verification method, a user's phone number is verified by sending an SMS containing a PIN code to this number. In the case of iOS or Javascript, the user needs to enter the PIN manually in the app, while for Android there is an option of intercepting the SMS message delivery and capturing the PIN code automatically.\nTo initiate a PIN SMS verification, check the [iOS](/docs/verification-ios-sms-verification), [Android](/docs/verification-for-android) and [Javascript](/docs/verification-for-javascript) documentation. For additional security, it is recommended that you control which verification requests should proceed and which ones not, by listening in your backend for the [Verification Request Event](/docs/verification-rest-verification-api#verification-request) and respond accordingly. Your backend will be notified on the result of the verification with the [Verification Result Event](/docs/verification-rest-callback-api#verification-result-event).\n\n#### Callout verification\n\nWith the callout verification method, a user's phone number is verified by receiving a phone call and hearing a pre-recorded or text-to-speech message, advising the user to press a digit code. When the user presses the digit code in the dialpad, the verification is successful.\nTo initiate a callout verification, check the [iOS documentation](/docs/verification-ios-callout-verification). For additional security, it is recommended that you control which verification requests should proceed and which ones not, by listening in your backend for the [Verification Request Event](/docs/verification-rest-verification-api#verification-request) and respond accordingly. Your backend will be notified on the result of the verification with the [Verification Result Event](/docs/verification-rest-callback-api#verification-result-event).\n\n> \U0001F4D8 For information about webhooks and the verifications events [Callbacks](/docs/verification-rest-callback-api)."
+  termsOfService: "https://www.sinch.com/terms-of-service/"
+  contact:
+    name: Sinch
+    url: "https://www.sinch.com/contact-us/"
+    email: support@sinch.com
+  version: "1.3"
+servers:
+  - url: "https://verificationapi-v1.sinch.com"
+paths:
+  /verification/v1/verifications:
+    post:
+      tags:
+        - Sending and Reporting verifications
+      summary: Start verification
+      description: "This method is used by the mobile and web Verification SDKs to start a verification. It can also be used to request a verification from your backend, by making an request."
+      operationId: StartVerification
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InitiateVerificationResource"
+        required: true
+        x-position: 1
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InitiateVerificationResponse"
+  "/verification/v1/verifications/{Type}/{Endpoint}":
+    put:
+      tags:
+        - Sending and Reporting verifications
+      summary: Verify verification code by Identity
+      description: Used to report OTP code.
+      operationId: ReportVerificationByIdentity
+      parameters:
+        - name: Type
+          in: path
+          required: true
+          description: Currently only 'number' type is supported.
+          schema:
+            type: string
+            nullable: true
+          x-position: 1
+        - name: Endpoint
+          in: path
+          required: true
+          description: For type 'number' use E.164 compatible phone number.
+          schema:
+            type: string
+            nullable: true
+          x-position: 2
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerificationReportRequestResource"
+        required: true
+        x-position: 3
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationResponse"
+  "/verification/v1/verifications/id/{id}":
+    put:
+      tags:
+        - Sending and Reporting verifications
+      summary: Verify verification code by Id
+      description: Used to report OTP code.
+      operationId: ReportVerificationById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+          x-position: 1
+      requestBody:
+        x-name: request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerificationReportRequestResource"
+        required: true
+        x-position: 2
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationResponse"
+    get:
+      tags:
+        - Query verifications
+      summary: Get verification by Id
+      description: Queries the verification result by sending the verification Id. With this query you can get the result of a verification.
+      operationId: VerificationStatusById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+          x-position: 1
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationResponse"
+  "/verification/v1/verifications/{method}/{Type}/{Endpoint}":
+    get:
+      tags:
+        - Query verifications
+      summary: Get verification by Identity
+      description: Queries the verification result by sending the verification Identity and its method. With this query you can get the result of a verification.
+      operationId: VerificationStatusByIdentity
+      parameters:
+        - name: Type
+          in: path
+          required: true
+          description: Currently only 'number' type is supported.
+          schema:
+            type: string
+            nullable: true
+          x-position: 1
+        - name: Endpoint
+          in: path
+          required: true
+          description: For type 'number' use E.164 compatible phone number.
+          schema:
+            type: string
+            nullable: true
+          x-position: 2
+        - name: method
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+          x-position: 3
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationResponse"
+  "/verification/v1/verifications/reference/{reference}":
+    get:
+      tags:
+        - Query verifications
+      summary: Get verification by Reference
+      description: Queries the verification result by sending the verification Reference. With this query you can get the result of a verification.
+      operationId: VerificationStatusByReference
+      parameters:
+        - name: reference
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+          x-position: 1
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationResponse"
+components:
+  schemas:
+    InitiateVerificationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - method
+      properties:
+        id:
+          type: string
+          description: Verification identifier used to query for status.
+          minLength: 1
+        method:
+          $ref: "#/components/schemas/VerificationMethod"
+        sms:
+          description: Exists if 'sms' has been used.
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/SmsInitiateVerificationResponse"
+        flashCall:
+          description: Exists if 'flashcall' has been used.
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/FlashCallInitiateVerificationResponse"
+        callout:
+          description: Exists if 'callout' has been used.
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/CalloutInitiateVerificationResponse"
+        earlyReject:
+          type: boolean
+          description: Whether or not verification has been early rejected.
+          nullable: true
+        earlyRejectMessage:
+          type: string
+          description: In case verification has been early rejected a detailed reason.
+          nullable: true
+    VerificationMethod:
+      type: string
+      description: ""
+      x-enumNames:
+        - Sms
+        - FlashCall
+        - Callout
+      enum:
+        - Sms
+        - FlashCall
+        - Callout
+    SmsInitiateVerificationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - template
+        - interceptionTimeout
+      properties:
+        template:
+          type: string
+          description: Regular expression pattern used to extract OPT code from SMS.
+          minLength: 1
+        interceptionTimeout:
+          type: integer
+          description: Amount of seconds that client should be waiting for the SMS.
+          format: int32
+    FlashCallInitiateVerificationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - cliFilter
+        - interceptionTimeout
+      properties:
+        cliFilter:
+          type: string
+          description: Filter that should be applied for incoming calls to intercept the Flashcall.
+          minLength: 1
+        interceptionTimeout:
+          type: integer
+          description: Amount of seconds client should wait for the Flashcall.
+          format: int32
+    CalloutInitiateVerificationResponse:
+      type: object
+      additionalProperties: false
+    InitiateVerificationResource:
+      type: object
+      additionalProperties: false
+      required:
+        - identity
+        - method
+      properties:
+        identity:
+          description: Subject of verification process.
+          oneOf:
+            - $ref: "#/components/schemas/Identity"
+        method:
+          description: Verification strategy.
+          oneOf:
+            - $ref: "#/components/schemas/VerificationMethod"
+        reference:
+          type: string
+          description: Custom identifier used to get verification status.
+          maxLength: 4096
+          minLength: 0
+          nullable: true
+        custom:
+          type: string
+          description: Custom data passed back to callback.
+          maxLength: 4096
+          minLength: 0
+          nullable: true
+        honourEarlyReject:
+          type: boolean
+          description: Explicitly control if early rejects should be honoured.
+          nullable: true
+    Identity:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - endpoint
+      properties:
+        type:
+          type: string
+          description: Currently only 'number' type is supported.
+          minLength: 1
+        endpoint:
+          type: string
+          description: For type 'number' use E.164 compatible phone number.
+          minLength: 1
+    VerificationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - method
+        - status
+      properties:
+        id:
+          type: string
+          description: Verification identifier used to query for status.
+          minLength: 1
+        method:
+          $ref: "#/components/schemas/VerificationMethod"
+        status:
+          type: string
+          description: "Either 'pending', 'successful' or 'failed'."
+          minLength: 1
+        reason:
+          type: string
+          description: In case of 'failed' verification exact reason of failure.
+          nullable: true
+        reference:
+          type: string
+          description: Custom Reference value if supplied during initiation.
+          nullable: true
+        source:
+          type: string
+          description: Custom Source value if supplied during initiation.
+          nullable: true
+    VerificationReportRequestResource:
+      type: object
+      additionalProperties: false
+      required:
+        - method
+      properties:
+        method:
+          $ref: "#/components/schemas/VerificationMethod"
+        source:
+          type: string
+          description: "Where OTP code has been retrieved from. E.g. 'manual', 'callLog', 'callInterceptor'."
+          nullable: true
+        code:
+          type: string
+          description: Might be used as method-agnostic OTP code.
+          nullable: true
+        sms:
+          description: Required if 'sms' verification.
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/SmsVerificationReportRequest"
+        flashcall:
+          description: Required if 'flashcall' verification.
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/FlashcallVerificationReportRequest"
+        callout:
+          description: Required if 'callout' verification.
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/CalloutVerificationReportRequest"
+    SmsVerificationReportRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+      properties:
+        code:
+          type: string
+          description: OTP code read from SMS.
+          minLength: 1
+    FlashcallVerificationReportRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - cli
+      properties:
+        cli:
+          type: string
+          description: Complete CLI received during Flashcall interception or read from call log.
+          minLength: 1
+    CalloutVerificationReportRequest:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+      properties:
+        code:
+          type: string
+          description: OTP code.
+          minLength: 1
+x-explorer-enabled: false
+x-samples-languages:
+  - curl
+  - csharp
+  - java
+  - node
+  - php
+x-proxy-enabled: true
+x-samples-enabled: true

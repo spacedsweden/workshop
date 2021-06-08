@@ -1,0 +1,1680 @@
+openapi: 3.0.1
+info:
+  title: The Sinch WhatsApp Business Messaging API
+  description: "The Sinch WhatsApp Business Messaging API provides a rich, enterprise grade messaging solution for clients who wish to communicate with their customers via WhatsApp."
+  version: v1
+  license:
+    name: MIT
+    url: https://www.sinch.com
+
+servers:
+  - url: "http://localhost:8080"
+paths:
+  '/whatsapp/v1/{bot-id}/callbacks/status/{message-id}':
+    get:
+      tags:
+        - callback-store-endpoint
+      summary: Get message status updates.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-callback-store"
+      operationId: getStatus
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: message-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/callbacks/notifications":
+    get:
+      tags:
+        - callback-store-endpoint
+      summary: Get inbound messages.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-callback-store"
+      operationId: getNotifications
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fetchCallbacksMessage
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/FetchCallbacksMessage"
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/capability":
+    get:
+      tags:
+        - capability-endpoint
+      summary: Check capability status for phone numbers.
+      description: |-
+        Request the WhatsApp capability status for a list of numbers. Capability request using GET method is not supported to perform by swagger. Please use POST method or check the curl command: \
+        curl --location --request GET 'https://{address}/whatsapp/v1/{bot-id}/capability' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer {bearer_token}' \
+        --data-raw '{
+            "numbers": [
+                "{number}"
+            ]
+        }'
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-capability"
+      operationId: checkCapability_1
+      parameters:
+        - name: msisdnListMessage
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/MsisdnListMessage"
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/CapabilityResponse"
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - capability-endpoint
+      summary: Check capability status for phone numbers.
+      description: |-
+        Request the WhatsApp capability status for a list of numbers. Capability request using GET method is not supported to perform by swagger. Please use POST method or check the curl command: \
+        curl --location --request GET 'https://{address}/whatsapp/v1/{bot-id}/capability' \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer {bearer_token}' \
+        --data-raw '{
+            "numbers": [
+                "{number}"
+            ]
+        }'
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-capability"
+      operationId: checkCapability
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MsisdnListMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/CapabilityResponse"
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/messages":
+    post:
+      tags:
+        - messages-endpoint
+      summary: Send WhatsApp message.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-message#send-a-whatsapp-message"
+      operationId: postMessage
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WhatsAppMessage"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/provision/blacklist":
+    get:
+      tags:
+        - provisioning-endpoint
+      summary: Get the numbers that are on the blacklist.
+      description: "The blacklist is divided into pages, with one hundred numbers per page. A successful request returns a single page."
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-blacklist-callback#get-blacklist-endpoint"
+      operationId: getBlacklist
+      parameters:
+        - name: page
+          in: query
+          description: The blacklist page to request.
+          required: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - provisioning-endpoint
+      summary: Add phone numbers to blacklist.
+      description: "Blacklist numbers, preventing them from generating inbound message callbacks. It can take up to five minutes for all caches to get up to date after blacklisting a number."
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-blacklist-callback#add-to-blacklist-endpoint"
+      operationId: addToBlacklist
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MsisdnListMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - provisioning-endpoint
+      summary: Remove phone numbers from blacklist.
+      description: "Remove numbers from Blacklist, allowing them generating inbound message callbacks. It can take up to five minutes for all caches to get up to date after removing a number from the blacklist."
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-blacklist-callback#remove-from-blacklist-endpoint"
+      operationId: removeFromBlacklist
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MsisdnListMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/provision/provider":
+    get:
+      tags:
+        - provisioning-endpoint
+      summary: Retrieving the providers list.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-media-provider#retrieving-the-providers-list"
+      operationId: listMediaProviders
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - provisioning-endpoint
+      summary: Adding/Updating a provider.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-media-provider#adding/updating-a-provider"
+      operationId: addMediaProvider
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MediaProviderMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/provision/provider/{provider-name}":
+    delete:
+      tags:
+        - provisioning-endpoint
+      summary: Deleting a provider from the providers list.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-media-provider#deleting-a-provider-from-the-providers-list"
+      operationId: deleteMediaProvider
+      parameters:
+        - name: provider-name
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/provision/optin":
+    post:
+      tags:
+        - provisioning-endpoint
+      summary: Opt-In phone numbers.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-opt-in-and-outs#opt-in-endpoint"
+      operationId: provisionOptIn
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptInMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - provisioning-endpoint
+      summary: Opt-Out phone numbers.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-opt-in-and-outs#opt-in-endpoint"
+      operationId: provisionOptOut
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptInMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/provision/optout":
+    post:
+      tags:
+        - provisioning-endpoint
+      summary: Opt-Out phone numbers.
+      description: "This endpoint is deprecated - use DELETE whatsapp/v1/{bot-id}/provision/optin instead."
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-opt-in-and-outs#opt-out-endpoint-deprecated"
+      operationId: provisionOptOutDeprecatedEndpoint
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptInMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      deprecated: true
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/stickerpacks":
+    get:
+      tags:
+        - stickerpack-endpoint
+      summary: Retrieve stickerpacks.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#retrieve-stickerpacks"
+      operationId: getStickerpacks
+      parameters:
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: whatsapp
+            enum:
+              - whatsapp
+              - third_party
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - stickerpack-endpoint
+      summary: Create stickerpack.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#create-stickerpack"
+      operationId: createStickerpack
+      parameters:
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStickerpackMessage"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/stickerpacks/{stickerpack-id}/stickers":
+    get:
+      tags:
+        - stickerpack-endpoint
+      summary: Retrieve sticker indices.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#retrieve-sticker-indices"
+      operationId: getStickers
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: whatsapp
+            enum:
+              - whatsapp
+              - third_party
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - stickerpack-endpoint
+      summary: Create sticker.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#create-sticker"
+      operationId: createSticker
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStickerMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  ? "/whatsapp/v1/{bot-id}/stickerpacks/{stickerpack-id}/stickers/{sticker-index}"
+  : get:
+      tags:
+        - stickerpack-endpoint
+      summary: Retrieve sticker information.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#retrieve-sticker-information"
+      operationId: getStickerInformation
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sticker-index
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: whatsapp
+            enum:
+              - whatsapp
+              - third_party
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - stickerpack-endpoint
+      summary: Delete sticker.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#delete-sticker"
+      operationId: deleteSticker
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sticker-index
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    patch:
+      tags:
+        - stickerpack-endpoint
+      summary: Update sticker.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#update-sticker"
+      operationId: updateSticker
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sticker-index
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStickerMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+  "/whatsapp/v1/{bot-id}/stickerpacks/{stickerpack-id}":
+    get:
+      tags:
+        - stickerpack-endpoint
+      summary: Retrieve stickerpack information.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#retrieve-stickerpack-information"
+      operationId: getStickerpackInformation
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: namespace
+          in: query
+          required: false
+          schema:
+            type: string
+            default: whatsapp
+            enum:
+              - whatsapp
+              - third_party
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - stickerpack-endpoint
+      summary: Delete stickerpack.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#delete-stickerpack"
+      operationId: deleteStickerpack
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+    patch:
+      tags:
+        - stickerpack-endpoint
+      summary: Update stickerpack.
+      externalDocs:
+        url: "https://developers.sinch.com/docs/whatsapp-stickerpack-management#update-stickerpack"
+      operationId: updateStickerpack
+      parameters:
+        - name: stickerpack-id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bot-id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStickerpackMessage"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "401":
+          description: Unauthorized
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+        "500":
+          description: Internal Server Error
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+    FetchCallbacksMessage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        page_size:
+          type: integer
+          format: int32
+        from:
+          type: string
+    MsisdnListMessage:
+      required:
+        - numbers
+      type: object
+      properties:
+        numbers:
+          type: array
+          items:
+            type: string
+    CapabilityResponse:
+      type: object
+      properties:
+        capabilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/CapabilityStatus"
+    CapabilityStatus:
+      type: object
+      properties:
+        msisdn:
+          type: string
+        capable:
+          type: boolean
+    AudioMessage:
+      required:
+        - url
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            url:
+              type: string
+            provider:
+              $ref: "#/components/schemas/Provider"
+    Button:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - quick_reply
+            - url
+            - call
+      discriminator:
+        propertyName: type
+    ContactAddress:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        country_code:
+          type: string
+    ContactCard:
+      type: object
+      properties:
+        addresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContactAddress"
+        birthday:
+          type: string
+        emails:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContactEmail"
+        ims:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContactMessagingInformation"
+        name:
+          $ref: "#/components/schemas/ContactName"
+        org:
+          $ref: "#/components/schemas/ContactOrganization"
+        phones:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContactPhone"
+        urls:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContactURL"
+        contact_image:
+          type: string
+          writeOnly: true
+        contact_image_url:
+          type: string
+    ContactEmail:
+      type: object
+      properties:
+        email:
+          type: string
+        type:
+          type: string
+    ContactMessagingInformation:
+      type: object
+      properties:
+        service:
+          type: string
+        user_id:
+          type: string
+    ContactName:
+      required:
+        - formatted_name
+      type: object
+      properties:
+        suffix:
+          type: string
+        prefix:
+          type: string
+        formatted_name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        middle_name:
+          type: string
+    ContactOrganization:
+      type: object
+      properties:
+        company:
+          type: string
+        department:
+          type: string
+        title:
+          type: string
+    ContactPhone:
+      type: object
+      properties:
+        phone:
+          type: string
+        type:
+          type: string
+        wa_id:
+          type: string
+    ContactURL:
+      type: object
+      properties:
+        url:
+          type: string
+        type:
+          type: string
+    ContactsMessage:
+      required:
+        - contacts
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            contacts:
+              type: array
+              items:
+                $ref: "#/components/schemas/ContactCard"
+    ContentMessage:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - text
+            - template
+            - image
+            - audio
+            - contacts
+            - document
+            - location
+            - video
+            - sticker
+      discriminator:
+        propertyName: type
+    DocumentMessage:
+      required:
+        - url
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            url:
+              type: string
+            caption:
+              type: string
+            filename:
+              type: string
+            provider:
+              $ref: "#/components/schemas/Provider"
+    ImageMessage:
+      required:
+        - url
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            url:
+              type: string
+            caption:
+              type: string
+            provider:
+              $ref: "#/components/schemas/Provider"
+    LocationMessage:
+      required:
+        - latitude
+        - longitude
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            latitude:
+              maximum: 90
+              exclusiveMaximum: false
+              minimum: -90
+              exclusiveMinimum: false
+              type: number
+              format: float
+            longitude:
+              maximum: 180
+              exclusiveMaximum: false
+              minimum: -180
+              exclusiveMinimum: false
+              type: number
+              format: float
+            name:
+              type: string
+            address:
+              type: string
+    Provider:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+    StickerMessage:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            url:
+              type: string
+            id:
+              type: string
+            provider:
+              $ref: "#/components/schemas/Provider"
+    TemplateContentMessage:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - image
+            - document
+            - video
+            - text
+      discriminator:
+        propertyName: type
+    TextMessage:
+      required:
+        - text
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            text:
+              type: string
+            preview_url:
+              type: boolean
+    VideoMessage:
+      required:
+        - url
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            url:
+              type: string
+            caption:
+              type: string
+            provider:
+              $ref: "#/components/schemas/Provider"
+    WhatsAppMessage:
+      required:
+        - message
+        - to
+      type: object
+      properties:
+        to:
+          type: array
+          items:
+            type: string
+        message:
+          oneOf:
+            - $ref: "#/components/schemas/AudioMessage"
+            - $ref: "#/components/schemas/ContactsMessage"
+            - $ref: "#/components/schemas/DocumentMessage"
+            - $ref: "#/components/schemas/ImageMessage"
+            - $ref: "#/components/schemas/LocationMessage"
+            - $ref: "#/components/schemas/StickerMessage"
+            - $ref: "#/components/schemas/TextMessage"
+            - $ref: "#/components/schemas/VideoMessage"
+            - $ref: "#/components/schemas/templateMessage"
+        callback:
+          type: string
+    templateMessage:
+      required:
+        - template_name
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ContentMessage"
+        - type: object
+          properties:
+            params:
+              type: array
+              items:
+                type: string
+            buttons:
+              type: array
+              items:
+                $ref: "#/components/schemas/Button"
+            language:
+              type: string
+            template_name:
+              type: string
+            ttl:
+              type: string
+            header_params:
+              type: array
+              items:
+                type: string
+            body_params:
+              type: array
+              items:
+                type: string
+            media:
+              $ref: "#/components/schemas/TemplateContentMessage"
+    BasicAuthenticationProviderConfig:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ProviderConfig"
+        - type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+    BearerTokenProviderConfig:
+      required:
+        - bearer
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/ProviderConfig"
+        - type: object
+          properties:
+            bearer:
+              type: string
+    MediaProviderMessage:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          pattern: '[\w-]{1,200}'
+          type: string
+        type:
+          type: string
+          enum:
+            - www
+        config:
+          oneOf:
+            - $ref: "#/components/schemas/BasicAuthenticationProviderConfig"
+            - $ref: "#/components/schemas/BearerTokenProviderConfig"
+    ProviderConfig:
+      required:
+        - config
+      type: object
+      properties:
+        config:
+          type: string
+      discriminator:
+        propertyName: config
+    OptInMessage:
+      required:
+        - numbers
+      type: object
+      properties:
+        numbers:
+          type: array
+          items:
+            type: string
+    CreateStickerpackMessage:
+      required:
+        - name
+        - publisher
+      type: object
+      properties:
+        publisher:
+          type: string
+        name:
+          type: string
+        ios_app_store_link:
+          type: string
+        android_app_store_link:
+          type: string
+    CreateStickerMessage:
+      required:
+        - url
+      type: object
+      properties:
+        url:
+          type: string
+        emojis:
+          type: array
+          items:
+            type: string
+    UpdateStickerMessage:
+      type: object
+      properties:
+        url:
+          type: string
+        emojis:
+          type: array
+          items:
+            type: string
+    UpdateStickerpackMessage:
+      type: object
+      properties:
+        publisher:
+          type: string
+        name:
+          type: string
+        ios_app_store_link:
+          type: string
+        android_app_store_link:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

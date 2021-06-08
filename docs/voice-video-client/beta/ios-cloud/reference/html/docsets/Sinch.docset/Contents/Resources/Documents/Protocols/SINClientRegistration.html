@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SINClientRegistration Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Protocol/SINClientRegistration" class="dashAnchor"></a>
+    <a title="SINClientRegistration Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sinch v5.2.41+a0d04648 Docs</a> (89% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sinch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        SINClientRegistration Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Categories.html">Categories</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Categories/UIView%28SINUIViewFullscreenAdditions%29.html">UIView(SINUIViewFullscreenAdditions)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/SINManagedPush.html">SINManagedPush</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Sinch.html">Sinch</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINCallIdKey">SINCallIdKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomain">SINErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomainNetwork">SINErrorDomainNetwork</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeKey">SINPushTypeKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeVoIP">SINPushTypeVoIP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/SINAPSEnvironment.html">SINAPSEnvironment</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallDirection.html">SINCallDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallEndCause.html">SINCallEndCause</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallState.html">SINCallState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINLogSeverity.html">SINLogSeverity</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioController.html">SINAudioController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioControllerDelegate.html">SINAudioControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCall.html">SINCall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClient.html">SINCallClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClientDelegate.html">SINCallClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDelegate.html">SINCallDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDetails.html">SINCallDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallNotificationResult.html">SINCallNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClient.html">SINClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientDelegate.html">SINClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientRegistration.html">SINClientRegistration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINManagedPushDelegate.html">SINManagedPushDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINNotificationResult.html">SINNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoController.html">SINVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoFrameCallback.html">SINVideoFrameCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:SINLogCallback.h@T@SINLogCallback">SINLogCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINToggleCaptureDevicePosition">SINToggleCaptureDevicePosition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINUIImageFromPixelBuffer">SINUIImageFromPixelBuffer</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>SINClientRegistration</h1>
+              <div class="declaration">
+                <div class="language">
+                  <p class="aside-title">Objective-C</p>
+                  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SINClientRegistration</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+                <div class="language">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SINClientRegistration</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>Callback object to be used to proceed in user registration process when
+registration credentials for the user in question have been obtained.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINClientRegistration(im)registerWithJWT:"></a>
+                    <a name="//apple_ref/objc/Method/-registerWithJWT:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINClientRegistration(im)registerWithJWT:">-registerWithJWT:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Proceed with user registration by providing a signed JWT (JSON Web Token).</p>
+
+<p>The JWT should contain the following JWT header parameters:</p>
+
+<ul>
+<li>&lsquo;alg&rsquo;: &lsquo;HS256&rsquo;,</li>
+<li>&lsquo;kid&rsquo;: &lsquo;hkdfv1-{date}&rsquo;, where date is in UTC on the format YYYYMMDD.</li>
+</ul>
+
+<p>The JWT should contain the following claims:</p>
+
+<ul>
+<li>&lsquo;iss&rsquo;: &lsquo;//rtc.sinch.com/applications/{applicationKey}&rsquo;</li>
+<li>&lsquo;sub&rsquo;: &lsquo;//rtc.sinch.com/applications/{applicationKey}/users/{userId}&rsquo;</li>
+<li>&lsquo;iat&rsquo;: See <a href="https://tools.ietf.org/html/rfc7519#section-4.1.1">https://tools.ietf.org/html/rfc7519#section-4.1.1</a></li>
+<li>&lsquo;exp&rsquo;: See <a href="https://tools.ietf.org/html/rfc7519#section-4.1.4">https://tools.ietf.org/html/rfc7519#section-4.1.4</a></li>
+<li>&lsquo;nonce&rsquo;: A unique cryptographic nonce. E.g. a random string that
+      has been generated using a cryptographically strong PRNG.</li>
+</ul>
+
+<p>The JWT should be signed using a signing key derived from the Sinch
+  Application Secret as follows. Given a function <code>HMAC256(key, message)</code>,
+  a date-formatting function <code>FormatDate(date, format)</code>, and
+  the current date as variable <code>now</code>, derive the signing key as
+  follows:</p>
+<pre class="highlight objective_c"><code><span class="n">signingKey</span> <span class="o">=</span> <span class="n">HMAC256</span><span class="p">(</span><span class="n">applicationSecret</span><span class="p">,</span> <span class="n">UTF8</span><span class="k">-</span><span class="n">ENCODE</span><span class="p">(</span><span class="n">FormatDate</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="s">"YYYYMMDD"</span><span class="p">)));</span>
+</code></pre>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p><code><a href="../Protocols/SINClient.html">SINClient</a></code>, <code><a href="../Protocols/SINClientDelegate.html">SINClientDelegate</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerWithJWT</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">jwt</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">register</span><span class="p">(</span><span class="n">withJWT</span> <span class="nv">jwt</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>jwt</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>signed JWT (JSON Web Token)</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINClientRegistration(im)registerDidFail:"></a>
+                    <a name="//apple_ref/objc/Method/-registerDidFail:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINClientRegistration(im)registerDidFail:">-registerDidFail:<wbr></a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If the application fails to provide a signed user registration
+ token (JWT), it must notify the Sinch client via this method.</p>
+
+<p>Calling this method will have the effect that the client delegate will
+ receive a call to <code><a href="../Protocols/SINClientDelegate.html#/c:objc(pl)SINClientDelegate(im)clientDidFail:error:">-[SINClientDelegate clientDidFail:error:]</a></code>.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <p>SINClient, SINClientDelegate</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerDidFail</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">registerDidFail</span><span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>error</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Error that prevented obtaining a user registration token (JWT).</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright © 2021 Sinch</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

@@ -1,0 +1,58 @@
+{
+    "cSpell.words": [
+        "Flashcalls",
+        "Hudak",
+        "SDKs",
+        "Sinch",
+        "Twilio",
+        "betabadge",
+        "dtmf",
+        "gradlew",
+        "longnumber",
+        "mms",
+        "mvnw",
+        "redocly",
+        "shortcode",
+        "transcoding"
+    ],
+    "grammarly.overrides": [
+        {
+            "files": [
+                "**/guidelines/pages.md"
+            ],
+            "config": {
+                "audience": "general",
+                "dialect": "american",
+                "domain": "technical",
+                "emotions": [
+                    "optimistic",
+                    "friendly"
+                ],
+                "goals": [
+                    "inform",
+                    "describe",
+                    "tellStory"
+                ]
+            }
+        },
+        {
+            "files": [
+                "**/package.json"
+            ],
+            "config": {
+                "audience": "knowledgeable",
+                "dialect": "american",
+                "domain": "general",
+                "emotions": [
+                    "confident",
+                    "optimistic",
+                    "friendly"
+                ],
+                "goals": [
+                    "inform",
+                    "describe"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SINNotificationResult Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Protocol/SINNotificationResult" class="dashAnchor"></a>
+    <a title="SINNotificationResult Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Sinch v5.2.41+a0d04648 Docs</a> (89% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Sinch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        SINNotificationResult Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Categories.html">Categories</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Categories/UIView%28SINUIViewFullscreenAdditions%29.html">UIView(SINUIViewFullscreenAdditions)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/SINManagedPush.html">SINManagedPush</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Sinch.html">Sinch</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINCallIdKey">SINCallIdKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomain">SINErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINErrorDomainNetwork">SINErrorDomainNetwork</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeKey">SINPushTypeKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@SINPushTypeVoIP">SINPushTypeVoIP</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/SINAPSEnvironment.html">SINAPSEnvironment</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallDirection.html">SINCallDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallEndCause.html">SINCallEndCause</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINCallState.html">SINCallState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SINLogSeverity.html">SINLogSeverity</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioController.html">SINAudioController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINAudioControllerDelegate.html">SINAudioControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCall.html">SINCall</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClient.html">SINCallClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallClientDelegate.html">SINCallClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDelegate.html">SINCallDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallDetails.html">SINCallDetails</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINCallNotificationResult.html">SINCallNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClient.html">SINClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientDelegate.html">SINClientDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINClientRegistration.html">SINClientRegistration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINManagedPushDelegate.html">SINManagedPushDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINNotificationResult.html">SINNotificationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoController.html">SINVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/SINVideoFrameCallback.html">SINVideoFrameCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type%20Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type%20Definitions.html#/c:SINLogCallback.h@T@SINLogCallback">SINLogCallback</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINToggleCaptureDevicePosition">SINToggleCaptureDevicePosition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@SINUIImageFromPixelBuffer">SINUIImageFromPixelBuffer</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>SINNotificationResult</h1>
+              <div class="declaration">
+                <div class="language">
+                  <p class="aside-title">Objective-C</p>
+                  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SINNotificationResult</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+                <div class="language">
+                  <p class="aside-title">Swift</p>
+                  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SINNotificationResult</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>SINNotificationResult is used to indicate the result of <code><a href="../Protocols/SINClient.html#/c:objc(pl)SINClient(im)relayPushNotification:">-[SINClient relayPushNotification:]</a></code> and
+ <code><a href="../Classes/SINManagedPush.html#/c:objc(cs)SINManagedPush(cm)queryPushNotificationPayload:">+[SINManagedPush queryPushNotificationPayload:]</a></code>.</p>
+
+<ul>
+<li>Example:</li>
+</ul>
+<pre class="highlight plaintext"><code> id&lt;SINNotificationResult&gt; result = [self.client relayPushNotification:payload];
+
+ if ([result isCall] &amp;&amp; [result callResult].isTimedOut) {
+     NSString* remoteUserId = [result callResult].remoteUserId;
+     // Present UI indicating user missed the call.
+ }
+</code></pre>
+
+<p>It can be especially useful for scenarios which will not result in
+ the SINClientDelegate receiving any callback for an incoming call as a result
+ of calling the methods mentioned above. One such scenario is when a user
+ have been attempted to be reached, but not acted on the notification directly.
+ In that case, the notification result object can indicate that the
+ notification is too old (<code>isTimedOut</code>), and also contains the <code>remoteUserId</code> which can be
+ used for display purposes.</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    <code><a href="../Protocols/SINCallNotificationResult.html">SINCallNotificationResult</a></code>
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINNotificationResult(py)isValid"></a>
+                    <a name="//apple_ref/objc/Property/isValid" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINNotificationResult(py)isValid">isValid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates whether the notification is valid or not.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">unsafe_unretained</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isValid</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isValid</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINNotificationResult(im)isCall"></a>
+                    <a name="//apple_ref/objc/Method/-isCall" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINNotificationResult(im)isCall">-isCall</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates whether the notification is call related</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isCall</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">isCall</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(pl)SINNotificationResult(im)callResult"></a>
+                    <a name="//apple_ref/objc/Method/-callResult" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(pl)SINNotificationResult(im)callResult">-callResult</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If the notification is call related (isCall is true), callResult contains the notification result</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SINCallNotificationResult.html">SINCallNotificationResult</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">callResult</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright © 2021 Sinch</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

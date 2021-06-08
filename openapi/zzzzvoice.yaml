@@ -1,0 +1,456 @@
+openapi: 3.0.0
+info:
+  title: Calling API
+  version: 1.0.0
+servers:
+  - url: https://calling.api.sinch.com
+  - url: https://callingapi.sinch.com
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    signedRequest:
+      type: http
+      scheme: Authorization
+  parameters:
+    number:
+      in: path
+      name: number
+      schema:
+        type: string
+      required: true
+      description: The phone number you want to query.
+      example: '+46730170101'
+    callidParam:
+      in: path
+      name: callid
+      schema:
+        type: string
+      required: true
+      description: is the unique identifier of the call.
+      example: 4398599d1ba84ef3bde0a82dfb61abed
+    conferenceidParam:
+      in: path
+      name: conferenceid
+      schema:
+        type: string
+      required: true
+    applicationkey:
+      name: applicationkey
+      in: path
+      schema:
+        type: string
+      required: true
+      description: indicates the application under use.
+      example: 94983f76-1161-6655-9515-4785c7b67dd8
+  schemas:
+    updateNumbers:
+      type: object
+      example:
+        numbers: [
+            "+14151112223333", "+14151112223334"
+        ]
+        applicationkey: "2457b630-45ef-4939-be88-93ffaebf4346"
+        capability: "voice"
+      properties:
+        numbers:
+          type: array
+          description: 
+            The phone number or list of numbers in E.164 format.
+          items:
+            type: string
+          minItems: 1
+          maxItems: 100
+          example: ["+14151112223333", "+14151112223333"]
+        applicationkey:
+          description: "indicates the application where the number(s) will be assigned. If empty, the application key that is used to sign the request will be used."
+          type: string
+          example: "11983f76-12c8-1111-9515-4785c7b67ca8"
+        capability:
+          type: string
+          enum:
+            - 'voice'
+            - 'sms'
+          description: "indicates the DID capability that needs to be assigned to the chosen application. Valid values are 'voice' and 'sms'. Please note that the DID needs to support the selected capability."
+          example: "voice"
+    unassignNumbers:
+      type: object
+      example:
+          number: '+14151112223333'
+          applicationkey: '11983f76-12c8-1111-9515-4785c7b67ca8'
+          capability: 'voice'
+      properties:
+        number:
+          type: string
+          description: The phone number in E.164 format (https://en.wikipedia.org/wiki/E.164)
+          example: ["+14151112223333", "+14151112223334"]
+        applicationkey:
+          description: "Indicates the application where the number(s) was assigned. If empty, the application key that is used to sign the request will be used."
+          type: string
+          example: "11983f76-12c8-1111-9515-4785c7b67ca8"
+        capability:
+          type: string
+          enum:
+            - 'voice'
+            - 'sms'
+          description: "(optional) indicates the DID capability that was assigned to the chosen application. Please note that the DID needs to support the selected capability."
+          example: "voice"
+    getNumbersResponseObj: # trying to define a response object
+      type: object
+      properties:
+        numbers:
+          type: array
+          description: The object type. Will always be list of numbers, associated applicationkeys and capabilities
+          items:
+            properties:
+              number:
+                type: string
+                description:  Number that you own in E.164 format.
+                example: '+14151112223333'
+              applicationkey:
+                type: string
+                description:  indicates the application where the number(s) will is assigned. If no number assigned the applicationkey will not be returned
+              capability:
+                type: string
+                enum:
+                  - 'voice'
+                  - 'sms'
+                description: "indicates the DID capability that needs to be assigned to the chosen application. Valid values are 'voice' and 'sms'. Please note that the DID needs to support the selected capability."
+                example: "voice"
+    getCallbacks:
+      type: object
+      properties:
+        url:
+          description: Gets primary and if configured fallback callback URLs
+          type: array
+          items:
+            type: object
+            properties:
+              primary:
+                type: string
+                description: 'Your primary callback URL'
+                example: http://primary.yourcallback.com/
+              fallback: 
+                type: string
+                description: 'Your fallback callback URL (returned if configured). It is used only if Sinch platform gets a timeout or error from your primary callback URL.'
+                example: http://fallback.yourcallback.com/
+    updateCallbacks:
+      type: object
+      properties:
+        url:
+          description: Contains primary and or fallback callback URLs
+          type: array
+          items:
+            type: object
+            properties:
+              primary:
+                type: string
+                description: 'Your primary callback URL'
+                example: http://primary.yourcallback.com/
+              fallback: 
+                type: string
+                description: 'Your fallback callback URL'
+                example: http://fallback.yourcallback.com/
+    getQueryNumber:
+      type: object
+      properties:
+        url:
+          description: Contains primary and or fallback callback URLs
+          type: array
+          items:
+            type: object
+            properties:
+              primary:
+                type: string
+                description: 'Your primary callback URL'
+                example: http://primary.yourcallback.com/
+              fallback: 
+                type: string
+                description: 'Your fallback callback URL'
+                example: http://fallback.yourcallback.com/
+
+
+security:
+  - basicAuth:
+      - Base64
+        - ApplicationKey
+        - ApplicationSecret
+  - signedRequest: 
+      - Authorization header
+tags:
+  - name: Traffic management
+  - name: Configuration mangement
+paths:
+  /calling/v1/calls/id/{callidParam}':
+    get:
+      tags:
+        - Traffic management
+      summary: Get Call Result
+      parameters:
+        - $ref: '#/components/parameters/callidParam'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /calling/v1/conferences/id/{conferenceidParam}:
+    get:
+      tags:
+        - Traffic management
+      summary: Get Conference Info
+      parameters:
+        - $ref: '#/components/parameters/conferenceidParam'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Traffic management
+      summary: Kick Conference All (cloud)
+      parameters:
+        - $ref: '#/components/parameters/callidParam'
+        - $ref: '#/components/parameters/conferenceidParam'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /calling/v1/conferences/id/{conferenceid1}/{callidParam}:
+    patch:
+      tags:
+        - Traffic management
+      summary: Mute / Unmute Conference participant (cloud)
+      parameters:
+        - $ref: '#/components/parameters/callidParam'
+        - $ref: '#/components/parameters/conferenceidParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                command: unmute
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /calling/v1/conferences/id/{conferenceid}/{callidParam}:
+    delete:
+      tags:
+        - Traffic management
+      summary: Kick Conference Participant (cloud)
+      parameters:
+        - $ref: '#/components/parameters/callidParam'
+        - $ref: '#/components/parameters/conferenceidParam'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /v1/callouts/:
+    post:
+      tags:
+        - Traffic management
+      summary: Conference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                method: conferenceCallout
+                conferenceCallout:
+                  cli: '14151112223333'
+                  destination:
+                    type: number
+                    number: '+14151112223333'
+                  domain: pstn
+                  custom: customData
+                  locale: en-US
+                  greeting: Welcome to my conference
+                  conferenceId: xyz123
+                  enableAce: true
+                  enableDice: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /calling/v1/calls/id/{callid}:
+    patch:
+      tags:
+        - Traffic management
+      summary: hangup
+      parameters:
+        - $ref: '#/components/parameters/callidParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                instructions:
+                  - name: say
+                    text: Hello, the call is over, hanging up now.  Goodbye
+                    locale: en-US
+                action:
+                  name: hangup
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /calling/v1/configuration/numbers/:
+    get:
+      tags:
+        - Configuration mangement
+      summary: Get Numbers
+      description: Get information about your numbers. It returns a list of numbers that you own, as well as their capability (voice or SMS). For the ones that are assigned to an app, it returns the application key of the app.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getNumbersResponseObj"
+              example:
+                    numbers: [
+                      {
+                        number: +141511122233334",
+                        capability: "voice"
+                      },
+                      {
+                        number: "+14151112223333",
+                        applicationkey: "2457b630-45ef-4939-be88-93ffaebf4346",
+                        capability: "voice"
+                      },
+                      {
+                        number: "+141511122233332",
+                        applicationkey: "2457b656-45ed-4934-be77-88feaebe4238",
+                        capability: "voice"
+                      }
+                    ]
+        '401':
+          description: errorCode 40107 Invalid Application key / Password
+          content:
+            application/json:
+              example:
+                errorCode: 40107,
+                message: "Invalid Password"
+                reference: "BA:8c4f355f-fbb4-40f4-a662-709b1aef36f5_Z4V+uwD3xkOqWvPD4Os+fA"
+    post:
+      tags:
+        - Configuration mangement
+      summary: Update Numbers
+      description: Assign a number or a list of numbers to an application.
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/updateNumbers"
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: errorCode 400001 Invalid dids, 40003 Invalid Application key
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Configuration mangement 
+      summary: Un-assign number
+      description: Un-assign a number from an application.
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/unassignNumbers"
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: errorCode 400001 Unable to update numbers, 40003 Invalid Application key
+        '500':
+          description: Internal Server Error
+  /v1/configuration/callbacks/applications/{applicationkey}:
+    get:
+      tags:
+        - Configuration mangement
+      summary: Get Callbacks
+      description: Get callback URLs.
+      parameters:
+        - $ref: '#/components/parameters/applicationkey'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getCallbacks"
+              example:
+                url: [
+                {
+                  primary: http://primarycallback.com,
+                  fallback: http://fallbackcallback.com
+                }
+                  ]
+        '400':
+          description: errorCode 400003 Invalid Application Key
+        '500':
+          description: Internal Server Error (Unable to get configuration)
+    post:
+      tags:
+        - Configuration mangement
+      summary: Update Callbacks
+      description: Update callback URLs.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateCallbacks"
+            example:
+              url: [
+              {
+                    primary: http://primarycallback.com,
+                    fallback: http://fallbackcallback.com
+              }
+                  ]
+      parameters:
+        - $ref: '#/components/parameters/applicationkey'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: errorCode 400003 Invalid Application Key
+        '500':
+          description: Internal Server Error (Unable to get configuration)
+  /v1/calling/query/number/{number}:
+    get:
+      tags:
+        - Configuration mangement
+      summary: Query number
+      description: Get information about the requested number.
+      parameters:
+        - $ref: '#/components/parameters/number'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getQueryNumber'
+              example:
+                method: numberItem
+                numberItem:
+                  countryId: 'SE'
+                  numberType: 'Mobile'
+                  normalizednumber: '+14151112223333'
+                  restricted: false
+                  rate: {
+                    currencyId: USD,
+                    amount: 0.368
+                  }

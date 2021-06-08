@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'Gilroy W05 Regular';
+  src: url('https://sinch.github.io/newdocs/static/fonts/gilroyregular.woff2');
+  font-optical-sizing: auto;
+  font-display: swap;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'Gilroy W05 Medium';
+  src: url('https://sinch.github.io/newdocs/static/fonts/gilroymedium.woff2');
+  font-display: swap;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'Fira';
+  src: url('https://sinch.github.io/newdocs/static/fonts/fira.woff2');
+  font-display: swap;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,377 @@
+sms:
+  - label: SMS
+    page: docs/sms/index.md
+  - group: Getting started
+    page: docs/sms/getting-started/sinchaccount.md
+    expanded: true
+    pages:
+      - group: Node
+        pages:
+          - page: docs/sms/getting-started/node/nodesend.md
+          - page: docs/sms/getting-started/node/nodereceive.md
+      - group: Java
+        pages:
+          - page: docs/sms/getting-started/java/javasend.md
+          - page: docs/sms/getting-started/java/javareceive.md
+      - page: docs/sms/getting-started/zapier.md
+  - page: docs/sms/sdks/java.md
+    label: SDKs
+  - group: API reference
+    pages:
+      - page: openapi/sms.page.yaml/*
+
+  # - group: Export API
+  #   pages:
+  #     - page: docs/sms/export/index.mdx
+  #       label: Introduction
+  #     - page: docs/sms/export/create-your-first-export.mdx
+  #       label: Getting started
+  #     - page: docs/sms/export/exported-data.md
+  #       label: Data exported
+
+  #     - group: API reference
+  #       pages:
+  #         - page: openapi/export.page.yaml/*
+  - group: Tutorials
+    pages:
+      - label: Send SMS with PHP
+        page: docs/sms/tutorials/send-sms-php.md
+      - page: docs/sms/tutorials/zapier.md
+        label: Zapier plugin
+
+  - label: SMPP
+    page: docs/sms/smpp.md
+  - label: A2P 10DLC
+    page: docs/sms/10dlc.md
+  - label: US Campaign Compliance
+    page: docs/sms/other/campaign-user-guide.md
+  - label: SMS Knowledge
+    page: docs/sms/guide.md
+conversation:
+  - label: Conversation
+    page: docs/conversation/index.md
+  - group: Getting Started
+    expanded: true
+    page: docs/conversation/getting-started.md
+    pages:
+      - page: docs/conversation/getting-started/send-sms.md
+      - page: docs/conversation/getting-started/receive-a-message.md
+      - page: docs/conversation/getting-started/send-a-message-with-fb-messenger.md
+      - page: docs/conversation/getting-started/send-rich-messages-with-fb-messenger.md
+  - label: SDK - Getting Started
+    page: docs/conversation/sdk/getting-started.md
+  - group: API reference
+    expand: false
+    pages:
+      - page: docs/conversation/oas/conversation.page.yaml/*
+      - separator: Templates
+      - page: docs/conversation/oas/template.page.yaml/*
+  - group: Supported Channels
+    page: docs/conversation/channel-support.md
+    expanded: false
+    pages:
+      - page: docs/conversation/channel-support/properties.md
+        label: Channel resource
+      - page: docs/conversation/channel-support/sms.md
+      - page: docs/conversation/channel-support/facebook-messenger.md
+      - page: docs/conversation/channel-support/mms.md
+      - page: docs/conversation/channel-support/rcs.md
+      - page: docs/conversation/channel-support/whatsapp.md
+      - page: docs/conversation/channel-support/viber-bot.md
+      - page: docs/conversation/channel-support/viber-business.md
+  - group: Sample code
+    page: docs/conversation/sample-code.md
+    expanded: false
+    pages:
+      - page: docs/conversation/sample-code/conversation-sample-code-front.md
+  - page: docs/conversation/optin.md
+  - page: docs/conversation/callbacks.md
+  - page: docs/conversation/capability.md
+  - page: docs/conversation/keyconcepts.md
+
+numbers:
+  - page: docs/numbers/index.md
+    label: Numbers
+  - group: Getting started
+    expanded: true
+    pages:
+      - label: Rent numbers in the portal
+        page: docs/numbers/using-the-self-serve-portal.md
+      - label: Get a number via the API
+        page: docs/numbers/getting-started-rent-a-number.md
+  - group: API reference
+    expanded: true
+    page: docs/numbers/api-intro.md
+    pages:
+      - page: openapi/numbers.page.yaml/*
+      - page: openapi/imported-numbers.page.yaml/*
+number-lookup:
+  - page: docs/number-lookup/index.md
+    label: Number Lookup
+  - page: docs/number-lookup/api-reference.md
+    label: API reference
+  - page: docs/number-lookup/enum-interface.md
+  - page: docs/number-lookup/glossary.md
+mms:
+  - page: docs/mms/index.md
+    label: MMS
+  - group: XML service
+    page: docs/mms/xml-service.md
+    expanded: true
+    pages:
+      - page: docs/mms/xml-service/introduction.md
+      - page: docs/mms/xml-service/sendmms.md
+      - page: docs/mms/xml-service/savemms.md
+      - page: docs/mms/xml-service/sendsavedmms.md
+      - page: docs/mms/xml-service/deletemmsid.md
+      - page: docs/mms/xml-service/getmmstemplates.md
+      - group: Webhooks
+        pages:
+          - page: docs/mms/xml-service/mms-mo-postbacks.md
+            label: Receive MMS
+          - page: docs/mms/xml-service/postbacks.md
+            label: Delivery reports
+          - page: docs/mms/xml-service/postback-notifications.md
+            label: Saved MMS notification
+      - page: docs/mms/xml-service/appendix.md
+  - group: MM7 service
+    page: docs/mms/7-service.md
+    pages:
+      - page: docs/mms/7-service/introduction.md
+      - page: docs/mms/7-service/mm7_submit.md
+      - page: docs/mms/7-service/mm7_deliver.md
+      - page: docs/mms/7-service/mm7_deliveryreport.md
+      - page: docs/mms/7-service/sinch-operator-ids.md
+      - page: docs/mms/7-service/unsupported-mm7-soap-elements.md
+      - page: docs/mms/7-service/mms-status-codes.md
+rcs:
+  - page: docs/rcs/index.md
+    label: RCS
+  - page: docs/rcs/getting-started.md
+  - group: API Reference
+    page: docs/rcs/http-rest.md
+    expanded: true
+    pages:
+      - page: docs/rcs/http-rest/messages.md
+        label: Messages
+      - page: docs/rcs/http-rest/webhooks.md
+        label: Webhooks
+      - page: docs/rcs/http-rest/sms-fallback.md
+        label: SMS Fallback
+      - page: docs/rcs/http-rest/events.md
+        label: Sending events
+      - page: docs/rcs/http-rest/capability.md
+        label: Checking RCS capability
+      - page: openapi/rcs.page.yaml/*
+  - page: docs/rcs/faq.md
+
+voice-video:
+  - page: docs/voice-video-client/index.md
+    label: Voice and Video Clients
+  - group: Voice and Video for iOS
+    page: docs/voice-video-client/voice-for-ios.md
+    pages:
+      - group: Getting started
+        page: docs/voice-video-client/ios/ios-first-time-setup.md
+        pages:
+          - label: placeholder
+          - label: placeholder
+      - page: docs/voice-video-client/ios/ios-sinch-client.md
+      - page: docs/voice-video-client/ios/ios-calling.md
+      - page: docs/voice-video-client/ios/ios-video-calling.md
+      - page: docs/voice-video-client/ios/ios-local-and-remote-push-notifications.md
+      - page: docs/voice-video-client/ios/ios-push-notifications-callkit.md
+      - page: docs/voice-video-client/ios/ios-playing-ringtones.md
+      - page: docs/voice-video-client/ios/ios-ios-audio-session.md
+      - page: docs/voice-video-client/ios/ios-auth.md
+      - page: docs/voice-video-client/ios/ios-miscellaneous.md
+      - group: Tutorials
+        page: docs/voice-video-client/ios/ios-tutorials/index.md
+        pages:
+          - page: docs/voice-video-client/ios/ios-tutorials/build-an-ios-address-book-contact-picker.md
+          - page: docs/voice-video-client/ios/ios-tutorials/build-an-ios-custom-ringtone-calling-app.md
+          - page: docs/voice-video-client/ios/ios-tutorials/build-an-ios-facebook-app-to-call-your-friends.md
+          - page: docs/voice-video-client/ios/ios-tutorials/build-an-ios-facebook-app-to-call-your-friends-part-2.md
+          - page: docs/voice-video-client/ios/ios-tutorials/build-an-ios-twitter-app-to-call-your-friends.md
+          - page: docs/voice-video-client/ios/ios-tutorials/building-a-one-button-app-for-conference-calling.md
+          - page: docs/voice-video-client/ios/ios-tutorials/how-to-use-pushkit-for-ios-voip-push-notifications.md
+  - group: Voice and Video for Android
+    page: docs/voice-video-client/voice-for-android.md
+    pages:
+      - group: Getting started
+        page: docs/voice-video-client/android/android-first-time-setup.md
+        pages:
+          - label: placeholder
+          - label: placeholder
+      - page: docs/voice-video-client/android/android-sinch-client.md
+      - page: docs/voice-video-client/android/android-calling.md
+      - page: docs/voice-video-client/android/android-video-calling.md
+      - page: docs/voice-video-client/android/android-push-notifications.md
+      - page: docs/voice-video-client/android/android-application-authentication.md
+      - page: docs/voice-video-client/android/android-miscellaneous.md
+      - group: Tutorials
+        page: docs/voice-video-client/android-cloud/android-tutorials/index.md
+        pages:
+          - page: docs/voice-video-client/android/android-tutorials/build-a-pet-monitor.md
+          - page: docs/voice-video-client/android/android-tutorials/build-a-simple-android-voip-calling-app-with-sinch.md
+          - page: docs/voice-video-client/android/android-tutorials/call-a-phone-number-from-your-android-app-with-sinch.md
+          - page: docs/voice-video-client/android/android-tutorials/how-to-add-an-android-header-in-a-calling-app.md
+          - page: docs/voice-video-client/android/android-tutorials/phone-calls-with-android-contact-picker.md
+          - page: docs/voice-video-client/android/android-tutorials/user-presence-system-for-a-calling-app.md
+          - page: docs/voice-video-client/android/android-tutorials/verify-phone-numbers-flash-call-verification.md
+  - group: Voice for JavaScript
+    page: docs/voice-video-client/voice-for-js.md
+    pages:
+      - group: Getting started
+        page: docs/voice-video-client/javascript/voice-js-first-time-setup.md
+        pages:
+          - label: Making a text to speech call
+          - label: Record a conference call
+      - page: docs/voice-video-client/javascript/voice-js-sinch-client.md
+      - page: docs/voice-video-client/javascript/voice-js-calling.md
+      - page: docs/voice-video-client/javascript/voice-js-push-notifications.md
+      - page: docs/voice-video-client/javascript/voice-js-authentication.md
+      - page: docs/voice-video-client/javascript/voice-js-session-management.md
+      - page: docs/voice-video-client/javascript/voice-js-miscellaneous.md
+      - group: Tutorials
+        page: docs/voice-video-client/javascript/js-tutorials/index.md
+        pages:
+          - page: docs/voice-video-client/javascript/js-tutorials/build-a-conference-calling-app-in-nodejs-express.md
+          - page: docs/voice-video-client/javascript/js-tutorials/getting-a-second-number-and-testing-sinch-callbackswebhooks-with-ngrok.md
+          - page: docs/voice-video-client/javascript/js-tutorials/send-a-song-to-your-friend-through-a-phone-call.md
+          - page: docs/voice-video-client/javascript/js-tutorials/send-otp-codes-with-text-to-speech-calls-using-sinch-and-nodejs.md
+          - page: docs/voice-video-client/javascript/js-tutorials/turn-your-browser-into-a-phone-with-the-sinch-js-sdk.md
+          - page: docs/voice-video-client/javascript/js-tutorials/use-the-sinch-javascript-sdk-in-your-servlet-project.md
+          - page: docs/voice-video-client/javascript/js-tutorials/using-sinch-js-sdk-to-call-a-phone-number.md
+  - group: Beta Voice and Video
+    page: docs/voice-video-client/beta/ios-android-cloud-migration.md
+    pages:
+      - group: Android - Data Cloud calling
+        page: docs/voice-video-client/beta/android-cloud.md
+        pages:
+          - group: Getting started
+            page: docs/voice-video-client/beta/android-cloud/android-cloud-first-time-setup.md
+            pages:
+              - label: Making a video call
+              - label: Record a conference call
+          - page: docs/voice-video-client/beta/android-cloud/android-cloud-sinch-client.md
+          - page: docs/voice-video-client/beta/android-cloud/android-cloud-calling.md
+          - page: docs/voice-video-client/beta/android-cloud/android-cloud-video-calling.md
+          - page: docs/voice-video-client/beta/android-cloud/android-cloud-push-notifications.md
+          - page: docs/voice-video-client/beta/android-cloud/android-cloud-application-authentication.md
+          - page: docs/voice-video-client/beta/android-cloud/android-cloud-miscellaneous.md
+      - group: iOS - Data Cloud calling
+        page: docs/voice-video-client/beta/ios-cloud.md
+        pages:
+          - group: Getting started
+            page: docs/voice-video-client/beta/ios-cloud/first-time-setup.md
+            pages:
+              - label: Making a text to speech call
+              - label: Record a conference call
+          - page: docs/voice-video-client/beta/ios-cloud/sinch-client.md
+          - page: docs/voice-video-client/beta/ios-cloud/calling.md
+          - page: docs/voice-video-client/beta/ios-cloud/video-calling.md
+          - page: docs/voice-video-client/beta/ios-cloud/push-notifications-callkit.md
+          - page: docs/voice-video-client/beta/ios-cloud/playing-ringtones.md
+          - page: docs/voice-video-client/beta/ios-cloud/ios-audio-session.md
+          - page: docs/voice-video-client/beta/ios-cloud/auth.md
+          - page: docs/voice-video-client/beta/ios-cloud/miscellaneous.md
+          - page: docs/voice-video-client/beta/ios-cloud/samples.md
+      - group: JavaScript - Data Cloud calling
+voice:
+  - page: docs/voice/index.md
+    label: Voice API
+  - page: docs/voice/introduction.md
+    label: About the API
+  - group: Getting started
+    pages:
+      - label: Making a text to speech call
+      - label: Record a conference call
+      - label: Build an IVR
+      - label: Create a conference
+  - page: docs/voice/sdks.md
+    label: SDKs
+  - group: API Reference
+    pages:
+      - page: docs/voice/authentication.md
+        label: Authentication methods
+      - page: docs/voice/rest-api/voice.page.yaml/*
+      - page: docs/voice/rest-api/callback-api.md
+      - page: docs/voice/rest-api/recording.md
+      - page: docs/voice/rest-api/reporting-api.md
+  - group: Tutorials
+    page: docs/voice/tutorials/index.md
+    pages:
+      - page: docs/voice/tutorials/build-your-own-conference-calling-system-in-c.md
+        label: Build a conference system in C#
+      - page: docs/voice/tutorials/building-your-own-conferencing-system-with-aspnet-mvc-part-1-getting-started.md
+        label: Build a conference system in ASP.NET, part 1
+      - page: docs/voice/tutorials/building-your-own-conferencing-system-with-aspnet-mvc-part-2-adding-a-web-client.md
+        label: Build a conference system in ASP.NET, part 2
+      - page: docs/voice/tutorials/securing-sinch-calling.md
+        label: Securing Sinch calling
+      - page: docs/voice/tutorials/using-delegated-security-with-your-own-application-server-using-c-and-the-sinch-sdk.md
+        label: Using delegated security
+  - page: docs/voice/rest-api/ivr.md
+    label: Supported audio formats
+  - page: docs/voice/rest-api/cdr.md
+  - page: docs/voice/rest-api/sip-trunking.md
+  - page: docs/voice/rest-api/misc.md
+  - page: docs/voice/rest-api/locales.md
+  # - page: docs/voice/number-administration.md
+
+verification:
+  - page: docs/verification/index.md
+    label: Verification
+  - group: SDKs
+    expanded: true
+    pages:
+      - group: IOS
+        page: docs/verification/ios.md
+        pages:
+          - page: docs/verification/ios/ios-first-time-setup.md
+          - page: docs/verification/ios/ios-phone-numbers.md
+          - page: docs/verification/ios/ios-improving-verification-performance-with-a-great-ui.md
+          - page: docs/verification/ios/ios-swift-sdk.md
+          - page: docs/verification/ios/ios-miscellaneous.md
+          - page: docs/verification/ios/ios-process.md
+          - page: docs/verification/ios/ios-commonmodule.md
+      - group: Android
+        page: docs/verification/android.md
+        pages:
+          - page: docs/verification/android/android-first-time-setup.md
+          - page: docs/verification/android/android-the-verification-process.md
+          - page: docs/verification/android/android-phone-numbers.md
+          - page: docs/verification/android/android-improving-verification-performance-with-a-great-ui.md
+          - page: docs/verification/android/android-miscellaneous.md
+          - page: docs/verification/android/android-migration.md
+          - page: docs/verification/android/android-all.md
+      - group: Java
+        page: docs/verification/jvm.md
+        pages:
+          - page: docs/verification/jvm/jvm-first-time-setup.md
+          - page: docs/verification/jvm/jvm-the-verification-process.md
+          - page: docs/verification/jvm/jvm-phone-numbers.md
+  - group: API reference
+    page: docs/verification/rest-api.md
+    pages:
+      - page: openapi/verification.page.yaml/*
+whatsapp:
+  - page: docs/whatsapp/index.md
+    label: Whatsapp
+  - group: API Reference
+    page: docs/whatsapp/http-rest.md
+    pages:
+      - page: docs/whatsapp/http-rest/opt-in-and-outs.md
+      - page: docs/whatsapp/http-rest/callback.md
+      - page: docs/whatsapp/http-rest/blacklist-callback.md
+      - page: docs/whatsapp/http-rest/callback-store.md
+      - page: docs/whatsapp/http-rest/capability.md
+      - page: docs/whatsapp/http-rest/message.md
+      - page: docs/whatsapp/http-rest/media-provider.md
+      - page: docs/whatsapp/http-rest/stickerpack-management.md
+      - page: docs/whatsapp/http-rest/examples.md
+      - page: openapi/whatsapp.page.yaml/*
+  - page: docs/whatsapp/faq.md
+  - page: docs/whatsapp/messaging-limits.md
+  - page: docs/whatsapp/release-notes.md

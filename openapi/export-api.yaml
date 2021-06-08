@@ -1,0 +1,342 @@
+openapi: 3.0.2
+info:
+  title: Export API
+  version: "v1alpha1"
+  contact:
+    email: support@sinch.com
+    name: Sinch support
+  license:
+    name: MIT
+    url: https://sinch.com/mit
+  termsOfService: https://sinch.com/toc
+
+servers:
+  - url: https://data.sms.api.sinch.com
+paths:
+  "/v1/exports/jobs":
+    post:
+      summary: Create an Export Job
+      description: Creates and run a support report type, we will return the posted object with an update id, no results, that will come in the callback
+      operationId: CreateExport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+      responses:
+        "201":
+          description: A export job was created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+              examples:
+                created:
+                  value:
+                    id: 0bfb4e40-db33-43a2-8500-79ae6526143a
+                    exportType: SMSMessages.daily.itemized
+                    deliveryFormat: JSON
+                    runInterval: once
+                    webhookUrl: https://yourcallback.url/
+                    status: running
+
+                    results: []
+    # get:
+    #   tags:
+    #     - "Export"
+    #   summary: List Jobs
+    #   description: |-
+    #     List your current scheduled jobs
+    #   operationId: listJobs
+    #   responses:
+    #     "200":
+    #       $ref: "#/components/responses/ListJobResponse"
+    #     "404":
+    #       $ref: "#/components/responses/Error404Response"
+
+    #     default:
+    #       $ref: "#/components/responses/ErrorResponse"
+  "/v1/exports/jobs/{jobId}":
+    get:
+      summary: Get job details
+      description: Use this to for example check status on a Job if you don't use webhooks.
+      operationId: getJobDetail
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Job exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+
+  "/v1/exports/files/{fileId}.{extension}":
+    get:
+      summary: Download exported data
+      description: Download results from completed jobs.
+      operationId: downloadFile
+      parameters:
+        - in: path
+          name: fileId
+          required: true
+          schema:
+            type: string
+          description: Id of file containing the data you requested. you can use this request the file on /exports/files
+          example: 9349893-db33-43a2-8500-79ae6526143a
+        - in: path
+          name: extension
+          required: true
+          description: File extension of the requested data format, xlsx, json
+          schema:
+            type: string
+      responses:
+        "200":
+          description: File found and begins to download stream, content type depended on format you selected
+    # delete:
+    #   tags:
+    #     - "Export"
+    #   summary: Delete exported data
+    #   operationId: deleteExport
+    #   parameters:
+    #     - in: path
+    #       name: fileId
+    #       required: true
+    #       schema:
+    #         type: string
+    #       description: Id of file containing the data you requested. you can use this request the file on /exports/files
+    #       example: i9dn3c99jn3nk3n43
+    #     - in: path
+    #       name: extension
+    #       required: true
+    #       description: File extension of the requested data format, xlsx or json
+    #       schema:
+    #         type: string
+    #   responses:
+    #     "204":
+    #       description: File deleted
+security:
+  - Basic: []
+  - OAuth: []
+x-explorer-enabled: false
+x-samples-languages:
+  - curl
+  - java
+  - csharp
+  - node
+  - php
+components:
+  examples:
+    ParameterExample:
+      value:
+        intervalStart: 2020-10-01,
+        intervalEnd: 2020-10-02,
+        countryCode: ["CA", "US"]
+    hookSample:
+      value:
+        jobId: 0bfb4e40-db33-43a2-8500-79ae6526143a
+        exportType: "SMSMessages.daily.itemized"
+        deliveryFormat: "Excel"
+        webhookUrl: https://webhook.site/d612e497-3efc-4769-a596-2bdab9b7c11b
+        runInterval: once
+        results:
+          - url: https://data.sinch.com/v1/exports/files/dimnn3ijivne5354353454.xlsx
+            fileChecksum: 903409384099320948029348
+
+    createSample:
+      value:
+        jobId: 0bfb4e40-db33-43a2-8500-79ae6526143a
+        exportType: "SMSMessages.daily.itemized"
+        deliveryFormat: "Excel"
+        webhookUrl: https://webhook.site/d612e497-3efc-4769-a596-2bdab9b7c11b
+        runInterval: once
+  responses:
+    ListJobResponse:
+      description: Get a list of jobs
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Job"
+              - $ref: "#/components/schemas/Pagination"
+    ErrorResponse:
+      description: |-
+        General error response.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            value:
+              code: 404
+              message: Not found
+              details:
+                type: BadRequest
+                value:
+                  fieldViolations:
+                    field: reportType
+                    description: no jobs found
+    Error404Response:
+      description: |-
+        Jobs not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            value:
+              code: 404
+              message: Job(s) not found
+              details:
+                type: BadRequest
+                value:
+                  fieldViolations:
+                    field: phoneNumber
+                    description: The username must only contain alphanumeric characters
+  schemas:
+    Pagination:
+      properties:
+        pageToken:
+          type: string
+          description: The pagination token in the List request.
+          example: 0bfb4e40db3343a2850079ae6526143a
+          readOnly: true
+        nextPageToken:
+          type: string
+          description: The token to be used for listing the next page
+          example: 0bfb4e40dsd3343a2er50079ae6526143a
+          readOnly: true
+        totalSize:
+          type: integer
+          format: int32
+          description: "Total number of of items"
+          default: 20
+          readOnly: true
+    Job:
+      type: object
+      properties:
+        jobId:
+          type: string
+          description: Generated id you can use to retrieve individual jobs.
+          example: 0bfb4e40-db33-43a2-8500-79ae6526143a
+          readOnly: true
+        exportType:
+          type: string
+          description: The [type of export](/docs/data/exporttypes) to run.
+          default: SMSMessages.daily.itemized
+        deliveryFormat:
+          description: File format of the export
+          type: string
+          enum:
+            - JSON
+            - EXCEL
+            - TSV
+          default: TSV
+        parameters:
+          type: object
+          description: Parameters required to run a export, for a list of required and optional parameters see [type of export](/docs/data/exporttypes)
+          example:
+            intervalStart: 2020-10-01,
+            intervalEnd: 2020-10-02,
+            countryCode: ["CA", "US"]
+        runInterval:
+          type: string
+          description: once is the default,
+            and the only supported method now. Future values are probably daily, weekly, monthly
+          enum:
+            - ONCE
+          default: ONCE
+          example: ONCE
+        webhookUrl:
+          type: string
+          format: url
+          description: The url to your server that will process the notification
+          example: https://yourcallback.url/
+        status:
+          type: string
+          description: Indicates if the report is ready or not, future values can be scheduled
+          enum:
+            - RUNNING
+            - COMPLETED
+          readOnly: true
+          example: running
+        results:
+          type: array
+          readOnly: true
+          description: Array with JobResults of the job
+          items:
+            $ref: "#/components/schemas/JobResult"
+      required:
+        - "deliveryFormat"
+        - "exportType"
+        - "parameters"
+    JobResult:
+      type: object
+      description: Information how how to access the export
+      properties:
+        url:
+          type: string
+          description: link to the report you can download the report using your api token?
+          # example: https://data.sinch.com/exports/files/randomfilename.xls
+        fileChecksum:
+          type: string
+          description: hash of file,
+    ErrorDetail:
+      type: object
+      properties:
+        type:
+          type: string
+          description: |-
+            Detailed information about a requestBody
+          externalDocs:
+            url: https://developers.sinch.com/docs/HowSinchWorksWithErrors
+        value:
+          type: object
+          description: I am not sure.
+      description: |-
+        I think JK has a standard error object to use. **needs replace on proxy **
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Http error code
+        message:
+          type: string
+          description: Normally the http error descriptions in human readable form
+        details:
+          type: array
+          description: Array of detailed error messages
+          items:
+            $ref: "#/components/schemas/ErrorDetail"
+
+  securitySchemes:
+    Basic:
+      description: |-
+        Our basic security works with any project, its the client_id and client_secret that you can find in the [dashboard](https://dashboard.sinch.com/settings/access-keys)
+      type: http
+      scheme: basic
+    OAuth:
+      description: |-
+        Our basic security works with any project, its the client_id and client_secret that you can find in the [dashboard](https://dashboard.sinch.com/settings/access-keys)
+        This is the recommended way of to access our APIs. At the moment only client_credentials is supported grant_type
+
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.sinch.com/oauth2/token
+          refreshUrl: https://auth.sinch.com/oauth2/token
+          scopes: {}
+
+x-proxy-enabled: true
+x-samples-enabled: true

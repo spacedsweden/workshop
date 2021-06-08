@@ -1,0 +1,1975 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SAP Contact Center Restful Directory and Presence Interface (DPI)",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/RI/dpi"
+    }
+  ],
+  "paths": {
+    "/entries": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n{ // loggedin user 1. Shown when onlyInternal criteria is all or users.\n  \"id\": \"990556DC18244B4AB5BF35D75A89CDEF\",\n  \"type\": \"Entry\", // Entry, Group\n  \"sourceId\": \"F8C2697F37D044DB929B10F75381C620\",\n  \"sourceType\": \"User\", // User or Queue  \n  \"name\": \"Fox, John\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Fox\", \n  \"extensions\": {\n    \"extension\": [\n      {\n        \"type\": \"Phone\", //Phone, Mobile, Email, Chat\n        \"address\": \"201\"\n      },\n      {\n        \"type\": \"Email\", //Phone, Mobile, Email, Chat\n        \"address\": \"john.fox@acme.com\"\n      },\n      {\n        \"type\": \"Chat\",  //Phone, Mobile, Email, Chat\n        \"address\": \"john.fox@acme.com\"\n      }\n    ]\n  },\n  \"status\": \"Ready\", //User: LoggedOut, Pause NotReady, Ready \n  \"capabilities\": {\n    \"capability\": [\n      {\n        \"type\": \"Task\", \n        \"capacity\": 2,\n        \"inProcess\": 0\n      },\n      {\n        \"type\": \"Phone\", \n        \"capacity\": 1,\n        \"inProcess\": 0\n      },\n      {\n        \"type\": \"TextChat\", \n        \"capacity\": 1,\n        \"inProcess\": 0\n      },\n      {\n        \"type\": \"VideoChat\", \n        \"capacity\": 1,\n        \"inProcess\": 0\n      }\n    ]\n  },\n  \"availability\": true,\n  \"presence\": {\n    \"id\": \"F8C2697F37D044DB929B10F75381C621\",\n    \"name\": \"Available\",\n    \"type\": \"PRESENCE\",\n    \"reason\": \"NONE\",\n    \"availability\": \"FREE\"\n  }\n},\n{ // loggedin user 2, have active call. Shown when onlyInternal criteria is all or users.\n  \"id\": \"F8C2697F37D044DB929B10F75381C624\",\n  \"type\": \"Entry\", // Entry, Group\n  \"sourceId\": \"FFF2697F37D044DB929B10F75381C623\",\n  \"sourceType\": \"User\", // User or Queue  \n  \"name\": \"Fox, Jane\",\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Fox\", \n  \"extensions\": {\n    \"extension\": [\n      {\n        \"type\": \"Phone\", //Phone, Mobile, Email, Chat\n        \"address\": \"202\"\n      },\n      {\n        \"type\": \"Email\", //Phone, Mobile, Email, Chat\n        \"address\": \"jane.fox@acme.com\"\n      },\n      {\n        \"type\": \"Chat\",  //Phone, Mobile, Email, Chat\n        \"address\": \"jane.fox@acme.com\"\n      }\n    ]\n  },\n  \"status\": \"Ready\", //User: LoggedOut, Pause NotReady, Ready \n  \"capabilities\": { // Only when user status different from LoggedOut\n    \"capability\": [\n      {\n        \"type\": \"Task\", \n        \"capacity\": 2,\n        \"inProcess\": 0\n      },\n      {\n        \"type\": \"Phone\", \n        \"capacity\": 1,\n        \"inProcess\": 1\n      },\n      {\n        \"type\": \"TextChat\", \n        \"capacity\": 1,\n        \"inProcess\": 0\n      },\n      {\n        \"type\": \"VideoChat\", \n        \"capacity\": 1,\n        \"inProcess\": 0\n      }\n    ]\n  },\n \"availability\": false,\n  \"presence\": {\n    \"id\": \"F8C2697F37D044DB929B10F75381C621\",\n    \"name\": \"Available\",\n    \"type\": \"PRESENCE\",\n    \"reason\": \"NONE\",\n    \"availability\": \"FREE\"\n  }\n},\n{ // loggedout user. Shown when onlyInternal criteria is all or users.\n  \"id\": \"881F79FB29AB496BB408B58DC573C349\",\n  \"type\": \"Entry\", // Entry, Group\n  \"sourceId\": \"E565844A26FC42BD80EC104EE97C7FAC\",\n  \"sourceType\": \"User\", // User or Queue  \n  \"name\": \"Fox, Jill\",\n  \"firstName\": \"Jill\",\n  \"lastName\": \"Fox\", \n  \"extensions\": {\n    \"extension\": [\n      {\n        \"type\": \"Phone\", //Phone, Mobile, Email, Chat\n        \"address\": \"203\"\n      },\n      {\n        \"type\": \"Email\", //Phone, Mobile, Email, Chat\n        \"address\": \"jill.fox@acme.com\"\n      },\n      {\n        \"type\": \"Chat\",  //Phone, Mobile, Email, Chat\n        \"address\": \"jill.fox@acme.com\"\n      }\n    ]\n  },\n  \"status\": \"LoggedOut\", //User: LoggedOut, Pause NotReady, Ready \n  \"availability\": false,\n},\n{ // queue. Shown when onlyInternal criteria is all or queues.\n  \"id\": \"B890C478B22311D38FBE0090279A922E\",\n  \"type\": \"Entry\", // Entry, Group\n  \"sourceId\": \"E936C474B22311D38FBE0090279A922E\",\n  \"sourceType\": \"Queue\", // User or Queue  \n  \"extensions\": {\n    \"extension\": [\n      {\n        \"type\": \"Phone\", //Phone, Mobile, Email, Chat\n        \"address\": \"300\"\n      }\n    ]\n  },\n  \"capabilities\": {\n    \"capability\": [\n      {\n        \"type\": \"Phone\" //Type of the queue: Phone, Email, Chat\n      }\n    ]\n  },\n  \"availability\": true,\n  \"queueSettings\": {\n    \"freeAgentCriticalLevel\": 103,\n    \"freeAgentWarningLevel\": 104,\n    \"servingAgentCriticalLevel\": 101,\n    \"servingAgentWarningLevel\": 102\n  },\n  \"queueStatus\": {\n    \"agentsBusy\": 0,\n    \"agentsFree\": 0,\n    \"agentsNotReady\": 0,\n    \"agentsPause\": 0,\n    \"agentsServing\": 0,\n    \"agentsWrapUp\": 0,\n    \"inQueue\": 237,\n    \"waitingDurationMax\": 111001563012 // milliseconds\n  }  \n},\n{ // directory entry group (could be public or private). Not shown if onlyInternal criteria used.\n  \"id\": \"1E693109FE0044FC82F0C680E4ECDAAA\",\n  \"type\": \"Group\", // Entry, Group\n  \"name\": \"CCtr Users\",\n},\n{ // directory entry group (could be public or private). Not shown if onlyInternal criteria used.\n  \"id\": \"A8793FD768384DBEA2E44A9616AC9E30\",\n  \"type\": \"Group\", // Entry, Group\n  \"name\": \"CCtr Queues\",\n},\n{ // directory entry group (could be public or private). Not shown if onlyInternal criteria used.\n  \"id\": \"C37867C0DA3D4843A0FA71B39D84E707\",\n  \"type\": \"Group\", // Entry, Group\n  \"name\": \"Johns Private Group\",\n},\n{ // directory entry, not internal user. Not shown if onlyInternal criteria used.\n  \"id\": \"F3B4DC63D03942C38CE465AF63E0F0A4\",\n  \"type\": \"Entry\", // Entry, Group\n  \"name\": \"Smith, Jane\",\n  \"extensions\": {\n    \"extensions\": {\n      \"extension\": [\n        {\n          \"type\": \"Phone\", //Phone, Mobile, Email, Chat\n          \"address\": \"321564203\"\n        },\n        {\n          \"type\": \"Email\", //Phone, Mobile, Email, Chat\n          \"address\": \"jane.smith@company.com\"\n        },\n        {\n          \"type\": \"Chat\",  //Phone, Mobile, Email, Chat\n          \"address\": \"jane.smith@company.com\"\n        }\n      ]\n    }\n  }\n}\n]\n\n",
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/entrys"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of entries.",
+        "operationId": "GET_entries",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Full text search from directory. Sentence can be searched using \"\".\nMultiple search words and/or sentences can be used for request.\n",
+            "schema": {
+              "includePath": "../../common/traits.raml",
+              "type": "string"
+            }
+          },
+          {
+            "name": "onlyInternals",
+            "in": "query",
+            "description": "Search from internal objects.\n<b>onlyInternals=all</b> search from all internal objects,\n<b>onlyInternals=users</b> search only from internal users and\n<b>onlyInternals=queues</b> search only from internal queues.\n",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit number of elements by specifying a limit value for the query",
+            "schema": {
+              "default": 1000,
+              "includePath": "../../common/traits.raml",
+              "type": "integer"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/trait_haslanguage_language"
+          },
+          {
+            "$ref": "#/components/parameters/trait_groupId_groupId"
+          },
+          {
+            "$ref": "#/components/parameters/trait_sourceType_sourceType"
+          },
+          {
+            "$ref": "#/components/parameters/trait_sourceId_sourceId"
+          },
+          {
+            "$ref": "#/components/parameters/trait_errorIfLimitReached_errorIfLimitReached"
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/trait_hasCreated_201"
+          }
+        },
+        "description": "Add a new entry. Currently binary attributes are not supported. New entry is added to the given groups.\n",
+        "operationId": "POST_entries",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "attrs": [
+                  {
+                    "id": "10D9AF6DC16440928BCDA741BF748784",
+                    "language": "EN",
+                    "value": "Entry name"
+                  },
+                  {
+                    "id": "9A55749A60F54F9CB0C8AEE662681E3E",
+                    "language": "EN",
+                    "value": "email@address.com"
+                  }
+                ],
+                "groups": [
+                  {
+                    "id": "7418024D395347338BB1BC2483EE7983",
+                    "name": "Directory group name"
+                  }
+                ]
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/entry_post"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/entries/{entryId}": {
+      "put": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Update the entry with id = {entryId}.\nBinary attributes are not currently supported.\n",
+        "operationId": "PUT_entries-entryId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "A7D627C26A2A458A99D127C5E207A020",
+                "attrs": [
+                  {
+                    "id": "10D9AF6DC16440928BCDA741BF748784",
+                    "language": "EN",
+                    "value": "Entry name modified"
+                  },
+                  {
+                    "id": "9A55749A60F54F9CB0C8AEE662681E3E",
+                    "language": "EN",
+                    "value": "email.modified@address.com"
+                  }
+                ]
+              },
+              "schema": {
+                "includePath": "../../common/traits.raml",
+                "$ref": "#/components/schemas/entry_put"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/trait_hasNoContent_204"
+          }
+        },
+        "description": "Removes entry from the given group. If entry does not have any groups left,\nthen it will be permanently deleted.\n",
+        "operationId": "DELETE_entries-entryId",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": true,
+            "description": "User needs to have MANAGE_MEMBERS right to this group.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "A7D627C26A2A458A99D127C5E207A020",
+                  "accessType": 3,
+                  "attrs": [
+                    {
+                      "id": "10D9AF6DC16440928BCDA741BF748784",
+                      "language": "EN",
+                      "value": "Entry name"
+                    },
+                    {
+                      "id": "9A55749A60F54F9CB0C8AEE662681E3E",
+                      "language": "EN",
+                      "value": "email@address.com"
+                    }
+                  ],
+                  "groups": [
+                    {
+                      "id": "7418024D395347338BB1BC2483EE7983",
+                      "name": "Directory group name"
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/entry"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the entry\nwith entryId =\n{entryId}\n",
+        "operationId": "GET_entries-entryId"
+      },
+      "parameters": [
+        {
+          "name": "entryId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/groups": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "49325A3754164AC0AA066BB2161B0E0F",
+                      "name": "A directory group",
+                      "accessType": 5
+                    },
+                    {
+                      "id": "87EC5C19000F44F285842766FDADB3DA",
+                      "name": "CCtr-queues",
+                      "accessType": 7
+                    },
+                    {
+                      "id": "7418024D395347338BB1BC2483EE7983",
+                      "name": "A personal group where user can create new entries",
+                      "accessType": 143
+                    },
+                    {
+                      "id": "01847173EE7B441689AF95A91EF18892",
+                      "name": "CCtr-users",
+                      "accessType": 7
+                    }
+                  ],
+                  "includePath": "../../common/traits.raml",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/groups"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/trait_hasBadRequest_400"
+          }
+        },
+        "description": "Get a list of groups.",
+        "operationId": "GET_groups",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/trait_haslanguage_language"
+          }
+        ]
+      }
+    },
+    "/template": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "E209FA12E49D46C89E1CBDB188F31F16",
+                  "name": "Advanced",
+                  "containers": [
+                    {
+                      "id": "D10EACCA014B426788728F16225C3FBC",
+                      "name": "Search Result List",
+                      "ordinal": 0,
+                      "items": [
+                        {
+                          "id": "9FF1EE2AD3224D74AF006C5C33774E9B",
+                          "position": 0,
+                          "ordinal": 1,
+                          "elementType": 0,
+                          "rowSize": 1,
+                          "width": 20,
+                          "searchEnabled": false,
+                          "language": "FI"
+                        },
+                        {
+                          "id": "881B5A3EAE3D441F9538AE34EC3F0DBD",
+                          "position": 0,
+                          "ordinal": 2,
+                          "elementType": 0,
+                          "rowSize": 1,
+                          "width": 17,
+                          "searchEnabled": false,
+                          "language": null
+                        },
+                        {
+                          "id": "02302610CE78413CB62D5EF7A067A6A4",
+                          "position": 0,
+                          "ordinal": 3,
+                          "elementType": 0,
+                          "rowSize": 1,
+                          "width": 7,
+                          "searchEnabled": false,
+                          "language": null
+                        },
+                        {
+                          "id": "2CB46CE6E4F44116BC4B362744F084FD",
+                          "position": 0,
+                          "ordinal": 4,
+                          "elementType": 0,
+                          "rowSize": 1,
+                          "width": 13,
+                          "searchEnabled": false,
+                          "language": null
+                        },
+                        {
+                          "id": "3CBC7691226046808679218E107C00C3",
+                          "position": 0,
+                          "ordinal": 5,
+                          "elementType": 0,
+                          "rowSize": 1,
+                          "width": 17,
+                          "searchEnabled": false,
+                          "language": null
+                        },
+                        {
+                          "id": "AD2DFD4293C94E7486898907D4C19B44",
+                          "position": 0,
+                          "ordinal": 6,
+                          "elementType": 0,
+                          "rowSize": 1,
+                          "width": 13,
+                          "searchEnabled": false,
+                          "language": null
+                        },
+                        {
+                          "id": "1D4B29B8249841AB86D8F02136EC0F42",
+                          "position": 0,
+                          "ordinal": 7,
+                          "elementType": 0,
+                          "rowSize": 1,
+                          "width": 13,
+                          "searchEnabled": false,
+                          "language": null
+                        }
+                      ],
+                      "x-type": 1
+                    },
+                    {
+                      "id": "D481552AA96D42C1B651419C25E9E107",
+                      "name": "General",
+                      "ordinal": 1,
+                      "items": [
+                        {
+                          "id": "D73647870493496E882501732CBF3037",
+                          "position": 1,
+                          "ordinal": 1,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "F04D5DB3361A459489AD02035BB669D5",
+                          "position": 1,
+                          "ordinal": 2,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "881B5A3EAE3D441F9538AE34EC3F0DBD",
+                          "position": 1,
+                          "ordinal": 3,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "F55DF596F03E432FB49666F2FB55087E",
+                          "position": 1,
+                          "ordinal": 4,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "02302610CE78413CB62D5EF7A067A6A4",
+                          "position": 1,
+                          "ordinal": 5,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "2CB46CE6E4F44116BC4B362744F084FD",
+                          "position": 1,
+                          "ordinal": 6,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "03DCEE3582FF4F3390EC6509A7DB9977",
+                          "position": 1,
+                          "ordinal": 7,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "9A55749A60F54F9CB0C8AEE662681E3E",
+                          "position": 1,
+                          "ordinal": 8,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "9FF1EE2AD3224D74AF006C5C33774E9B",
+                          "position": 2,
+                          "ordinal": 9,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": "FI"
+                        },
+                        {
+                          "id": "BA63005B823A45F993CF781776C83908",
+                          "position": 2,
+                          "ordinal": 10,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "4857007BD39B4AB9A54B0995330684ED",
+                          "position": 2,
+                          "ordinal": 11,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "9C7ABFC801A94AB18C4B58840206342F",
+                          "position": 2,
+                          "ordinal": 12,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "7EB804E2D9944D6D8CC828F7AF2BAB4E",
+                          "position": 2,
+                          "ordinal": 13,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "63CAC5A92173418DB15FB3D417750D74",
+                          "position": 2,
+                          "ordinal": 14,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "4861867EE3D141D290A5D03355914765",
+                          "position": 2,
+                          "ordinal": 15,
+                          "elementType": 2,
+                          "rowSize": 2,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        }
+                      ],
+                      "x-type": 3
+                    },
+                    {
+                      "id": "30196D6FD6D446CB9D683CD0406E9C58",
+                      "name": "Details",
+                      "ordinal": 2,
+                      "items": [
+                        {
+                          "id": "574ED5A5F35D4BEA9E0DDFCAD2B344C9",
+                          "position": 1,
+                          "ordinal": 1,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "615ABBABDEC44224B0FF1586B8941839",
+                          "position": 1,
+                          "ordinal": 2,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "59B35912399C45B995A960F25499847F",
+                          "position": 1,
+                          "ordinal": 3,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "D9BE7233E9794F51ACF57D6A2A310AEC",
+                          "position": 1,
+                          "ordinal": 4,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "DC5252C7092B4ABEA360D4B7D12A611F",
+                          "position": 1,
+                          "ordinal": 5,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "8300006A715E4C10A21F645ED20E3181",
+                          "position": 1,
+                          "ordinal": 6,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "38F3E14121C94B7CAC91F347D9913B9F",
+                          "position": 1,
+                          "ordinal": 7,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "819A7343CD8546D7A5681A284359AB96",
+                          "position": 1,
+                          "ordinal": 8,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "3E7DBE21552E466CA3019C5C9CDDC5AE",
+                          "position": 2,
+                          "ordinal": 9,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "606D8C83C083451FB9C25C3E0E382B3B",
+                          "position": 2,
+                          "ordinal": 10,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": "FI"
+                        },
+                        {
+                          "id": "D54CBA43B4804BDDAA64EC1A6CF014BB",
+                          "position": 2,
+                          "ordinal": 11,
+                          "elementType": 2,
+                          "rowSize": 3,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": "FI"
+                        },
+                        {
+                          "id": "5BE833B5EAA24789B4EDFA91F95A536A",
+                          "position": 2,
+                          "ordinal": 12,
+                          "elementType": 2,
+                          "rowSize": 3,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        }
+                      ],
+                      "x-type": 3
+                    },
+                    {
+                      "id": "1C0AC4B6DE5A4043ABE366B8B18338F1",
+                      "name": "Custom",
+                      "ordinal": 3,
+                      "items": [
+                        {
+                          "id": "0C60FED767DE4C0191B5D29C5BAD701F",
+                          "position": 1,
+                          "ordinal": 1,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "D6F445DC230F475D9AB09D88EA84A962",
+                          "position": 1,
+                          "ordinal": 2,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "6D5FB08230BF42DE958DAC9A0325096E",
+                          "position": 1,
+                          "ordinal": 3,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "DA6AA0DF33C44DEA8F204D19F6EA076D",
+                          "position": 1,
+                          "ordinal": 4,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": false,
+                          "language": null
+                        },
+                        {
+                          "id": "D73647870493496E882501732CBF3037",
+                          "position": 1,
+                          "ordinal": 5,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "9FF1EE2AD3224D74AF006C5C33774E9B",
+                          "position": 1,
+                          "ordinal": 6,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": "FI"
+                        },
+                        {
+                          "id": "F04D5DB3361A459489AD02035BB669D5",
+                          "position": 1,
+                          "ordinal": 7,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": "ET"
+                        },
+                        {
+                          "id": "005C1398360B4541A8876A80BEF80094",
+                          "position": 2,
+                          "ordinal": 8,
+                          "elementType": 2,
+                          "rowSize": 5,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "251F812B5CB64F0FA8062BFB0CBB4F7C",
+                          "position": 2,
+                          "ordinal": 9,
+                          "elementType": 1,
+                          "rowSize": 1,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        },
+                        {
+                          "id": "93E2C4DD45D44762915B5DF4B066C259",
+                          "position": 2,
+                          "ordinal": 10,
+                          "elementType": 1,
+                          "rowSize": 2,
+                          "width": 60,
+                          "searchEnabled": true,
+                          "language": null
+                        }
+                      ],
+                      "x-type": 3
+                    }
+                  ],
+                  "masters": [
+                    {
+                      "id": "DC5252C7092B4ABEA360D4B7D12A611F",
+                      "name": "Address",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "7EB804E2D9944D6D8CC828F7AF2BAB4E",
+                      "name": "Assistant",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "38F3E14121C94B7CAC91F347D9913B9F",
+                      "name": "City",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "574ED5A5F35D4BEA9E0DDFCAD2B344C9",
+                      "name": "Company",
+                      "multiLingual": true,
+                      "enumerated": 1,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "251F812B5CB64F0FA8062BFB0CBB4F7C",
+                      "name": "Company E-Mail",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 2
+                    },
+                    {
+                      "id": "819A7343CD8546D7A5681A284359AB96",
+                      "name": "Country",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "DA6AA0DF33C44DEA8F204D19F6EA076D",
+                      "name": "DefaultQueue",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": false,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "F55DF596F03E432FB49666F2FB55087E",
+                      "name": "Department",
+                      "multiLingual": true,
+                      "enumerated": 1,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "59B35912399C45B995A960F25499847F",
+                      "name": "Division",
+                      "multiLingual": true,
+                      "enumerated": 1,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "9A55749A60F54F9CB0C8AEE662681E3E",
+                      "name": "E-Mail Address",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 2
+                    },
+                    {
+                      "id": "3E7DBE21552E466CA3019C5C9CDDC5AE",
+                      "name": "Employee ID",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "0C60FED767DE4C0191B5D29C5BAD701F",
+                      "name": "ExternalAgentNumber",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": false,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "03DCEE3582FF4F3390EC6509A7DB9977",
+                      "name": "Fax",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "D73647870493496E882501732CBF3037",
+                      "name": "First Name",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 21
+                    },
+                    {
+                      "id": "D6F445DC230F475D9AB09D88EA84A962",
+                      "name": "ForwardNumber",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": false,
+                      "x-type": 4
+                    },
+                    {
+                      "id": "9FF1EE2AD3224D74AF006C5C33774E9B",
+                      "name": "Full Name",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 19
+                    },
+                    {
+                      "id": "D54CBA43B4804BDDAA64EC1A6CF014BB",
+                      "name": "Groups",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "63CAC5A92173418DB15FB3D417750D74",
+                      "name": "Image File",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 6
+                    },
+                    {
+                      "id": "F04D5DB3361A459489AD02035BB669D5",
+                      "name": "Last Name",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 20
+                    },
+                    {
+                      "id": "BA63005B823A45F993CF781776C83908",
+                      "name": "Location",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "4857007BD39B4AB9A54B0995330684ED",
+                      "name": "Manager",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "2CB46CE6E4F44116BC4B362744F084FD",
+                      "name": "Mobile",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 5
+                    },
+                    {
+                      "id": "02302610CE78413CB62D5EF7A067A6A4",
+                      "name": "Number",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 4
+                    },
+                    {
+                      "id": "606D8C83C083451FB9C25C3E0E382B3B",
+                      "name": "Other Number",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 4
+                    },
+                    {
+                      "id": "93E2C4DD45D44762915B5DF4B066C259",
+                      "name": "Person Remarks",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "8300006A715E4C10A21F645ED20E3181",
+                      "name": "Postcode",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "3CBC7691226046808679218E107C00C3",
+                      "name": "Presence",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 7
+                    },
+                    {
+                      "id": "5BE833B5EAA24789B4EDFA91F95A536A",
+                      "name": "Products",
+                      "multiLingual": true,
+                      "enumerated": 2,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "005C1398360B4541A8876A80BEF80094",
+                      "name": "Products II",
+                      "multiLingual": false,
+                      "enumerated": 2,
+                      "builtIn": false,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "AD2DFD4293C94E7486898907D4C19B44",
+                      "name": "Profile",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 18
+                    },
+                    {
+                      "id": "4861867EE3D141D290A5D03355914765",
+                      "name": "Responsibilities",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "1D4B29B8249841AB86D8F02136EC0F42",
+                      "name": "Return Info",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 8
+                    },
+                    {
+                      "id": "615ABBABDEC44224B0FF1586B8941839",
+                      "name": "Subcompany",
+                      "multiLingual": true,
+                      "enumerated": 1,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "9C7ABFC801A94AB18C4B58840206342F",
+                      "name": "Substitute",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "D9BE7233E9794F51ACF57D6A2A310AEC",
+                      "name": "Team",
+                      "multiLingual": true,
+                      "enumerated": 1,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "881B5A3EAE3D441F9538AE34EC3F0DBD",
+                      "name": "Title",
+                      "multiLingual": true,
+                      "enumerated": 0,
+                      "builtIn": true,
+                      "x-type": 1
+                    },
+                    {
+                      "id": "6D5FB08230BF42DE958DAC9A0325096E",
+                      "name": "Voicemail",
+                      "multiLingual": false,
+                      "enumerated": 0,
+                      "builtIn": false,
+                      "x-type": 1
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/template"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/trait_hasNotFound_404"
+          }
+        },
+        "description": "Get the currently logged-in user's directory view template with containers and masters.\n",
+        "operationId": "GET_template",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/trait_haslanguage_language"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "entry": {
+        "includePath": "types/EntryDetails.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "accessType": {
+            "description": "Combination of rights that the user has to this entry: VIEW=1, MODIFY=2\n",
+            "type": "integer"
+          },
+          "attrs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntryAttribute"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Group"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "attrs",
+          "groups"
+        ]
+      },
+      "entrys": {
+        "includePath": "types/Entry.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "Entry",
+              "Group"
+            ],
+            "type": "string"
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "sourceType": {
+            "enum": [
+              "User",
+              "Queue",
+              "null"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "extensions": {
+            "$ref": "#/components/schemas/Extensions"
+          },
+          "status": {
+            "description": "User's status if sourceType=User.",
+            "enum": [
+              "LoggedOut",
+              "Waiting",
+              "Chatting_Inbound",
+              "..."
+            ],
+            "type": "string"
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/Capabilities"
+          },
+          "availability": {
+            "description": "If user is available for phone call or video chat, or if queue has agents serving.",
+            "type": "boolean"
+          },
+          "presence": {
+            "$ref": "#/components/schemas/Presence"
+          },
+          "queueStatus": {
+            "$ref": "#/components/schemas/QueueStatus"
+          },
+          "queueSettings": {
+            "$ref": "#/components/schemas/QueueSettings"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name"
+        ]
+      },
+      "entry_post": {
+        "includePath": "types/EntryDetails.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "accessType": {
+            "description": "Combination of rights that the user has to this entry: VIEW=1, MODIFY=2\n",
+            "type": "integer"
+          },
+          "attrs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntryAttribute"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Group"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "attrs",
+          "groups"
+        ]
+      },
+      "entry_put": {
+        "includePath": "types/EntryDetails.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "accessType": {
+            "description": "Combination of rights that the user has to this entry: VIEW=1, MODIFY=2\n",
+            "type": "integer"
+          },
+          "attrs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EntryAttribute"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Group"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "attrs",
+          "groups"
+        ]
+      },
+      "Extensions": {
+        "description": "Phone and mobile numbers, e-mail address.",
+        "includePath": "types/Extensions.raml",
+        "type": "object",
+        "properties": {
+          "extension": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DpiExtension"
+            }
+          }
+        },
+        "required": [
+          "extension"
+        ]
+      },
+      "DpiExtension": {
+        "includePath": "types/DpiExtension.raml",
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "Phone",
+              "Mobile",
+              "Email"
+            ],
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "address"
+        ]
+      },
+      "Capabilities": {
+        "description": "User's or queue's contact capabilities.",
+        "includePath": "types/Capabilities.raml",
+        "type": "object",
+        "properties": {
+          "capability": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactCapability"
+            }
+          }
+        },
+        "required": [
+          "capability"
+        ]
+      },
+      "ContactCapability": {
+        "includePath": "types/ContactCapability.raml",
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "Phone",
+              "Chat",
+              "Email",
+              "Task",
+              "TextChat",
+              "VideoChat",
+              "..."
+            ],
+            "type": "string"
+          },
+          "capacity": {
+            "type": "number"
+          },
+          "inProcess": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "capacity",
+          "inProcess"
+        ]
+      },
+      "Presence": {
+        "description": "User's current presence.",
+        "includePath": "types/Presence.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "PRESENCE",
+              "ABSENCE",
+              "CONFERENCE"
+            ],
+            "type": "string"
+          },
+          "reason": {
+            "enum": [
+              "BUSINESSTRIP",
+              "BUSY",
+              "CHILDCARE",
+              "DUTY",
+              "LUNCH",
+              "MEETING",
+              "NONE",
+              "OFFDUTY",
+              "OFFICIAL",
+              "OTHER",
+              "PARENTAL",
+              "TEMPOUT",
+              "TRAINING",
+              "VACATION",
+              "VISIT",
+              "SICK",
+              "DAYOFF"
+            ],
+            "type": "string"
+          },
+          "availability": {
+            "enum": [
+              "AWAY",
+              "TENTATIVE",
+              "FREE"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "reason",
+          "availability"
+        ]
+      },
+      "QueueStatus": {
+        "includePath": "types/QueueStatus.raml",
+        "type": "object",
+        "properties": {
+          "agentsServing": {
+            "type": "number"
+          },
+          "agentsFree": {
+            "type": "number"
+          },
+          "agentsBusy": {
+            "type": "number"
+          },
+          "agentsWrapUp": {
+            "type": "number"
+          },
+          "agentsNotReady": {
+            "type": "number"
+          },
+          "agentsPause": {
+            "type": "number"
+          },
+          "inQueue": {
+            "type": "number"
+          },
+          "waitingDurationMax": {
+            "description": "Milliseconds.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "agentsServing",
+          "agentsFree",
+          "agentsBusy",
+          "agentsWrapUp",
+          "agentsNotReady",
+          "agentsPause",
+          "inQueue",
+          "waitingDurationMax"
+        ]
+      },
+      "QueueSettings": {
+        "includePath": "types/QueueSettings.raml",
+        "type": "object",
+        "properties": {
+          "servingAgentCriticalLevel": {
+            "type": "number"
+          },
+          "servingAgentWarningLevel": {
+            "type": "number"
+          },
+          "freeAgentCriticalLevel": {
+            "type": "number"
+          },
+          "freeAgentWarningLevel": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "servingAgentCriticalLevel",
+          "servingAgentWarningLevel",
+          "freeAgentCriticalLevel",
+          "freeAgentWarningLevel"
+        ]
+      },
+      "EntryAttribute": {
+        "includePath": "types/EntryAttribute.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "description": "Master ID. Values can be fetched using /template resource.",
+            "type": "string"
+          },
+          "language": {
+            "description": "Two letter language code like EN, FI.",
+            "type": "string"
+          },
+          "value": {
+            "description": "Textual value.",
+            "type": "string"
+          },
+          "binary": {
+            "description": "Base64 encoded binary value, for example image. *value* can contain the original file name in this case.\n",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "language",
+          "value",
+          "binary"
+        ]
+      },
+      "Group": {
+        "includePath": "types/Group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "accessType": {
+            "description": "Combination of rights that the user has to this group: VIEW=1, MODIFY=2, CREATE=4, DELETE=8, MANAGE_MEMBERS=0x80 Used only in /groups resource.\n",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "groups": {
+        "includePath": "types/Group.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "accessType": {
+            "description": "Combination of rights that the user has to this group: VIEW=1, MODIFY=2, CREATE=4, DELETE=8, MANAGE_MEMBERS=0x80 Used only in /groups resource.\n",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "template": {
+        "includePath": "types/Template.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "containers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TemplateContainer"
+            }
+          },
+          "masters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Master"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "containers",
+          "masters"
+        ]
+      },
+      "TemplateContainer": {
+        "includePath": "types/TemplateContainer.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "description": "1=search result list, 3=tab sheet.",
+            "type": "integer"
+          },
+          "ordinal": {
+            "description": "View order.",
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TemplateContainerItem"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "ordinal",
+          "items"
+        ]
+      },
+      "TemplateContainerItem": {
+        "includePath": "types/TemplateContainerItem.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "position": {
+            "description": "1=Left, 2=Right.",
+            "type": "integer"
+          },
+          "ordinal": {
+            "description": "View order.",
+            "type": "integer"
+          },
+          "elementType": {
+            "description": "1=Field, 2=List.",
+            "type": "integer"
+          },
+          "rowSize": {
+            "description": "1 for fields, more for lists.",
+            "type": "integer"
+          },
+          "width": {
+            "description": "Percentage like 60.",
+            "type": "integer"
+          },
+          "searchEnabled": {
+            "description": "If field is included in full text search.",
+            "type": "boolean"
+          },
+          "language": {
+            "description": "Optional two letter language code.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "position",
+          "ordinal",
+          "elementType",
+          "rowSize",
+          "width",
+          "searchEnabled"
+        ]
+      },
+      "Master": {
+        "includePath": "types/Master.raml",
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 32,
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "description": "0=none, 1=text, 2=email link, 3=hyperlink, 4=phone, 5=mobile phone, 6=file/binary, 7=presence, 8=return info, 9=language, 10=timediff, 11=timezone, 12=availability end time, 13=availability start time, 14=availability call forward, 15=availability profile name, 16=availability reason, 17=availability remarks, 18=profile name, 19=full name, 20=surname, 21=first name, 22=name, 23=queue name, 24=image link\n",
+            "type": "integer"
+          },
+          "multilingual": {
+            "type": "boolean"
+          },
+          "builtIn": {
+            "type": "boolean"
+          },
+          "enumerated": {
+            "description": "none=0, single=1, multi=2\n",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "multilingual",
+          "builtIn",
+          "enumerated"
+        ]
+      }
+    },
+    "responses": {
+      "trait_hasNotFound_404": {
+        "description": "Not Found",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "example": "HTTP 404 Not Found\n"
+            }
+          }
+        }
+      },
+      "trait_hasNoContent_204": {
+        "description": "No content - The server has successfully fulfilled the request\nand there is no additional content to send in the response payload body.\n"
+      },
+      "trait_hasCreated_201": {
+        "description": "Returns the created _id_.",
+        "content": {
+          "text/html": {
+            "schema": {
+              "example": "F5168FBDD6914C8DB1C6D0BD64563A39\n"
+            }
+          }
+        }
+      },
+      "trait_hasBadRequest_400": {
+        "description": "Bad Request",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "example": "Invalid GUID: '2B8ED95B0EC911E79675005056A75D9'\n"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "trait_haslanguage_language": {
+        "name": "language",
+        "in": "query",
+        "description": "Define with a two-character code (ISO 639) the language to which the translatable values are translated. By default, logged-on user’s language is used.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchable_any fields": {
+        "name": "any fields",
+        "in": "query",
+        "description": "&field1=value1&field2=value2...\n<br>Values may contain patterns * and ?\n<br>Valid searchable fields: <<validSearchField>>\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_fullTextSearchable_search": {
+        "name": "search",
+        "in": "query",
+        "description": "Full text search from directory. Sentence can be searched using \"\".\nMultiple search words and/or sentences can be used for request.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCaseId_case_id": {
+        "name": "case_id",
+        "in": "query",
+        "description": "Search emails filtered by \"case id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCId_cid": {
+        "name": "cid",
+        "in": "query",
+        "description": "Search emails filtered by \"cid\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByContactId_contact_id": {
+        "name": "contact_id",
+        "in": "query",
+        "description": "Search filtered by \"contact id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByOriginalContactId_originalcontact_id": {
+        "name": "originalcontact_id",
+        "in": "query",
+        "description": "Search filtered by \"original contact id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByOriginator_originator": {
+        "name": "originator",
+        "in": "query",
+        "description": "Search filtered by originating address of the chat.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByDestination_destination": {
+        "name": "destination",
+        "in": "query",
+        "description": "Search filtered by destination address of the chat.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByChannelSubType_channel_sub_type": {
+        "name": "channel_sub_type",
+        "in": "query",
+        "description": "Search filtered by channel sub type text, video or sms\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCallId_call_id": {
+        "name": "call_id",
+        "in": "query",
+        "description": "Search filtered by \"call id\"\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByStartTime_start_time": {
+        "name": "start_time",
+        "in": "query",
+        "description": "Search recordings after of given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByEndTime_end_time": {
+        "name": "end_time",
+        "in": "query",
+        "description": "Search recordings before of given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCreationTime_creationTime": {
+        "name": "creationTime",
+        "in": "query",
+        "description": "Search messages created after the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByCreationTime_creationTimeEnd": {
+        "name": "creationTimeEnd",
+        "in": "query",
+        "description": "Search messages created before the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableBySendTime_sendTime": {
+        "name": "sendTime",
+        "in": "query",
+        "description": "Search for messages that have the sendTime value after the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableBySendTime_sendTimeEnd": {
+        "name": "sendTimeEnd",
+        "in": "query",
+        "description": "Search for messages that have the sendTime value before the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByDateRange_<<startqueryparam>>": {
+        "name": "<<startqueryparam>>",
+        "in": "query",
+        "description": "Search for <<items>> that have the <<startqueryparam>> value after the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByDateRange_<<endqueryparam>>": {
+        "name": "<<endqueryparam>>",
+        "in": "query",
+        "description": "Search for <<items>> that have the <<startqueryparam>> value before the given UTC time\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByAttribute_attributeName": {
+        "name": "attributeName",
+        "in": "query",
+        "description": "Search item by attribute name.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_searchableByAttribute_attributeValue": {
+        "name": "attributeValue",
+        "in": "query",
+        "description": "Search by value of the attribute, attributeName parameter is mandatory in case attributeValue is given.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_orderable_sort": {
+        "name": "sort",
+        "in": "query",
+        "description": "Can be sorted by any field. Default sort is <b><<fieldsList>></b>.\n\"-\" in front of field name will sort descending.\nWith the postfix \",LOCALE-xx\" where xx can be for example en,en-US,de,fi,\nthe user may sort with given locale that are based on standard \"IETF BCP 47\".\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_limit_limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Limit number of elements by specifying a limit value for the query",
+        "schema": {
+          "default": "<<default>>",
+          "type": "integer"
+        }
+      },
+      "trait_pageable_offset": {
+        "name": "offset",
+        "in": "query",
+        "description": "Skip over a number of elements by specifying an offset value for the query",
+        "schema": {
+          "default": 0,
+          "type": "integer"
+        }
+      },
+      "trait_pageable_limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Limit number of elements by specifying a limit value for the query",
+        "schema": {
+          "default": 100,
+          "type": "integer"
+        }
+      },
+      "trait_hasOnlyInternals_onlyInternals": {
+        "name": "onlyInternals",
+        "in": "query",
+        "description": "Search from internal objects.\n<b>onlyInternals=all</b> search from all internal objects,\n<b>onlyInternals=users</b> search only from internal users and\n<b>onlyInternals=queues</b> search only from internal queues.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_sourceType_sourceType": {
+        "name": "sourceType",
+        "in": "query",
+        "description": "Search one or more sourceTypes separated by comma (,).\nPossible values: User, Queue, null.\nNull means external directory entry which is not created from user or queue.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_sourceId_sourceId": {
+        "name": "sourceId",
+        "in": "query",
+        "description": "Search with source id (user's or queue's id).\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "trait_errorIfLimitReached_errorIfLimitReached": {
+        "name": "errorIfLimitReached",
+        "in": "query",
+        "description": "By default if search returns too many results, so that limit is reached,\nthen 400 Bad Request error is returned.\n",
+        "schema": {
+          "default": 1,
+          "type": "integer"
+        }
+      },
+      "trait_groupId_groupId": {
+        "name": "groupId",
+        "in": "query",
+        "description": "By default the search is done from all user's directory groups,\nbut it is possible to specify smaller set of groups here,\nseparated by comma.\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "examples": {},
+    "requestBodies": {},
+    "headers": {},
+    "securitySchemes": {},
+    "links": {},
+    "callbacks": {}
+  }
+}

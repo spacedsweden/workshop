@@ -1,0 +1,214 @@
+---
+title: Sinch Developer Documentation
+---
+
+import { LandingLayout } from "@redocly/ui";
+
+import {
+  Box,
+  FlexSection,
+  Flex,
+  Jumbotron,
+  ThinTile,
+  WideTile,
+  Emphasis,
+  H1,
+  H2,
+  SectionHeader,
+} from "@redocly/ui";
+
+import { NavBar, Button } from "@redocly/ui";
+import { SinchBox } from "./components/SinchBox.tsx";
+import { SinchTile } from "./components/SinchTile.tsx";
+import SinchCard from "./components/SinchCard.tsx";
+import sms from "./images/icons/product/sms.svg";
+import verification from "./images/icons/product/verification.svg";
+import conversationapi from "./images/icons/product/conversation-api.svg";
+import numbers from "./images/icons/product/numbers.svg";
+import about from "./images/start/about.png";
+import hero from "./images/start/herobg.png";
+import styled from "styled-components";
+
+export const PageWrapper = styled.div`
+  line-height: 2em;
+  width: 100%;
+  padding: 0 32px 32px;
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.breakpoints.medium}) {
+    padding: 0 16px 32px;
+  }
+`;
+
+export const H1Custom = styled.p`
+  text-align: left;
+  font-size: 72px;
+  font-weight: 400;
+  max-width: 600px;
+  line-height: 72px;
+  word-wrap: anywhere;
+  margin-block-start: 120px;
+  margin-block-end: 16px;
+  font-family: ${({ theme }) => theme.typography.headings.fontFamily};
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.breakpoints.medium}) {
+    margin-block-start: 32px;
+    font-size: 24px;
+    line-height: 110%;
+    max-width: 320px;
+  }
+`;
+
+export const SectionHeaderCustom = styled.h2`
+  text-align: left;
+  margin: 0;
+  width: 100%;
+  color: ${({ theme: a }) => a.colors.text.primary};
+  padding: 64px 16px 32px;
+  word-wrap: anywhere;
+  font-family: ${({ theme }) => theme.typography.headings.fontFamily};
+  font-size: 2.5em;
+  font-weight: 300;
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.breakpoints.medium}) {
+    padding: 64px 0 32px 0;
+    font-size: 1.5em;
+  }
+`;
+
+export const PCustom = styled.p`
+  text-align: left;
+  font-size: 24px;
+  font-weight: 400;
+  max-width: 500px;
+  margin: 0 0 32px;
+  line-height: 150%;
+  word-wrap: anywhere;
+  font-family: ${({ theme }) => theme.typography.headings.fontFamily};
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.breakpoints.medium}) {
+    max-width: 314px;
+    font-size: 16px;
+  }
+`;
+
+export default LandingLayout;
+
+<NavBar location={props.location} standalone={true} />
+<Jumbotron
+  bgImage={hero}
+  bgColor="#238E8E"
+  p="0"
+  style={{ backgroundPosition: "left" }}
+>
+  <PageWrapper
+    flexDirection="column"
+    alignContent="stretch"
+    justifyContent="center"
+  >
+    <Flex flexDirection="row" justifyContent="flex-start">
+      <H1Custom>Sinch Conversation API</H1Custom>
+    </Flex>
+    <Flex justifyContent="flex-start">
+      <PCustom>Get started with two way omnichannel conversations</PCustom>
+    </Flex>
+    <Flex justifyContent="flex-start">
+      <Button
+        inversed
+        transparent
+        large
+        to="docs/conversation/index.md"
+        style={{
+          display: "flex",
+          height: "3.5em",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "0",
+        }}
+      >
+        Start a conversation
+      </Button>
+    </Flex>
+  </PageWrapper>
+</Jumbotron>
+
+<Flex flexDirection="column" width="100%"  alignItems="center" backgroundColor="#F2F2F2">
+  <Flex flexDirection="column" width="100%"  backgroundColor="#FFFFFF" padding="0 0 0 16px" alignItems="flex-start">
+  <SectionHeaderCustom className="SectionHeaderCustom">
+    Building blocks to enable rich customer communication
+  </SectionHeaderCustom>
+
+  <Flex
+    alignSelf="center"
+    justifyContent="start"
+    alignContent="center"
+    alignItems="stretch"
+    flexWrap="wrap"
+    maxWidth="1440px"
+    alignSelf="start"
+  >
+      <SinchCard
+      textAlign="left"
+      headerAlign="left"
+      to="docs/sms/index.md"
+      icon={sms}
+      header="SMS"
+    >
+       Send single SMS messages,
+      scheduled batch sending, message templates, and more.
+    </SinchCard>
+    <SinchCard
+      textAlign="left"
+      headerAlign="left"
+      alignItems="Left"
+      to="docs/conversation/index.md"
+      icon={verification}
+      header="Conversation API"
+    >
+      Build omnichannel messaging for mobile customer experiences.
+    </SinchCard>
+  <SinchCard
+      textAlign="left"
+      headerAlign="left"
+      to="docs/voice/index.md"
+      icon={numbers}
+      header="Voice"
+    >
+     Build voice-enabled solutions into your application using phone numbers or VOIP.
+    </SinchCard>
+    <SinchCard
+      textAlign="left"
+      headerAlign="left"
+      to="docs/verification/index.md"
+      icon={verification}
+      header="Verification"
+    >
+      Secure login, sign-ups, and reduce churn by verifying your user's phone number using SMS, Voice, or flashcalls.  
+    </SinchCard>
+  
+    <SinchCard
+      textAlign="left"
+      headerAlign="left"
+      to="docs/whatsapp/index.md"
+      icon={verification}
+      header="Whatsapp"
+    >
+      Build rich, enterprise-grade messaging solutions to communicate with your customers via WhatsApp.
+    </SinchCard>
+    <SinchCard
+      textAlign="left"
+      headerAlign="left"
+      to="docs/numbers/index.md"
+      icon={sms}
+      header="Numbers"
+    >
+      Get Local, national, mobile and, toll-free numbers to your with your voice and SMS applications  
+    </SinchCard>
+   
+  </Flex>
+  <Flex justifyContent="center" marginBottom="64px" alignSelf="start" maxWidth="1440px" width="100%">
+    <Button large to="all-products.mdx" color="#FFBE3C" style={{ borderRadius:"0" }}>
+      All products
+    </Button>
+  </Flex>
+  </Flex>
+</Flex>

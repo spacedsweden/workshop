@@ -1,0 +1,19 @@
+{
+    "ignorePatterns": [
+      {
+        "pattern": ".*\/openapi\/.*"
+      }
+    ],
+    "replacementPatterns": [
+      {
+        "pattern": "(\\\/docs.*\\\/)index\\.md(.*)",
+        "replacement": "https://bumblebee.redoc.ly$1$2"
+      },
+      {
+        "pattern": "(\/docs.*)\\.md(.*)",
+        "replacement": "https://bumblebee.redoc.ly$1$2"
+      }
+    ],
+  "retryOn429": true,
+  "aliveStatusCodes": [0,200, 202, 204, 206, 401, 403, 405, 408, 503]
+}

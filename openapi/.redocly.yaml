@@ -1,0 +1,7 @@
+apiDefinitions:
+  whatsapp: ./whatsapp.yaml
+
+lint:
+  rules:
+    operation-summary: off
+    operation-2xx-response: off

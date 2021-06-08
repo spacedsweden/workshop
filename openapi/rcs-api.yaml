@@ -1,0 +1,1392 @@
+---
+openapi: 3.0.0
+info:
+  version: 0.9.1
+  title: Sinch RCS HTTP REST API - DRAFT
+  description: |
+
+    # Introduction
+
+    The Sinch RCS REST API provides [Universal Profile 2.0](https://www.gsma.com/futurenetworks/rcs/resources-rcs-events/universal-profile/ "Universal Profile 2.0")
+    RCS messaging with granular controls to allow fallback to SMS when a handset is not RCS enabled.
+
+    SMS Fallback and SMS status reporting are facilitated using the [SMS HTTP REST API](https://www.sinch.com/docs/sms/http-rest.html#http-rest-sms-api "SMS HTTP REST API")
+    that allows for the use of existing tools to receive and collect delivery reports and mobile originated messages which should be familiar to existing users.
+
+    It is possible to setup the RCS REST API to use an existing SMS account for all fallback SMS traffic. It is also possible to use the RCS REST API without SMS fallback, in this case an SMS account is not needed.
+
+    When SMS Fallback is desired, fine grained control is provided by configuring fallback conditions.
+
+    # Authentication
+
+    The token is required for all requests made to the REST API.
+
+    The token is sent in the **Authorization** header preceded by **Bearer**.
+
+    Please contact your Technical Account Manager to get your API token.
+
+    # Phone number
+
+    The canonical form of the phone numbers used by the API are international format with no "+" or "00" prefix, e.g. 1234567890.
+
+    The API will accept phone numbers with a prefix of "+" or "00", containing dashes, spaces or brackets but any phone number returned from the API will be in canonical form.
+
+    # Timestamps
+
+    Timestamps are represented using  the [ISO-8601 standard](http://en.wikipedia.org/wiki/ISO_8601 "ISO-8601 standard").
+
+    All timestamps returned by the batch will be in UTC with millisecond precision.
+
+    The time zone can be specified in accordance with ISO-8601. If no time zone offset is specified (local time in ISO-8601) then UTC will be used.
+
+    # RCS Universal Profile primer
+
+    RCS is the logical evolution of SMS enabling enterprises and individuals to exchange rich media, deep linking features and interactive content with the same ease as SMS.
+
+    The RCS REST API requires the message originator to be an A2P agent (also known as chatbot). The agent specifies the “appearance” of the conversation on the handset, with brand logo, color, and contact information. Please contact Sinch to get your agent provisioned with your branding.
+
+    The RCS REST API exposes a large portion of the chatbot enabled messaging formats described in the [GSMA Universal Profile 2.0](https://www.gsma.com/futurenetworks/rcs/resources-rcs-events/universal-profile/ "GSMA Universal Profile 2.0") specification.
+
+    The following types and concept are available:
+
+    * Two-way text messaging
+    * Two-way file transfer (including rich media messages such as videos and GIFs)
+    * Rich cards (with suggestion chips)
+    * Rich card carousels
+    * Suggestion chips (actions and replies)
+    * Delivery, display and composing indications
+    * Message revocation
+
+
+  contact:
+    name: "Sinch"
+    url: "https://www.sinch.com/contact-us/"
+    email: "support@sinch.com"
+  x-logo:
+    url: "https://www.symsoft.com/wp-content/uploads/Symsoft-Sinch-300x250.png"
+    backgroundColor: "#FFFFFF"
+#########################################################################
+servers:
+  - url: 'https://us.rcs.api.sinch.com/rcs/v1'
+    description: RCS-API (current URL)
+  - url: 'https://api.clxcommunications.com/rcs/v1'
+    description: RCS-API (legacy URL)
+#########################################################################
+tags:
+  - name: Message
+    description: The message endpoint is used as the primary endpoint of the API and this is where all the messages are sent through.
+  - name: Event
+    description: The events endpoint enables the bot to emulate real user behavior by sending read notifications and composing events.
+#########################################################################
+paths:
+  '/{bot-id}/messages':
+    post:
+      tags:
+        - Message
+      description: >-
+        Send a RCS message, optionally falling back to SMS depending on provided conditions.
+
+        A fallback SMS can be delivered if:
+          - The targeted device doesn't support RCS (controlled by the `rcs_unavailable` condition)
+          - The targeted device doesn't support the specific RCS capability needed to deliver the message provided in the message body (controlled by the `capability_unsupported` condition)
+          - The RCS platform doesn't receive a delivery confirmation before the provided expiration time. It's possible to configure if the original RCS message should be revoked when a message expires (controlled by the `expired` condition)
+          - The RCS message cannot reliably be delivered because of an error within the RCS platform or the downstream suppliers. (controlled by the `agent_error` condition)
+
+        Status reports will be continuously delivered to the agent’s webhook endpoint.
+        See callbacks below for details.
+      operationId: Send a message
+      parameters:
+        - name: bot-id
+          in: path
+          description: The identifier of the bot that wishes to send messages.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Message to be sent
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+            examples:
+              TextExample:
+                $ref: '#/components/examples/TextExample'
+              TextWithSuggestionsExample:
+                $ref: '#/components/examples/TextWithSuggestionsExample'
+              StandaloneRichCardExample:
+                $ref: '#/components/examples/StandaloneRichCardExample'
+              CarouselExample:
+                $ref: '#/components/examples/CarouselExample'
+              FileExample:
+                $ref: '#/components/examples/FileExample'
+      responses:
+        '200':
+          description: Message sent response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageQueuedResponse'
+              examples:
+                Queued:
+                  $ref: '#/components/examples/QueuedMessageExample'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ValidationFieldError:
+                  $ref: '#/components/examples/ValidationErrorExample'
+        '409':
+          description: 'Conflict, duplicate message id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                DuplicateMessageId:
+                  $ref: '#/components/examples/DuplicateMessageIdExample'
+
+      callbacks:
+        StatusReport:
+          '/{pre-registered-callback-url}':
+            post:
+              description: >-
+                Updates will be posted to a HTTP webhook registered together with the RCS Bot.
+                There are two different types of callbacks that are being sent back from the Sinch RCS App. Namely status reports and user agent messages where status
+                reports are updates on the message being sent, such as delivered, read or failed. User agent messages are messages that the end users wants to send back to the bots which the bots can act upon.
+              operationId: Callback
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      oneOf:
+                        - $ref: '#/components/schemas/StatusReport'
+                        - $ref: '#/components/schemas/UserAgentMessage'
+                        - $ref: '#/components/schemas/UserAgentEvent'
+                    examples:
+                      SuccessfullyDelivered:
+                        $ref: '#/components/examples/SuccessfullyDeliveredExample'
+                      SuggestedReplyTap:
+                        $ref: '#/components/examples/SuggestedReplyTapExample'
+              responses:
+                '200':
+                  description: Successfully acknowledged
+  '/{bot-id}/messages/{message-id}':
+    delete:
+      description: >-
+        Revoke a previously sent message, not yet delivered to the user agent.
+
+        If a message is delivered to the user agent shortly after a revoke request
+        is initiated there is a possibilty of receiving a `delivered` status report
+        after sending the revoke request.
+      operationId: Revoke a message
+      tags:
+        - Message
+      parameters:
+        - name: bot-id
+          in: path
+          description: The identifier of the bot that wishes to send messages.
+          required: true
+          schema:
+            type: string
+        - name: message-id
+          in: path
+          description: ID of the message to revoke
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: message revoked
+        '404':
+          description: unknown message id
+        '409':
+          description: >-
+            unable to delete, message has already been sent or the message is
+            expired and sent as a fallback message
+  '/{bot-id}/events':
+    post:
+      description: >
+        Send events to a user from the bot.
+
+        This enables the bot to emulate real user behavior by
+        sending read notifications and composing events.
+      operationId: Send an event
+      tags:
+        - Event
+      parameters:
+        - name: bot-id
+          in: path
+          description: The identifier of the bot that wishes to send messages.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Event to be sent to user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentEvent'
+            examples:
+              AgentComposing:
+                $ref: "#/components/examples/BotComposingExample"
+              AgentRead:
+                $ref: "#/components/examples/BotReadExample"
+      responses:
+        '200':
+          description: Event sent successfully
+        '502':
+          description: 'Failed to send event, please retry'
+  /{bot-id}/capabilities:
+    get:
+      description: >
+        Query the API for the capabilities of a given handset
+      operationId: Capability Query
+      tags:
+        - Capabilities
+      parameters:
+        - name: bot-id
+          in: path
+          description: The identifier of the bot that wishes to query the API.
+          required: true
+          schema:
+            type: string
+        - name: msisdn
+          in: query
+          description: The the handset phone number in E.164 format.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully queried the API
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CapabilitiesResponse"
+        '404':
+          description: The device does not exist or is not RCS capable
+
+        '500':
+          description: The system was unable to process the request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '504':
+          description: We could not fetch the capabilities of the device in a timely manner.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    Message:
+      required:
+        - message
+      properties:
+        message_id:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+          description: Provide a globally unique id for this message
+        to:
+          type: string
+          format: MSISDN
+          minLength: 9
+          maxLength: 17
+          pattern: ^(?:00|\+|)[1-9][0-9]{8,16}$
+          description: Phone number of the recipient
+        mcc:
+          type: string
+          pattern: ^[0-9]{3}$
+          description: Mobile country code for phone number of the recipient, must be 3 digits
+        mnc:
+          type: string
+          minLength: 2
+          maxLength: 3
+          pattern: ^[0-9]{2,3}$
+          description: >
+            Mobile network code for the phone number of the recipient, must be 2 or 3 digits
+        message:
+          description: The content of the message
+          oneOf:
+            - $ref: '#/components/schemas/TextMessage'
+            - $ref: '#/components/schemas/FileMessage'
+            - $ref: '#/components/schemas/StandaloneRichCardMessage'
+            - $ref: '#/components/schemas/CarouselRichCardMessage'
+        suggestions:
+          description: A list of suggestions comprised of suggested replies and suggested actions.
+          type: array
+          maxLength: 11
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SuggestedReply'
+              - $ref: '#/components/schemas/SuggestedAction'
+        expire:
+          type: object
+          properties:
+            timeout:
+              type: integer
+              minimum: 1
+              default: 172800000
+              example: 172800000
+              description: >
+                Expire the message after this many milliseconds, if fallback is configured for expiry then the fallback message will be sent after this timeout. Default is 48h.
+            revoke:
+              type: boolean
+              default: true
+              description: Should the message be revoked when the timeout happens. If not, the message might still be delivered to the handset after the configured timeout, however no further status updates will be sent by the system.
+        fallback:
+          $ref: '#/components/schemas/FallbackInfo'
+    FallbackInfo:
+      required:
+        - message
+      properties:
+        message:
+          $ref: '#/components/schemas/SmsBatchMessage'
+        conditions:
+          description: Optionally specified triggers
+          type: object
+          properties:
+            rcs_unavailable:
+              required:
+                - enabled
+              description: Trigger fallback if recipient doesn't have RCS support
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  default: true
+            capability_unsupported:
+              required:
+                - enabled
+              description: Trigger fallback if capability needed for sent message is not supported by the recipient
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  default: true
+            expired:
+              required:
+                - enabled
+              description: Trigger fallback if the RCS message is not delivered in a timely manner - see expire in Message object.
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  default: true
+            agent_error:
+              required:
+                - enabled
+              description: Trigger fallback for any errors encountered, e.g. error from south bound service provider
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  default: false
+    SmsBatchMessage:
+      required:
+        - from
+        - text
+        - type
+      properties:
+        from:
+          description: SMS Sender number
+          type: string
+          minLength: 1
+          maxLength: 128
+        type:
+          description: Identifies the type of the SMS payload
+          type: string
+          pattern: ^(mt_text)|(mt_binary)|(mt_web)$
+        text:
+          description: The SMS message payload. Use mt_text for plain text payload, mt_binary for Base64 encoded binary payload and mt_web for rich fallback
+          type: string
+          maxLength: 2000
+        udh:
+          description: The UDH (User Data Header) of a binary SMS message, hex encoded. See https://en.wikipedia.org/wiki/User_Data_Header
+          format: Hex
+          pattern: ^[0-9a-fA-F]*$
+          type: string
+        campaign_id:
+          description: The campaign/service ID this SMS message belongs to. US only.
+          type: string
+          maxLength: 2000
+        delivery_report:
+          description: Request delivery report callback for this SMS message. Note that delivery reports can be fetched from the SMS HTTP REST API regardless of this setting
+          type: string
+          enum:
+            - none
+            - summary
+            - full
+            - per_recipient
+        expire_at:
+          description: If set the system will stop trying to deliver the SMS message at this point. If not specified, the message will expire after 3 days.
+          type: string
+          format: A timestamp in RFC3339 UTC "Zulu" format
+        callback_url:
+          description: Override the default callback URL for this SMS message
+          type: string
+          maxLength: 2048
+          format: |
+            URL - As defined by RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax, amended by RFC 2732: Format for Literal IPv6 Addresses in URLs.
+    TextMessage:
+      required:
+        - type
+        - text
+      properties:
+        type:
+          type: string
+          enum:
+            - text
+        text:
+          description: The message body content
+          type: string
+          maxLength: 2000
+    FileMessage:
+      description: The thumbnail is required for images and videos
+      required:
+        - type
+        - file
+      properties:
+        type:
+          type: string
+          enum:
+            - file
+        thumbnail:
+          $ref: '#/components/schemas/FileInfo'
+        file:
+          $ref: '#/components/schemas/FileInfo'
+    FileInfo:
+      required:
+        - file_uri
+      properties:
+        mime_type:
+          type: string
+          description: Mime type of the content. Where content is served from the Sinch content service, this value will not be required
+        file_size:
+          type: integer
+          description: In bytes. Where content is served from the Sinch content service, this value will not be required
+        file_name:
+          type: string
+          description: Only required for payload (on thumbnail will be ignored). May be omitted entirely.
+        file_uri:
+          type: string
+          description: http(s) URL for the actual content
+          format: |
+            URL - As defined by RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax, amended by RFC 2732: Format for Literal IPv6 Addresses in URLs.
+    StandaloneRichCardMessage:
+      description: A singular rich card on which orientation and alignment may be specified
+      required:
+        - type
+        - orientation
+        - content
+      properties:
+        type:
+          type: string
+          enum:
+            - standalone_rich_card
+        orientation:
+          description: Does this standalone rich card have horizontal or vertical orientation. This affects whether the suggestions go below or to the side.
+          type: string
+          enum:
+            - HORIZONTAL
+            - VERTICAL
+        thumbnail_alignment:
+          description: Where the standalone rich card has horizontal alignment, should it be left aligned (so content to the left, suggestions go to the right) or vice-versa? Defaults to LEFT
+          type: string
+          enum:
+            - LEFT
+            - RIGHT
+        content:
+          $ref: '#/components/schemas/RichCardContent'
+    CarouselRichCardMessage:
+      description: A horizontal carousel of rich cards
+      required:
+        - type
+        - width
+        - contents
+      properties:
+        type:
+          type: string
+          enum:
+            - carousel_rich_card
+        width:
+          description: The width of the cards in the carousel
+          type: string
+          enum:
+            - SMALL
+            - MEDIUM
+        contents:
+          type: array
+          description: The list of contents for each card in the carousel. There must be at least 2 and at most 10 cards in a carousel
+          items:
+            $ref: '#/components/schemas/RichCardContent'
+          minItems: 2
+          maxItems: 10
+    RichCardContent:
+      description: 'One of title, description and media must be specified'
+      properties:
+        title:
+          description: Title of the card
+          type: string
+          maxLength: 200
+        description:
+          description: Description of the card
+          type: string
+          maxLength: 2000
+        media:
+          $ref: '#/components/schemas/RichCardMedia'
+        suggestions:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/SuggestedReply'
+              - $ref: '#/components/schemas/SuggestedAction'
+          maxItems: 4
+    RichCardMedia:
+      description: 'Object describing the media to be included in the card'
+      required:
+        - height
+        - file
+      properties:
+        height:
+          description: Ignored unless media is included
+          type: string
+          enum:
+            - SHORT
+            - MEDIUM
+            - TALL
+        file:
+          $ref: '#/components/schemas/FileInfo'
+        thumbnail:
+          $ref: '#/components/schemas/FileInfo'
+    Suggestion:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/SuggestedReply'
+        - $ref: '#/components/schemas/SuggestedAction'
+    SuggestedReply:
+      description: The user can tap a suggested reply to send the text reply back to the agent
+      required:
+        - type
+        - reply
+        - display_text
+      properties:
+        type:
+          type: string
+          enum:
+            - reply
+        display_text:
+          description: The text that will be shown in the suggested reply
+          type: string
+          minLength: 1
+          maxLength: 25
+        postback:
+          $ref: '#/components/schemas/Postback'
+    SuggestedAction:
+      description: The user can tap a suggested action to initiate the corresponding native action on the device
+      required:
+        - type
+        - action
+        - display_text
+      properties:
+        type:
+          type: string
+          enum:
+            - action
+        display_text:
+          description: The text that will be shown in the suggested action
+          type: string
+          minLength: 1
+          maxLength: 25
+        postback:
+          $ref: '#/components/schemas/Postback'
+        action:
+          oneOf:
+            - $ref: '#/components/schemas/DialPhoneNumber'
+            - $ref: '#/components/schemas/ShowLocation'
+            - $ref: '#/components/schemas/RequestLocationPush'
+            - $ref: '#/components/schemas/OpenUrl'
+            - $ref: '#/components/schemas/CreateCalendarEvent'
+            - $ref: '#/components/schemas/RequestDeanonymization'
+    DialPhoneNumber:
+      description: calls a phone number via the user's dialer app
+      required:
+        - type
+        - phone_number
+      properties:
+        type:
+          type: string
+          enum:
+            - dial_phone_number
+        phone_number:
+          type: string
+          format: MSISDN
+          minLength: 9
+          maxLength: 17
+          pattern: ^(?:00|\+|)[1-9][0-9]{8,16}$
+    ShowLocation:
+      description: show a given location on a map
+      required:
+        - type
+        - latitude
+        - longitude
+      properties:
+        type:
+          type: string
+          enum:
+            - show_location
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+        label:
+          type: string
+          maximum: 1000
+    RequestLocationPush:
+      description: request a location to be shared with the agent
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - request_location_push
+    RequestDeanonymization:
+      description: request the real phone number is shared with the agent
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - request_deanonymization
+    OpenUrl:
+      description: opens a web site or app via deep linking
+      required:
+        - type
+        - url
+      properties:
+        type:
+          type: string
+          enum:
+            - open_url
+        url:
+          type: string
+          maxLength: 2048
+          format: |
+            URL - As defined by RFC 2396: Uniform Resource Identifiers (URI): Generic Syntax, amended by RFC 2732: Format for Literal IPv6 Addresses in URLs.
+    CreateCalendarEvent:
+      description: creates a new event on the user's calendar
+      required:
+        - type
+        - start_time
+        - end_time
+        - title
+        - description
+      properties:
+        type:
+          type: string
+          enum:
+            - create_calendar_event
+        start_time:
+          type: string
+          format: A timestamp in RFC3339 UTC "Zulu" format
+        end_time:
+          type: string
+          format: A timestamp in RFC3339 UTC "Zulu" format
+        title:
+          type: string
+          minLength: 1
+          maxLength: 1024
+        description:
+          type: string
+          minLength: 1
+          maxLength: 1024
+    MessageQueuedResponse:
+      type: object
+      required:
+        - type
+        - message_id
+        - at
+        - status_report
+      properties:
+        type:
+          type: string
+          enum:
+            - status_report_rcs
+        message_id:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+          description: Message id for which this status report is relevant
+        at:
+          type: string
+          format: A timestamp in RFC3339 UTC "Zulu" format
+          description: Timestamp of then the status report was created in the Sinch service
+        status_report:
+          description: The status report
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - queued
+    Postback:
+      description: Data that will be sent back to the agent when the user taps the reply
+      required:
+        - data
+      properties:
+        data:
+          description: Payload (base64 encoded) that will be sent back to the agent when the user taps the suggestion
+          type: string
+          minLength: 1
+          maxLength: 1024
+          format: base64
+    Callback:
+      oneOf:
+        - $ref: '#/components/schemas/StatusReport'
+        - $ref: '#/components/schemas/UserAgentMessage'
+        - $ref: '#/components/schemas/UserAgentEvent'
+    StatusReport:
+      required:
+        - type
+        - message_id
+        - at
+        - status_report
+      properties:
+        type:
+          type: string
+          enum:
+            - status_report_rcs
+        message_id:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+          description: Message id for which this status report is relevant
+        at:
+          type: string
+          format: A timestamp in RFC3339 UTC "Zulu" format
+          description: Timestamp of then the status report was created in the Sinch service
+        status_report:
+          description: The status report
+          oneOf:
+            - $ref: '#/components/schemas/StatusReportAborted'
+            - $ref: '#/components/schemas/StatusReportFailed'
+            - $ref: '#/components/schemas/StatusReportDelivered'
+            - $ref: '#/components/schemas/StatusReportDisplayed'
+    StatusReportAborted:
+      required:
+        - type
+        - revoked
+        - expired
+      properties:
+        type:
+          type: string
+          enum:
+            - aborted
+        revoked:
+          description: Has the message been revoked?
+          type: boolean
+        expired:
+          description: Has the message expired?
+          type: boolean
+    StatusReportFailed:
+      required:
+        - type
+        - revoked
+        - expired
+        - reason
+      properties:
+        type:
+          type: string
+          enum:
+            - failed
+        revoked:
+          description: Has the message been revoked?
+          type: boolean
+        expired:
+          description: Has the message expired?
+          type: boolean
+        code:
+          description: Error code of agent error causing the fallback
+          type: integer
+        reason:
+          description: Descriptive message of why the message failed
+          type: string
+    StatusReportDelivered:
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - delivered
+    StatusReportDisplayed:
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - displayed
+    AgentEvent:
+      type: object
+      required:
+        - event_id
+        - event
+      properties:
+        to:
+          description: Phone number of the recipient
+          type: string
+          format: MSISDN
+          minLength: 9
+          maxLength: 17
+          pattern: ^(?:00|\+|)[1-9][0-9]{8,16}$
+        event_id:
+          description: Globally unique event ID
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+        event:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/AgentComposingEvent'
+            - $ref: '#/components/schemas/AgentReadEvent'
+    AgentComposingEvent:
+      description: Notify the recipient that the agent is typing
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - agent_composing
+    AgentReadEvent:
+      description: Notify the recipient that the message sent by the user has been read by the agent
+      required:
+        - message_id
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - agent_read
+        message_id:
+          type: string
+    UserAgentMessage:
+      description: Message that has been sent from the user to the agent
+      required:
+        - type
+        - message_id
+        - message
+      properties:
+        type:
+          type: string
+          enum:
+            - user_agent_message_rcs
+        message_id:
+          type: string
+        from:
+          description: Phone number of the originator
+          type: string
+          format: MSISDN
+        message:
+          description: The message content
+          oneOf:
+            - $ref: '#/components/schemas/TextMessage'
+            - $ref: '#/components/schemas/FileMessage'
+            - $ref: '#/components/schemas/SuggestionResponse'
+            - $ref: '#/components/schemas/LocationResponse'
+    UserAgentEvent:
+      required:
+        - type
+        - event
+      properties:
+        type:
+          type: string
+          enum:
+            - user_agent_event_rcs
+        from:
+          description: Phone number of the originator
+          type: string
+          format: MSISDN
+        event:
+          $ref: '#/components/schemas/UserAgentComposing'
+    UserAgentComposing:
+      description: Event notifying the agent that the user is typing
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - composing
+    SuggestionResponse:
+      description: At least one of postback_data and text will be set
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - suggestion_response
+        postback_data:
+          type: string
+        text:
+          type: string
+    LocationResponse:
+      description: A location send back from an end user.
+      required:
+        - type
+        - latitude
+        - longitude
+      properties:
+        type:
+          type: string
+          enum:
+            - location
+          example: location
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+    CapabilitiesResponse:
+      description: The MaaP capabilities of a given handset
+      required:
+        - at
+        - msisdn
+        - mcc
+        - mnc
+        - capabilities
+        - rcs_enabled
+      properties:
+        at:
+          description: When the response was generated
+          type: string
+          format: date-time
+        msisdn:
+          description: Phone number that the capability set belongs to
+          type: string
+        mcc:
+          description: Mobile country code for the phone number
+          type: string
+        mnc:
+          description: Mobile network code for the phone number
+          type: string
+        capabilities:
+          description: The set of possible MaaP capabilities
+          type: array
+          items:
+            type: string
+            enum:
+              - chat
+              - fileTransfer
+              - videoCall
+              - geolocationPush
+              - callComposer
+              - chatBotCommunication
+        rcs_enabled:
+          description: Whether or not the Sinch API can send RCS messages to this device
+          type: boolean
+    Error:
+      required:
+        - error
+      properties:
+        ref_id:
+          type: string
+        error:
+          type: string
+        error_code:
+          type: integer
+        field_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+    FieldError:
+      required:
+        - field
+        - errors
+      properties:
+        field:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+  examples:
+    TextExample:
+      summary: "Text message with SMS Fallback"
+      value: >
+        {
+          "to": "46555123456",
+          "message": {
+            "type": "text",
+            "text": "Test message!"
+          },
+          "fallback": {
+            "message": {
+              "type": "mt_text",
+              "from": "MyOriginator",
+              "text": "Test message!"
+            }
+          }
+        }
+    TextWithSuggestionsExample:
+      summary: Text message with suggestions
+      value: >
+        {
+          "to": "46555123456",
+          "message": {
+            "type": "text",
+            "text": "Test message!"
+          },
+          "suggestions": [
+            {
+              "type": "reply",
+              "display_text": "Like",
+              "postback": {
+                "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_LIKE"
+              }
+            },
+            {
+              "type": "reply",
+              "display_text": "Stop please",
+              "postback": {
+                "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_STOP"
+              }
+            },
+            {
+              "type": "action",
+              "display_text": "Call us",
+              "postback": {
+                "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_CALL"
+              },
+              "action": {
+                "type": "dial_phone_number",
+                "phone_number": "+46555123456"
+              }
+            }
+          ]
+        }
+    StandaloneRichCardExample:
+      summary: "Standalone Rich Card"
+      value: >
+        {
+          "to": "46555123456",
+          "message": {
+            "type": "standalone_rich_card",
+            "orientation": "VERTICAL",
+            "thumbnail_alignment": "RIGHT",
+            "content": {
+              "title": "Hello1",
+              "description": "Hello There",
+              "media": {
+                "height": "TALL",
+                "thumbnail": {
+                  "mime_type": "image/png",
+                  "size": 1234,
+                  "file_uri": "http://example.com/my_image_thumbnail.png"
+                },
+                "file": {
+                  "mime_type": "image/png",
+                  "name": "funny.png",
+                  "file_size": 12345,
+                  "file_uri": "http://example.com/my_image.png"
+                }
+              },
+              "suggestions": [
+                {
+                  "type": "reply",
+                  "display_text": "Like",
+                  "postback": {
+                    "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_LIKE"
+                  }
+                },
+                {
+                  "type": "reply",
+                  "display_text": "Stop please",
+                  "postback": {
+                    "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_STOP"
+                  }
+                },
+                {
+                  "type": "action",
+                  "display_text": "Call us",
+                  "postback": {
+                    "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_CALL"
+                  },
+                  "action": {
+                    "type": "dial_phone_number",
+                    "phone_number": "+46555123456"
+                  }
+                }
+              ]
+            }
+          }
+        }
+    CarouselExample:
+      summary: Carousel
+      value: >
+        {
+          "to": "46555123456",
+          "message": {
+            "type": "carousel_rich_card",
+            "width": "MEDIUM",
+            "contents": [
+              {
+                "title": "Card 1",
+                "description": "Descriptive description 1",
+                "media": {
+                  "height": "TALL",
+                  "file": {
+                    "mime_type": "image/png",
+                    "name": "funny.png",
+                    "file_size": 12345,
+                    "file_uri": "http://example.com/my_image.png"
+                  },
+                  "thumbnail": {
+                    "mime_type": "image/png",
+                    "name": "funny_thumbnail.png",
+                    "file_size": 12345,
+                    "file_uri": "http://example.com/my_image_thumbnail.png"
+                  }
+                },
+                "suggestions": [
+                  {
+                    "type": "reply",
+                    "display_text": "Like",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_LIKE"
+                    }
+                  },
+                  {
+                    "type": "reply",
+                    "display_text": "Stop please",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_STOP"
+                    }
+                  },
+                  {
+                    "type": "action",
+                    "display_text": "Call us",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_CALL"
+                    },
+                    "action": {
+                      "type": "dial_phone_number",
+                      "phone_number": "+46555123456"
+                    }
+                  }
+                ]
+              },
+              {
+                "title": "Card 2",
+                "description": "Descriptive description 2",
+                "media": {
+                  "height": "TALL",
+                  "file": {
+                    "mime_type": "image/png",
+                    "name": "funny.png",
+                    "file_size": 12345,
+                    "file_uri": "http://example.com/my_image.png"
+                  },
+                  "thumbnail": {
+                    "mime_type": "image/png",
+                    "name": "funny_thumbnail.png",
+                    "file_size": 12345,
+                    "file_uri": "http://example.com/my_image_thumbnail.png"
+                  }
+                },
+                "suggestions": [
+                  {
+                    "type": "reply",
+                    "display_text": "Like",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_LIKE"
+                    }
+                  },
+                  {
+                    "type": "reply",
+                    "display_text": "Stop please",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_STOP"
+                    }
+                  },
+                  {
+                    "type": "action",
+                    "display_text": "Call us",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_CALL"
+                    },
+                    "action": {
+                      "type": "dial_phone_number",
+                      "phone_number": "+46555123456"
+                    }
+                  }
+                ]
+              },
+              {
+                "title": "Card 3",
+                "description": "Descriptive description 3",
+                "media": {
+                  "height": "TALL",
+                  "file": {
+                    "mime_type": "image/png",
+                    "name": "funny.png",
+                    "file_size": 12345,
+                    "file_uri": "http://example.com/my_image.png"
+                  },
+                  "thumbnail": {
+                    "mime_type": "image/png",
+                    "name": "funny_thumbnail.png",
+                    "file_size": 12345,
+                    "file_uri": "http://example.com/my_image_thumbnail.png"
+                  }
+                },
+                "suggestions": [
+                  {
+                    "type": "reply",
+                    "display_text": "Like",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_LIKE"
+                    }
+                  },
+                  {
+                    "type": "reply",
+                    "display_text": "Stop please",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_STOP"
+                    }
+                  },
+                  {
+                    "type": "action",
+                    "display_text": "Call us",
+                    "postback": {
+                      "data": "feed1169-8500-4b66-a65c-5986b8ae59f7_CALL"
+                    },
+                    "action": {
+                      "type": "dial_phone_number",
+                      "phone_number": "+46555123456"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+    FileExample:
+      summary: File
+      value: >
+        {
+          "to": "46555123456",
+          "message": {
+            "type": "file",
+            "file": {
+              "mime_type": "image/png",
+              "name": "funny.png",
+              "file_size": 12345,
+              "file_uri": "http://example.com/my_image.png"
+            }
+          }
+        }
+    ValidationErrorExample:
+      summary: Field error
+      value: >
+        {
+          "error": "Missing required property",
+          "error_code": 1004,
+          "field_errors" : [
+            {
+              "field": "message",
+              "errors": ["property 'file' is required and must not be empty"]
+             }
+           ]
+        }
+
+    DuplicateMessageIdExample:
+      summary: Conflict error
+      value: >
+        {
+          "error": "Invalid message id"
+        }
+    QueuedMessageExample:
+      summary: Queued message
+      value: >
+        {
+          "type": "status_report_rcs",
+          "message_id": "5bb77a04-78b7-41ff-abd3-a1006f8d6979",
+          "at": "2019-01-18T15:41:40Z",
+          "status_report": {
+            "type": "queued"
+          }
+        }
+    SuccessfullyDeliveredExample:
+      summary: Successfully delivered
+      value: >
+        {
+          "type": "status_report_rcs",
+          "message_id": "bc6776ee-7bde-4d6e-9c1e-102e87f92520",
+          "at": "2017-10-31T13:06:30Z",
+          "status_report": {
+            "type": "delivered"
+          }
+        }
+    SuggestedReplyTapExample:
+      summary: Suggested reply tapped
+      value: >
+        {
+          "type": "user_agent_message_rcs",
+          "message_id": "9lkj32asd712jkasdjkasdkhsadasd",
+          "from": "4655123456",
+          "message": {
+            "type": "suggestion_response",
+            "postback_data": "ef425f90-a27b-4956-9ba0-37cdd2d6e160_YES_CHIP",
+            "text": "Yes"
+          }
+        }
+    BotComposingExample:
+      summary: Bot composing
+      value: >
+        {
+          "to": "46732001122",
+          "event_id": "9cd91120-5e54-4d42-af22-1a042as22ad97",
+          "event": {
+            "type": "agent_composing"
+          }
+        }
+    BotReadExample:
+      summary: Bot read
+      value: >
+        {
+          "to": "46732001122",
+          "event_id": "9cd91120-5e54-4d42-af22-1a042as22ad97",
+          "event": {
+            "type": "agent_read",
+            "message_id": "9lkj32asd712jkasdjkasdkhsadasd"
+          }
+        }

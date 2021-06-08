@@ -1,0 +1,66 @@
+---
+title: Create your first export
+description: >-
+  Working with your Sinch Data
+---
+
+import {
+  RedocResponse,
+  OpenApiExample,
+  JsonSchema,
+  OpenApiReqeust,
+  OpenApiResponse,
+} from "@redocly/ui";
+import {
+  Alert,
+  APIResponse,
+  Box,
+  Button,
+  FlexSection,
+  Flex,
+  Jumbotron,
+  H1,
+  spa,
+  H2,
+  H3,
+  Link,
+  ThinTile,
+  WideTile,
+  Emphasis,
+  SectionHeader,
+} from "@redocly/ui";
+
+## Create your first Export and download the results
+
+In this guide you will learn how to create an excel export containing all SMS messages between for a date range.
+
+```shell
+curl post https://data.sms.api.sinch.com/v1alpha1/exports/jobs \
+  -d "{ \
+    "exportType":""SMSMessages.daily.itemized", \
+    "deliveryFormat": "Excel", \
+    "parameters": "{intervalStart:2020-01-01, intervalEnd:2020-01-30}" \
+    "webhookUrl": "https://webhook.site/d612e497-3efc-4769-a596-2bdab9b7c11b"
+  }"
+  -u client_id:client_secret
+```
+
+This will return a [job](#job) with status running and when the job completes, we won'tify on the webhookUrl
+
+#### Get a webhook request
+
+Once the job finishes, post the results to your webhookURL with the results of the job.
+
+<OpenApiExample
+  definitionId="export"
+  pointer="#/components/examples/hookSample"
+  hideSamples={false}
+/>
+
+Use the URL in the results object with your API credentials to download the file.
+
+```shell
+curl get https://data.sinch.com/v1/exports/files/dimnn3ijivne5354353454.xlsx
+  -u client_id:client_secret
+
+```

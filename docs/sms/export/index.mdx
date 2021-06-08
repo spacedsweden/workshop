@@ -1,0 +1,100 @@
+---
+title: Overview
+description: >-
+  Working with your Sinch data
+---
+
+import {
+  RedocResponse,
+  OpenApiExample,
+  JsonSchema,
+  OpenApiReqeust,
+  OpenApiResponse,
+} from "@redocly/ui";
+import {
+  Alert,
+  APIResponse,
+  Box,
+  Button,
+  FlexSection,
+  Flex,
+  Jumbotron,
+  H1,
+  spa,
+  H2,
+  H3,
+  Link,
+  ThinTile,
+  WideTile,
+  Emphasis,
+  SectionHeader,
+} from "@redocly/ui";
+
+# Export Data API
+
+To support your reconciliation workflows, you can use the long-running export API. The API notifies you via a webhook when the job is done. The data is available for 7 days for you to download.
+
+The exports are generated with each day’s data defined by activity between 12:00 AM UTC and 11:59 PM UTC.
+
+## Use cases
+
+- Compare internal traffic reports with sinch records.
+- Work with your data in Excel
+- Import data to Tableau for aggregation and visualization.
+- Reconcile your billing to your customers
+
+### Learn more about the Export API
+
+[Supported Export types](exporttypes.md)
+
+## The Job resource
+
+To support your reconciliation workflows, you can use this long-running export API that notifies you via a webhook when the export is completed.
+
+> The exports are generated with each day’s data defined by activity between 12:00 AM UTC and 11:59 PM UTC.
+
+To run an export, you create a job on the Job Resource. When you create the job you can set format, export type, and additional supported export parameters.
+
+The results are available for seven days after the job completes
+
+### Job schema
+
+<JsonSchema
+  definitionId="export"
+  pointer="#/components/schemas/Job"
+  hideSamples={false}
+/>
+
+## Working with date and time fields
+
+All date and time fields are formatted defined in [RFC 3339, section 5.6](https://tools.ietf.org/html/rfc3339#section-5.6), as defined in [schema.org](https://schema.org/Date).
+When DateTime field is a parameter in and it's not complete, we will treat it as the lowest value.
+
+## Examples
+
+```
+2020-10-10T15:42:59
+2020-10-10 will be treated as 2020-10-10T00:00:00Z
+```
+
+All dates and times are in UTC format.
+
+## Authentication
+
+Basic and OAuth Authentication
+
+## Errors
+
+All errors will throw an HTTP error with a description and body with a generic object model to describe errors.
+
+<OpenApiResponse
+  definitionId="export"
+  pointer="#/components/responses/Error404Response"
+  hideSamples={true}
+/>
+
+<OpenApiResponse
+  definitionId="export"
+  pointer="#/components/responses/ErrorResponse"
+  hideSamples={true}
+/>

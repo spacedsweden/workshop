@@ -1,0 +1,6 @@
+extends: readability
+message: '%s'
+level: warning
+grade: 1
+metrics:
+  - Flesch-Kincaid

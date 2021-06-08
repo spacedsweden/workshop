@@ -1,0 +1,19 @@
+type: reference-docs
+definitionId: conversation
+settings:
+  pagination: none
+  hideDownloadButton: false
+  expandResponses: "200"
+  jsonSampleExpandLevel: "all"
+  requiredPropsFirst: true
+  showConsole: false
+  onlyRequiredInSamples: true
+  layout:
+    scope: section
+  generateCodeSamples:
+    languages:
+      - lang: curl
+      - lang: C#
+      - lang: Java
+      - lang: Node.js
+    skipOptionalParameters: true
